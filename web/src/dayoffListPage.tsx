@@ -63,13 +63,14 @@ export function Dayofflist() {
             <div>
 
                 <div style={{ display: "inline-flex", border: "black solid 3px", justifyContent: "center", textAlign: "center", alignContent: "center" }}>
-                    <div style={{ padding: "0px 30px" }}> id</div>
-                    <div style={{ padding: "0px 30px" }}> name</div>
-                    <div style={{ padding: "0px 30px" }} >current_remainder</div>
-                    <div style={{ padding: "0px 30px" }} > fixed_ammount</div>
-                    <div style={{ padding: "0px 30px" }} >remain</div>
-                    <div style={{ padding: "0px 30px" }} > employee_type</div>
-
+                    <tr>
+                        <th> id</th>
+                        <th> name</th>
+                        <th >current_remainder</th>
+                        <th > fixed_ammount</th>
+                        <th >remain</th>
+                        <th > employee_type</th>
+                    </tr>
                 </div>
 
 

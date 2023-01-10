@@ -6,7 +6,7 @@ import { Dashboard } from "./Page/dashboard";
 import { StaffsList } from "./Page/StaffsList";
 import { Route, Router, Routes } from "react-router-dom";
 import { CreateNewEmployee } from "./createNewEmployee";
-import { Apply, ApplyDayOff, ApplyDayoff } from "./applydayoff";
+import { ApplyDayOff } from "./applydayoff";
 import { DayOffList } from "./dayoffList";
 
 export interface information {

@@ -5,6 +5,9 @@ import { NavbarNested } from "./components/sideBar/SideBar2";
 import { Dashboard } from "./Page/dashboard";
 import { StaffsList } from "./Page/StaffsList";
 import { Route, Router, Routes } from "react-router-dom";
+import { CreateNewEmployee } from "./createNewEmployee";
+import { Apply, ApplyDayOff, ApplyDayoff } from "./applydayoff";
+import { DayOffList } from "./dayoffList";
 
 export interface information {
   id: string;
@@ -33,6 +36,9 @@ function App() {
       <Route path="/" element={<NavbarNested />}>
         <Route path="/" element={<Dashboard />} />
         <Route path="/staff-list" element={<StaffsList data={info} />} />
+        <Route path="/new-employee" element={<CreateNewEmployee />} />
+        <Route path="/apply-day-off" element={<ApplyDayOff />} />
+        <Route path="/day-off-list" element={<DayOffList />} />
       </Route>
     </Routes>
   );

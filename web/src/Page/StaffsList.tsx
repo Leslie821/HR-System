@@ -9,13 +9,14 @@ interface Props {
 }
 
 const useStyleTable = createStyles((theme) => ({
-  table: {
-    display: "flex",
-    alignItems: "center",
-    margin: "auto",
-    width: "71vw",
-    height: "100vh",
-    padding: "50px",
+  body: {
+    // display: "flex",
+    // alignItems: "center",
+    // margin: "auto",
+    // width: "71vw",
+    height: "80vh",
+    // padding: "50px",
+    // border: "1px solid",
   },
   header: {
     display: "grid",
@@ -23,6 +24,10 @@ const useStyleTable = createStyles((theme) => ({
     justifyContent: "center",
     color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
     padding: 5,
+    border: "1px solid",
+  },
+  table: {
+    border: "1px solid",
   },
 }));
 
@@ -61,36 +66,38 @@ export function StaffsList(props: Props) {
   const info = info2.map((items) => (
     <tr key={items.name}>
       <th>
-        <Group spacing="md">
-          <Checkbox></Checkbox>
-          <Text> {items.id}</Text>
-          <Text> {items.name}</Text>
-          <Text> {items.department}</Text>
-          <Text> {items.jobTitle}</Text>
-          <Text> {items.email}</Text>
-          <Text> {items.employDate}</Text>
-          <Text> {items.status}</Text>
-        </Group>
+        {" "}
+        <Checkbox></Checkbox>
       </th>
+      <th> {items.id}</th>
+      <th> {items.name}</th>
+      <th> {items.department}</th>
+      <th> {items.jobTitle}</th>
+      <th> {items.email}</th>
+      <th> {items.employDate}</th>
+      <th> {items.status}</th>
     </tr>
   ));
   return (
-    <Group className={classes.table}>
+    <Group className={classes.body}>
       <div>
-        <thead className={classes.header}>
-          <tr>
-            <th></th>
-            <th> ID</th>
-            <th> Name</th>
-            <th> Department</th>
-            <th> Job Title</th>
-            <th> Email</th>
-            <th> Employ Date</th>
-            <th> Status</th>
-          </tr>
-        </thead>
+        <table>
+          {/* <thead className={classes.header}> */}
+          <thead>
+            <tr>
+              <th></th>
+              <th> ID</th>
+              <th> Name</th>
+              <th> Department</th>
+              <th> Job Title</th>
+              <th> Email</th>
+              <th> Employ Date</th>
+              <th> Status</th>
+            </tr>
+          </thead>
 
-        <tbody>{info}</tbody>
+          <tbody>{info}</tbody>
+        </table>
       </div>
     </Group>
   );

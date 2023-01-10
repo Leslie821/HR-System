@@ -1,4 +1,11 @@
-import { Navbar, Group, Code, ScrollArea, createStyles } from "@mantine/core";
+import {
+  Navbar,
+  Group,
+  Code,
+  ScrollArea,
+  createStyles,
+  Grid,
+} from "@mantine/core";
 import {
   IconNotes,
   IconCalendarStats,
@@ -9,6 +16,7 @@ import {
   IconLock,
   IconAssembly,
 } from "@tabler/icons";
+import { Outlet } from "react-router-dom";
 import { LinksGroup } from "./sideBarSetting";
 import { UserButton } from "./sideBarSetting2";
 // import { Logo } from "./Logo";
@@ -60,6 +68,8 @@ const useStyles = createStyles((theme) => ({
     backgroundColor:
       theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.white,
     paddingBottom: 0,
+    position: "fixed",
+    width: "19vw",
   },
 
   header: {
@@ -99,25 +109,32 @@ export function NavbarNested() {
   ));
 
   return (
-    <Navbar width={{ sm: 300 }} p="md" className={classes.navbar}>
-      <Navbar.Section className={classes.header}>
-        <Group position="left">
-          <IconAssembly size="45px"></IconAssembly>
-          <h2>Dashboard</h2>
-        </Group>
-      </Navbar.Section>
+    <Grid gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}>
+      <Grid.Col span={3}>
+        <Navbar p="md" className={classes.navbar}>
+          <Navbar.Section className={classes.header}>
+            <Group position="left">
+              <IconAssembly size="45px"></IconAssembly>
+              <h2>Dashboard</h2>
+            </Group>
+          </Navbar.Section>
 
-      <Navbar.Section grow className={classes.links} component={ScrollArea}>
-        <div className={classes.linksInner}>{links}</div>
-      </Navbar.Section>
+          <Navbar.Section grow className={classes.links} component={ScrollArea}>
+            <div className={classes.linksInner}>{links}</div>
+          </Navbar.Section>
 
-      <Navbar.Section className={classes.footer}>
-        <UserButton
-          image="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80"
-          name="Ann Nullpointer"
-          email="anullpointer@yahoo.com"
-        />
-      </Navbar.Section>
-    </Navbar>
+          <Navbar.Section className={classes.footer}>
+            <UserButton
+              image="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80"
+              name="Ann Nullpointer"
+              email="anullpointer@yahoo.com"
+            />
+          </Navbar.Section>
+        </Navbar>
+      </Grid.Col>
+      <Grid.Col span={9}>
+        <Outlet />
+      </Grid.Col>
+    </Grid>
   );
 }

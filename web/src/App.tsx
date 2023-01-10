@@ -2,14 +2,39 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
 import { NavbarNested } from "./components/sideBar/SideBar2";
+import { Dashboard } from "./Page/dashboard";
+import { StaffsList } from "./Page/StaffsList";
+import { Route, Router, Routes } from "react-router-dom";
+
+export interface information {
+  id: string;
+  name: string;
+  department: string;
+  jobTitle: string;
+  email: string;
+  employDate: string;
+  status: string;
+}
 
 function App() {
-  const [count, setCount] = useState(0);
-
+  const info: information[] = [
+    {
+      id: "",
+      name: "",
+      department: "",
+      jobTitle: "",
+      email: "",
+      employDate: "",
+      status: "",
+    },
+  ];
   return (
-    <>
-      <NavbarNested />
-    </>
+    <Routes>
+      <Route path="/" element={<NavbarNested />}>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/staff-list" element={<StaffsList data={info} />} />
+      </Route>
+    </Routes>
   );
 }
 

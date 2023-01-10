@@ -1,7 +1,5 @@
-
 import { useState } from "react";
 import { LoadDateoff } from "./loadDateOff";
-
 
 
 
@@ -63,14 +61,18 @@ export function Dayofflist() {
             <div>
 
                 <div style={{ display: "inline-flex", border: "black solid 3px", justifyContent: "center", textAlign: "center", alignContent: "center" }}>
-                    <tr>
-                        <th> id</th>
-                        <th> name</th>
-                        <th >current_remainder</th>
-                        <th > fixed_ammount</th>
-                        <th >remain</th>
-                        <th > employee_type</th>
-                    </tr>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th> id</th>
+                                <th> name</th>
+                                <th >current_remainder</th>
+                                <th > fixed_ammount</th>
+                                <th >remain</th>
+                                <th > employee_type</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
 
 
@@ -98,4 +100,5 @@ export function Dayofflist() {
             <br></br>
         </div>
     )
+
 }

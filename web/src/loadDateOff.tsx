@@ -10,13 +10,13 @@ export function LoadDateoff(props: {
     return (
         <>
             <div style={{ display: "inline-flex", border: "black solid 3px", justifyContent: "center", textAlign: "center", alignContent: "center" }}>
-                <tr>
-                    <td>{props.id} </td>
-                    <td>{props.name} </td>
-                    <td >{props.current_remainder}</td>
-                    <td >{props.fixed_amount} </td>
-                    <td >{props.remain} </td>
-                    <td >{props.employee_type} </td>
+                <tr key={props.id} >
+
+                    <th>{props.name} </th>
+                    <th >{props.current_remainder}</th>
+                    <th >{props.fixed_amount} </th>
+                    <th >{props.remain} </th>
+                    <th >{props.employee_type} </th>
                 </tr>
             </div>
         </>

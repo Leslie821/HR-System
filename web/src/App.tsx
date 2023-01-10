@@ -4,20 +4,17 @@ import './App.css'
 import { Apply } from './applydayoff'
 import { CreateNewEmployee } from './createNewEmployee'
 import { Dayofflist } from './dayoffList'
+import { NavbarNested } from './components/sideBar/SideBar2'
 
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
-    <div className="App">
-      {/* <CreateNewEmployee /> */}
-      <div><Apply /></div>
-      <div><Dayofflist /></div>
-      <div><CreateNewEmployee /></div>
-
-    </div>
-  )
+    <>
+      <NavbarNested />
+    </>
+  );
 }
 
-export default App
+export default App;

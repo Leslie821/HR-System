@@ -73,7 +73,10 @@ return (
                     {inputGroup('Department','department','text')}
                     {inputGroup('Job Title','job_title','text')}
                     {inputGroup('Employee Type','employ_date','text')}
-                    {inputGroup('Salary','sick_type','text')}
+                    {inputGroup('Salary','salary','text')}
+                    {inputGroup('Job Nature','job_nature','text')}
+                    {inputGroup('Employ Date','employ_date','text')}
+                    {inputGroup('Sick Type','sick_type','text')}
                     {inputGroup('Termination Date','termination_date','text')}
                     {inputGroup('Annual Leave','annual_leave','text')}
                     {inputGroup('Working Time','working_time','text')}

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { LoadDateoffPending } from "./loadDateoffPending";
+
 import { Table } from "@mantine/core";
 
 export function DayoffPending() {
@@ -43,7 +43,7 @@ export function DayoffPending() {
     setInfo(res);
   }
   async function getApproved() {
-    let res: any = await fetch("getapproved", {
+    let res: any = await fetch("/approved", {
       method: "Get",
       // headers: { "Content-Type": "application/JSON" },
     });
@@ -97,27 +97,10 @@ export function DayoffPending() {
             <th>Status</th>
             <th>Reason</th>
           </tr>
-          {/* </div> */}
+
         </Table>
 
-        <div>
-          {info.map((list) => {
-            return (
-              <LoadDateoffPending
-                id={+list.id}
-                name={list.name}
-                day_off_type={list.day_off_type}
-                from={list.from}
-                to={list.to}
-                day_off_length={list.day_off_length}
-                reason={list.reason}
-                application_date={list.application_date}
-                approved_by={list.approved_by}
-                status={list.status}
-              />
-            );
-          })}
-        </div>
+
       </div>
 
       <br></br>

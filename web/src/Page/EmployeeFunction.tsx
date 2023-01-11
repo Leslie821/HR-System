@@ -4,6 +4,14 @@ import { TextInput, Button, Group, Col, Grid } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
 import { Container } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
+import { z } from 'zod';
+
+const schema = z.object({
+  name: z.string().min(2, { message: 'Name should have at least 2 letters' }),
+  email: z.string().email({ message: 'Invalid email' }),
+  age: z.number().min(18, { message: 'You must be at least 18 to create an account' }),
+});
+
 
 type EmployeeInfoFormProps = {
     mode: "create" | "edit"
@@ -16,7 +24,9 @@ function EmployeeInfoForm({ mode, data }: EmployeeInfoFormProps){
   
   const [state,setState] = useState({
         header: mode ==="create" ?"Create New Employee": "Employee Info",
+        fetch: mode ==="create" ?"register": "Edit",
         name: mode === "create" ? "" : data.name,
+        validate: zodResolver(schema),
         birthday: '',
         gender:'',
         email: '',
@@ -73,7 +83,10 @@ function EmployeeInfoForm({ mode, data }: EmployeeInfoFormProps){
           <>
            <form onSubmit={e => {
             e.preventDefault()
-
+            fetch({state.fetch},{
+              method: 'POST',
+              body : formData
+            })
            }}>
           <h1>{state.header}</h1>
               <h2>Employee Information</h2>

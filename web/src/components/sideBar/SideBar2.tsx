@@ -34,12 +34,18 @@ const information = [
   {
     label: "Staffs",
     icon: IconCalendarStats,
+    // link: "/staff-list",
+    links: [{ label: "Staff List", link: "/staff-list", icon: IconNotes }],
   },
   {
     label: "Request",
     icon: IconLock,
     links: [
-      { label: "Leave Request", link: "/", icon: IconNotes },
+      {
+        label: "Leave Request",
+        link: "/show_dayoff_application",
+        icon: IconNotes,
+      },
       { label: "Claim Request", link: "/", icon: IconNotes },
     ],
   },
@@ -47,8 +53,9 @@ const information = [
     label: "Leave",
     icon: IconLock,
     links: [
-      { label: "Leave Balance", link: "/", icon: IconNotes },
-      { label: "Leave Application", link: "/", icon: IconNotes },
+      { label: "Leave Balance", link: "/show_day-off-list", icon: IconNotes },
+      { label: "Leave Application", link: "/apply-day-off", icon: IconNotes },
+      { label: "Leave Type", link: "/show_dayoff_type", icon: IconNotes },
       { label: "Reports", link: "/", icon: IconNotes },
     ],
   },

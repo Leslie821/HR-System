@@ -11,8 +11,9 @@ import {
   Text,
 } from "@mantine/core";
 import { IconArrowNarrowLeft, IconGavel, IconSettings } from "@tabler/icons";
-import { information } from "../App";
+
 import DataTable from "react-data-table-component";
+import { information } from "../../App";
 
 interface Props {
   data: information[];
@@ -27,13 +28,7 @@ export const useStyleTable = createStyles((theme) => ({
     // paddingLeft: 30,
     // border: "1px solid",
   },
-  table: {
-    // paddingRight: 30,
-    // paddingLeft: 30,
-    // alignContent: "right",
-    // alignItems: "right",
-    // width: 70,
-  },
+  table: {},
 }));
 
 const info2 = [

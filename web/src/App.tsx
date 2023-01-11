@@ -7,11 +7,12 @@ import { StaffsList } from "./Page/StaffsList";
 import { Route, Routes } from "react-router-dom";
 import { CreateNewEmployee } from "./createNewEmployeePage";
 import { ApplyDayOff } from "./applydayoffPage";
-import { Dayofflist } from "./dayoffListPage";
-import { DayoffPending } from "./dayoffPendingPage";
-import { DayoffType } from "./dayoffTypePage";
+import { Dayofflist } from "./showDayoffResultPage";
+import { DayoffType } from "./showDayoffTypePage";
+import { DayoffPending } from "./showDayoffApplicationPage";
 
 
+// "@types/styled-components": "^5.1.26",
 export interface information {
   id: string;
   name: string;

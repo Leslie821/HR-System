@@ -1,5 +1,5 @@
 import { Container, Group, Table } from "@mantine/core";
-import { useStyleTable } from "./Page/StaffsList";
+// import { useStyleTable } from "./Page/StaffsList";
 
 const info = [{
     day_off_name: "dfssdf",
@@ -15,7 +15,7 @@ const info = [{
 
 
 export function DayoffType() {
-    const { classes } = useStyleTable();
+    // const { classes } = useStyleTable();
 
     const result = info.map((e) => (
         <tr key={e.day_off_name}>
@@ -28,16 +28,16 @@ export function DayoffType() {
     ))
     return (
         <>
-            <Group className={classes.body}>
-                <Table>
-                    <thead>
-                        <th>Day Off Name</th>
-                        <th>Short Form</th>
-                        <th>One-time Dayoff</th>
-                        <th>Paid leave / No Paid leave </th>
-                    </thead>
-                </Table>
-            </Group>
+            {/* <Group className={classes.body}> */}
+            <Table>
+                <thead>
+                    <th>Day Off Name</th>
+                    <th>Short Form</th>
+                    <th>One-time Dayoff</th>
+                    <th>Paid leave / No Paid leave </th>
+                </thead>
+            </Table>
+            {/* </Group> */}
 
 
             <div>

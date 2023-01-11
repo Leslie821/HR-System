@@ -1,31 +1,65 @@
 import { useState } from "react";
-import { LoadDateoff } from "./loadDateOff";
-import { Container } from "@mantine/core";
 
+import { Container, Table } from "@mantine/core";
 
+const columns = [
+    {
+        name: "ID",
+        selector: (row: any) => row.title,
+        sortable: true,
+    },
+    {
+        name: "Name",
+        selector: (row: any) => row.year,
+    },
+    {
+        name: "Remainder",
+        selector: (row: any) => row.year,
+    },
+    {
+        name: "Fixed Amount",
+        selector: (row: any) => row.year,
+    },
+
+    {
+        name: "Employee Type",
+        selector: (row: any) => row.year,
+    },
+];
 
 
 export function Dayofflist() {
-
+    // const { classes } = useStyleTable();
     const [info, setInfo] = useState([
         {
             id: "100",
             name: "Alice",
-            current_remainder: "6",
+            remain: "6",
             fixed_ammount: "10",
-            remain: "4",
             employee_type: "fulltime"
         },
         {
             id: "39",
             name: "Bob",
-            current_remainder: "3",
+            remain: "3",
             fixed_ammount: "10",
-            remain: "7",
             employee_type: "fulltime"
         },
 
     ])
+
+    const info1 = info.map((items) => (
+
+        <tr key={items.name}>
+            <th> {items.id}</th>
+            <th> {items.name}</th>
+            <th> {items.remain}</th>
+            <th> {items.fixed_ammount}</th>
+            <th> {items.employee_type}</th>
+
+        </tr>
+    )
+    );
 
     async function getAL() {
         let res: any = await fetch("/al")
@@ -62,46 +96,32 @@ export function Dayofflist() {
             <div>
 
                 <div >
-                    <Container >
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th style={{ padding: "0px 20px", width: "50px" }} > id</th>
-                                    <th style={{ paddingLeft: "40px", width: "50px" }} > name</th>
-                                    <th style={{ paddingLeft: "10px", width: "50px" }}  >current_remainder</th>
-                                    <th style={{ padding: "0px 10px", width: "50px" }}  > fixed_ammount</th>
-                                    <th style={{ padding: "0px 3px", width: "50px" }}  >remain</th>
-                                    <th style={{ padding: "0px 3px", width: "50px" }}  > employee_type</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </Container>
+
+                    <Table>
+                        <thead>
+                            <tr>
+                                <th > id</th>
+                                <th > name</th>
+                                <th  >current_remainder</th>
+                                <th  > fixed_ammount</th>
+                                <th >remain</th>
+                                <th > employee_type</th>
+                            </tr>
+                        </thead>
+                    </Table>
+
                 </div>
 
 
                 <div>
 
-                    {info.map(list => {
-                        return (
-
-                            <LoadDateoff
-                                id={+list.id}
-                                name={list.name}
-                                current_remainder={+list.current_remainder}
-                                fixed_amount={+list.fixed_ammount}
-                                remain={+list.remain}
-                                employee_type={list.employee_type}
-                            />
-                        )
-                    })}
+                    <tbody>{info1}</tbody>
 
                 </div>
 
 
             </div>
 
-            <br></br>
-            <br></br>
 
 
             <br></br>
@@ -109,3 +129,7 @@ export function Dayofflist() {
     )
 
 }
+function useStyleTable(): { classes: any; } {
+    throw new Error("Function not implemented.");
+}
+

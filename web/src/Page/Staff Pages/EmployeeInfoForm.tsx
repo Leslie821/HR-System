@@ -72,7 +72,11 @@ function EmployeeInfoForm({ mode, data }: EmployeeInfoFormProps) {
   }
   return (
     <>
-      <form>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
         <h1>{state.header}</h1>
         <h2>Employee Information</h2>
         <Grid justify="space-between" align="center">

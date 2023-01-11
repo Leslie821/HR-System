@@ -43,7 +43,11 @@ export function ApplyDayOff() {
           });
         }}
       >
-        <Container style={{ border: "solid black 3px" }}>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <Container >
           <div style={{ display: "flex", margin: "20px" }}>
             <div>
               <div style={{ margin: "0px 30px" }}>Employee</div>
@@ -125,7 +129,7 @@ export function ApplyDayOff() {
           <Container>
             <div style={{ paddingLeft: "700px" }}>
               <div>
-                <Button type="submit" onClick={() => {}}>
+                <Button type="submit" onClick={() => { }}>
                   Submit
                 </Button>
               </div>

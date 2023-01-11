@@ -1,51 +1,83 @@
-import { Container, Group, Table } from "@mantine/core";
+import { Button, Container, Group, Table } from "@mantine/core";
+import { useStyleTable } from "../Staff Pages/StaffsList";
+import { IconArrowNarrowLeft } from "@tabler/icons";
+import DataTable from "react-data-table-component";
+import { useEffect, useState } from "react";
 // import { useStyleTable } from "./Page/StaffsList";
 
-const info = [{
-    day_off_name: "dfssdf",
-    short_form: "sdfsdf",
-    one_time_dayoff: "sdfsd",
-    paid_leaver: "sdfsd"
-}, {
-    day_off_name: "dfssdf",
-    short_form: "sdfsdf",
-    one_time_dayoff: "sdfsd",
-    paid_leaver: "sdfsd"
-}]
+
+const columns = [
+
+
+    {
+        name: "Dayoff Name",
+        selector: (row: any) => row.dayoff_name,
+    },
+    {
+        name: "Short Form",
+        selector: (row: any) => row.short_form,
+    },
+    {
+        name: "One-time Dayoff",
+        selector: (row: any) => row.one_time_dayoff,
+    },
+    {
+        name: "Paid leave ?",
+        selector: (row: any) => row.paid_leave,
+    },
+
+];
+
+
+
 
 
 export function DayoffType() {
-    // const { classes } = useStyleTable();
+    const [info, setInfo] = useState<any>([
+        {
+            dayoff_name: "Annual Leave",
+            short_form: "AL",
+            one_time_dayoff: "Yes",
+            paid_leave: "Yes"
+        }
+    ])
+    async function getType() {
+        let res = await fetch("/getType", {
+            method: "Get",
+        })
+        const result = await res.json()
+        setInfo(result)
+    }
 
-    const result = info.map((e) => (
-        <tr key={e.day_off_name}>
-            <th>{e.day_off_name}</th>
-            <th>{e.short_form}</th>
-            <th>{e.one_time_dayoff}</th>
-            <th>{e.paid_leaver}</th>
 
-        </tr>
-    ))
+    useEffect(() => {
+        getType()
+
+    }, [])
+
+
+
     return (
-        <>
-            {/* <Group className={classes.body}> */}
-            <Table>
-                <thead>
-                    <th>Day Off Name</th>
-                    <th>Short Form</th>
-                    <th>One-time Dayoff</th>
-                    <th>Paid leave / No Paid leave </th>
-                </thead>
-            </Table>
-            {/* </Group> */}
+        <div>
+            <Group>
+                <Group>
+                    <Button variant="light">
+                        <IconArrowNarrowLeft size={50} stroke={1.5} />
+                    </Button>
 
+                    <h2>Leave Type</h2>
+                </Group>
 
-            <div>
-                <tbody>{result}</tbody>
-            </div>
-
-
-
-        </>
+                <DataTable columns={columns} data={info} />
+                {/* <Table striped withColumnBorders verticalSpacing="md">
+      selectableRows
+        <thead>{header}</thead>
+        <tbody>{info}</tbody>
+      </Table> */}
+            </Group>
+        </div>
     )
 }
+
+
+

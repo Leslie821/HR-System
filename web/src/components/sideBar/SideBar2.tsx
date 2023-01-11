@@ -41,7 +41,11 @@ const information = [
     label: "Request",
     icon: IconLock,
     links: [
-      { label: "Leave Request", link: "/", icon: IconNotes },
+      {
+        label: "Leave Request",
+        link: "/show_dayoff_application",
+        icon: IconNotes,
+      },
       { label: "Claim Request", link: "/", icon: IconNotes },
     ],
   },
@@ -51,6 +55,7 @@ const information = [
     links: [
       { label: "Leave Balance", link: "/show_day-off-list", icon: IconNotes },
       { label: "Leave Application", link: "/apply-day-off", icon: IconNotes },
+      { label: "Leave Type", link: "/show_dayoff_type", icon: IconNotes },
       { label: "Reports", link: "/", icon: IconNotes },
     ],
   },

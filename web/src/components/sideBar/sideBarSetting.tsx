@@ -14,6 +14,7 @@ import {
   IconChevronLeft,
   IconChevronRight,
 } from "@tabler/icons";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -80,13 +81,14 @@ export function LinksGroup({
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
   const ChevronIcon = theme.dir === "ltr" ? IconChevronRight : IconChevronLeft;
+  const navigate = useNavigate();
   const items = (hasLinks ? links : []).map((link) => (
     <Text<"a">
       component="a"
       className={classes.link}
-      href={link.link}
       key={link.label}
-      onClick={(event) => event.preventDefault()}
+      // onClick={(event) => event.preventDefault()}
+      onClick={() => navigate(link.link)}
     >
       {link.label}
     </Text>
@@ -99,7 +101,10 @@ export function LinksGroup({
         className={classes.control}
       >
         <Group position="apart" spacing={0}>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box
+            sx={{ display: "flex", alignItems: "center" }}
+            onClick={() => navigate("/")}
+          >
             <ThemeIcon variant="light" size={30}>
               <Icon size={18} />
             </ThemeIcon>

@@ -1,3 +1,5 @@
+import { Table } from "@mantine/core";
+
 export function LoadDateoff(props: {
     id: number,
     name: string,
@@ -9,14 +11,18 @@ export function LoadDateoff(props: {
 
     return (
         <>
-            <div style={{ display: "inline-flex", border: "black solid 3px", justifyContent: "center", textAlign: "center", alignContent: "center" }}>
-                <div style={{ padding: "0px 30px", width: "20px" }}>{props.id} </div>
-                <div style={{ padding: "0px 30px", width: "40px" }}>{props.name} </div>
-                <div style={{ padding: "0px 30px", width: "80px" }} >{props.current_remainder}</div>
-                <div style={{ padding: "0px 30px", width: "120px" }} >{props.fixed_amount} </div>
-                <div style={{ padding: "0px 30px", width: "100px" }} >{props.remain} </div>
-                <div style={{ padding: "0px 30px", width: "50px" }} >{props.employee_type} </div>
-            </div>
+            <Table>
+                <div style={{ display: "inline-flex", border: "black solid 3px", textAlign: "center", alignContent: "center" }}>
+                    <tr  >
+                        <th style={{ padding: "0px 40px", width: "50px" }}>{props.id} </th>
+                        <th style={{ padding: "0px 20px", width: "50px" }}>{props.name} </th>
+                        <th style={{ padding: "0px 20px", width: "50px" }}>{props.current_remainder}</th>
+                        <th style={{ padding: "0px 60px", width: "50px" }}>{props.fixed_amount} </th>
+                        <th style={{ paddingLeft: "0px", width: "50px" }}>{props.remain} </th>
+                        <th style={{ padding: "0px 20px", width: "50px" }}>{props.employee_type} </th>
+                    </tr>
+                </div>
+            </Table>
         </>
     )
 }

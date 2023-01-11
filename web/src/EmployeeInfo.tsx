@@ -1,20 +1,5 @@
 import EmployeeInfoForm from "./Page/EmployeeInfoForm"
 
-<<<<<<< HEAD
-
-
-
-function EmployeeInfo() {
-  return (
-    <div>
-      {/* <EmployeeInfoForm mode="create"/> */}
-      <EmployeeInfoForm mode="edit" data={{ name: "tom" }} />
-
-    </div>
-  )
-}
-    export default EmployeeInfo
-=======
 interface EmployeeProps {
   mode: "Create" | "Edit"
   data?: any
@@ -105,4 +90,5 @@ function Employee_info({ mode, data }: EmployeeProps) {
   )
 }
 export default Employee_info
->>>>>>> 5dafa94a64257f4d2481d54a91b03a934b32963d
+
+//hi

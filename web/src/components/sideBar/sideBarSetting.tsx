@@ -96,34 +96,33 @@ export function LinksGroup({
 
   return (
     <>
-      <UnstyledButton
-        onClick={() => setOpened((o) => !o)}
-        className={classes.control}
-      >
-        <Group position="apart" spacing={0}>
-          <Box
-            sx={{ display: "flex", alignItems: "center" }}
-            onClick={() => navigate("/")}
-          >
-            <ThemeIcon variant="light" size={30}>
-              <Icon size={18} />
-            </ThemeIcon>
-            <Box ml="md">{label}</Box>
-          </Box>
-          {hasLinks && (
-            <ChevronIcon
-              className={classes.chevron}
-              size={14}
-              stroke={1.5}
-              style={{
-                transform: opened
-                  ? `rotate(${theme.dir === "rtl" ? -90 : 90}deg)`
-                  : "none",
-              }}
-            />
-          )}
-        </Group>
-      </UnstyledButton>
+      <span onClick={() => navigate("/")}>
+        <UnstyledButton
+          onClick={() => setOpened((o) => !o)}
+          className={classes.control}
+        >
+          <Group position="apart" spacing={0}>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <ThemeIcon variant="light" size={30}>
+                <Icon size={18} />
+              </ThemeIcon>
+              <Box ml="md">{label}</Box>
+            </Box>
+            {hasLinks && (
+              <ChevronIcon
+                className={classes.chevron}
+                size={14}
+                stroke={1.5}
+                style={{
+                  transform: opened
+                    ? `rotate(${theme.dir === "rtl" ? -90 : 90}deg)`
+                    : "none",
+                }}
+              />
+            )}
+          </Group>
+        </UnstyledButton>
+      </span>
       {hasLinks ? <Collapse in={opened}>{items}</Collapse> : null}
     </>
   );

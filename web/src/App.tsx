@@ -9,9 +9,9 @@ import { CreateNewEmployee } from "./Page/Staff Pages/createNewEmployeePage";
 import { ApplyDayOff } from "./Page/ Leave Pages/applydayoffPage";
 
 import { DayoffPending } from "./Page/ Leave Pages/showDayoffApplicationPage";
-import StaffsList from "./Page/Staff Pages/StaffsList";
 import { Dayofflist } from "./Page/ Leave Pages/showDayoffResultPage";
 import { DayoffType } from "./Page/ Leave Pages/showDayoffTypePage";
+import { StaffsList } from "./Page/Staff Pages/StaffsList";
 
 // "@types/styled-components": "^5.1.26",
 export interface information {

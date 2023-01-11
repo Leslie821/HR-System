@@ -1,8 +1,18 @@
 import { ClassNames } from "@emotion/react";
-import { Checkbox, createStyles, Group, Text } from "@mantine/core";
+import {
+  ActionIcon,
+  Box,
+  Button,
+  Checkbox,
+  ChevronIcon,
+  createStyles,
+  Group,
+  Table,
+  Text,
+} from "@mantine/core";
+import { IconArrowNarrowLeft, IconGavel, IconSettings } from "@tabler/icons";
 import { information } from "../App";
-import { NavbarNested } from "../components/sideBar/SideBar2";
-// import { useState } from "react";
+import DataTable from "react-data-table-component";
 
 interface Props {
   data: information[];
@@ -10,24 +20,19 @@ interface Props {
 
 export const useStyleTable = createStyles((theme) => ({
   body: {
-    // display: "flex",
-    // alignItems: "center",
-    // margin: "auto",
-    // width: "71vw",
-    height: "80vh",
-    // padding: "50px",
-    // border: "1px solid",
+    height: "95vh",
   },
   header: {
-    display: "grid",
-    alignItems: "center",
-    justifyContent: "center",
-    color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
-    padding: 5,
-    border: "1px solid",
+    // paddingRight: 30,
+    // paddingLeft: 30,
+    // border: "1px solid",
   },
   table: {
-    border: "1px solid",
+    // paddingRight: 30,
+    // paddingLeft: 30,
+    // alignContent: "right",
+    // alignItems: "right",
+    // width: 70,
   },
 }));
 
@@ -37,7 +42,7 @@ const info2 = [
     name: "Leslie",
     department: "IT",
     jobTitle: "IT",
-    email: "leslie@Gmail.com",
+    email: "leslie@Gmail.comfaslkjflsajlkfjlk",
     employDate: "2014-01-01",
     status: "active",
   },
@@ -61,44 +66,84 @@ const info2 = [
   },
 ];
 
+const columns = [
+  {
+    name: "ID",
+    selector: (row: any) => row.title,
+    sortable: true,
+  },
+  {
+    name: "Name",
+    selector: (row: any) => row.year,
+  },
+  {
+    name: "Department",
+    selector: (row: any) => row.year,
+  },
+  {
+    name: "Title",
+    selector: (row: any) => row.year,
+  },
+  {
+    name: "Email",
+    selector: (row: any) => row.year,
+  },
+  {
+    name: "Employ Date",
+    selector: (row: any) => row.year,
+  },
+  {
+    name: "Status",
+    selector: (row: any) => row.year,
+  },
+];
+
 export function StaffsList(props: Props) {
   const { classes } = useStyleTable();
-  const info = info2.map((items) => (
-    <tr key={items.name}>
-      <th>
-        {" "}
-        <Checkbox></Checkbox>
-      </th>
-      <th> {items.id}</th>
-      <th> {items.name}</th>
-      <th> {items.department}</th>
-      <th> {items.jobTitle}</th>
-      <th> {items.email}</th>
-      <th> {items.employDate}</th>
-      <th> {items.status}</th>
-    </tr>
-  ));
-  return (
-    <Group className={classes.body}>
-      <div>
-        <table>
-          {/* <thead className={classes.header}> */}
-          <thead>
-            <tr>
-              <th></th>
-              <th> ID</th>
-              <th> Name</th>
-              <th> Department</th>
-              <th> Job Title</th>
-              <th> Email</th>
-              <th> Employ Date</th>
-              <th> Status</th>
-            </tr>
-          </thead>
 
-          <tbody>{info}</tbody>
-        </table>
-      </div>
+  const info = info2.map((items) => () => {
+    return (
+      <tr key={items.name}>
+        <td> {items.id}</td>
+        <td> {items.name}</td>
+        <td> {items.department}</td>
+        <td> {items.jobTitle}</td>
+        <td> {items.email}</td>
+        <td> {items.employDate}</td>
+        <td> {items.status}</td>
+      </tr>
+    );
+  });
+
+  const data = [
+    {
+      id: 2,
+      title: "Ghostbusters",
+      year: "1988",
+    },
+    {
+      id: 2,
+      title: "Ghostbusters",
+      year: "1984",
+    },
+  ];
+
+  return (
+    <Group>
+      <Group>
+        <Button variant="light">
+          <IconArrowNarrowLeft size={18} stroke={1.5} />
+        </Button>
+
+        <h2>Staff List</h2>
+      </Group>
+
+      <DataTable columns={columns} data={data} />
+      {/* <Table striped withColumnBorders verticalSpacing="md">
+      selectableRows
+        <thead>{header}</thead>
+        <tbody>{info}</tbody>
+      </Table> */}
     </Group>
   );
 }

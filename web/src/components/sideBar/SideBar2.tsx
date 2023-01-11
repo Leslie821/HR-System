@@ -69,7 +69,7 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.white,
     paddingBottom: 0,
     position: "fixed",
-    width: "19vw",
+    width: "20vw",
   },
 
   header: {
@@ -110,8 +110,8 @@ export function NavbarNested() {
 
   return (
     <Grid gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}>
-      <Grid.Col span={3}>
-        <Navbar p="md" className={classes.navbar}>
+      <Grid.Col span={2}>
+        <Navbar width={{ sm: 260 }} p="md" className={classes.navbar}>
           <Navbar.Section className={classes.header}>
             <Group position="left">
               <IconAssembly size="45px"></IconAssembly>
@@ -132,7 +132,7 @@ export function NavbarNested() {
           </Navbar.Section>
         </Navbar>
       </Grid.Col>
-      <Grid.Col span={9}>
+      <Grid.Col span={10}>
         <Outlet />
       </Grid.Col>
     </Grid>

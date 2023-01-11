@@ -18,7 +18,7 @@ interface Props {
   data: information[];
 }
 
-const useStyleTable = createStyles((theme) => ({
+export const useStyleTable = createStyles((theme) => ({
   body: {
     height: "95vh",
   },

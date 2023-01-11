@@ -2,6 +2,7 @@
 import { useState } from "react";
 
 import { LoadDateoffPending } from "./loadDateoffPending";
+import { Table } from "@mantine/core";
 
 
 
@@ -14,13 +15,26 @@ export function DayoffPending() {
             id: "100",
             name: "Alice",
             day_off_type: "SL",
-            from: "2022-11-10",
-            to: "2022-11-15",
+            from: "2022 - 11 - 10",
+            to: "2022 - 11 - 15",
             day_off_length: 6,
-            reason: "",
-            application_date: "",
-            approved_by: "",
-            status: ""
+            reason: "gdfgdfgdfgdfgdfgrdfgerg",
+            application_date: "2022-11-19",
+            approved_by: "Tony",
+            status: "Approved"
+
+        },
+        {
+            id: "100",
+            name: "Alice",
+            day_off_type: "SL",
+            from: "2022 - 11 - 10",
+            to: "2022 - 11 - 15",
+            day_off_length: 6,
+            reason: "gdfgdfgdfgdfgdfgrdfgerg",
+            application_date: "2022-11-19",
+            approved_by: "Tony",
+            status: "Approved"
 
         },
 
@@ -33,16 +47,16 @@ export function DayoffPending() {
     }
     async function getPending() {
         let res: any = await fetch("/pending", {
-            method: "POST",
-            headers: { "Content-Type": "application/JSON" },
-            body: JSON.stringify("")
+            method: "Get",
+            // headers: { "Content-Type": "application/JSON" },
+
         })
         setInfo(res)
     }
     async function getApproved() {
         let res: any = await fetch("getapproved", {
             method: "Get",
-            headers: { "Content-Type": "application/JSON" },
+            // headers: { "Content-Type": "application/JSON" },
         })
         setInfo(res)
     }
@@ -50,7 +64,7 @@ export function DayoffPending() {
 
     return (
 
-        <div style={{ padding: "0px 300px" }}>
+        <div >
             <div >
                 <div style={{ display: "flex", margin: "0px 50px", padding: "30px" }} >
                     <div style={{ padding: "30px" }}> Filter</div>
@@ -60,31 +74,34 @@ export function DayoffPending() {
                 </div>
             </div>
             <div>
-
-                <div style={{ display: "inline-flex", border: "black solid 3px", justifyContent: "center", textAlign: "center", alignContent: "center" }}>
+                <Table>
+                    {/* <div style={{ display: "inline-flex", border: "black solid 3px", justifyContent: "center", textAlign: "center", alignContent: "center" }}> */}
                     <tr>
-                        <th> ID</th>
-                        <th> Name</th>
-                        <th>Dayoff Type</th>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>Day Length</th>
-                        <th>Application Date</th>
-                        <th>Approved By</th>
-                        <th>Status</th>
-                    </tr>
-                </div>
+                        <th  > ID</th>
+                        <th > Name</th>
+                        <th >Dayoff Type</th>
+                        <th >From</th>
+                        <th >To</th>
+                        <th >Day Length</th>
 
+                        <th >Application Date</th>
+                        <th >Approved By</th>
+                        <th >Status</th>
+                        <th >Reason</th>
+                    </tr>
+                    {/* </div> */}
+                </Table>
 
                 <div>
+
                     {info.map(list => {
                         return (
                             <LoadDateoffPending
                                 id={+list.id}
                                 name={list.name}
                                 day_off_type={list.day_off_type}
-                                from={+list.from}
-                                to={+list.to}
+                                from={list.from}
+                                to={list.to}
                                 day_off_length={list.day_off_length}
                                 reason={list.reason}
                                 application_date={list.application_date}
@@ -92,16 +109,17 @@ export function DayoffPending() {
                                 status={list.status}
                             />)
                     })}
+
                 </div>
 
 
-            </div>
+            </div >
 
             <br></br>
             <br></br>
 
             <h4>filter DB login :await this.knex.select("column").from("staff_dayoff_table").where("id","=",1 && "dayofftyle","=","AL" )</h4>
             <br></br>
-        </div>
+        </div >
     )
 }

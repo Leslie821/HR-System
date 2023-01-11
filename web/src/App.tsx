@@ -6,8 +6,9 @@ import { Dashboard } from "./Page/dashboard";
 import { StaffsList } from "./Page/StaffsList";
 import { Route, Router, Routes } from "react-router-dom";
 import { CreateNewEmployee } from "./createNewEmployee";
-import { Apply, ApplyDayOff, ApplyDayoff } from "./applydayoff";
+import { ApplyDayOff,  } from "./applydayoff";
 import { DayOffList } from "./dayoffList";
+import EmployeeInfo from "./EmployeeInfo";
 
 export interface information {
   id: string;
@@ -37,6 +38,7 @@ function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/staff-list" element={<StaffsList data={info} />} />
         <Route path="/new-employee" element={<CreateNewEmployee />} />
+        <Route path="/employee-info" element={<EmployeeInfo />} />
         <Route path="/apply-day-off" element={<ApplyDayOff />} />
         <Route path="/day-off-list" element={<DayOffList />} />
       </Route>

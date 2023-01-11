@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { LoadDateoff } from "./loadDateOff";
+import { Container } from "@mantine/core";
 
 
 
@@ -49,36 +50,40 @@ export function Dayofflist() {
 
     return (
 
-        <div style={{ padding: "0px 300px" }}>
+        <div style={{ padding: "0px 30px" }}>
             <div >
                 <div style={{ display: "flex", margin: "0px 50px", padding: "30px" }} >
                     <div style={{ padding: "30px" }}> Filter</div>
-                    <div style={{ padding: "30px" }} onClick={() => { getAL() }}><button >AL  </button></div>
-                    <div style={{ padding: "30px" }} onClick={() => { getSL() }}><button >SL</button></div>
-                    <div style={{ padding: "30px" }} onClick={() => { getBL() }}><button >BL</button></div>
+                    <div style={{ padding: "30px" }} onClick={() => { getAL() }}><button > Show AL  </button></div>
+                    <div style={{ padding: "30px" }} onClick={() => { getSL() }}><button >Show SL</button></div>
+                    <div style={{ padding: "30px" }} onClick={() => { getBL() }}><button >Show BL</button></div>
                 </div>
             </div>
             <div>
 
-                <div style={{ display: "inline-flex", border: "black solid 3px", justifyContent: "center", textAlign: "center", alignContent: "center" }}>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th> id</th>
-                                <th> name</th>
-                                <th >current_remainder</th>
-                                <th > fixed_ammount</th>
-                                <th >remain</th>
-                                <th > employee_type</th>
-                            </tr>
-                        </thead>
-                    </table>
+                <div >
+                    <Container >
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style={{ padding: "0px 20px", width: "50px" }} > id</th>
+                                    <th style={{ paddingLeft: "40px", width: "50px" }} > name</th>
+                                    <th style={{ paddingLeft: "10px", width: "50px" }}  >current_remainder</th>
+                                    <th style={{ padding: "0px 10px", width: "50px" }}  > fixed_ammount</th>
+                                    <th style={{ padding: "0px 3px", width: "50px" }}  >remain</th>
+                                    <th style={{ padding: "0px 3px", width: "50px" }}  > employee_type</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </Container>
                 </div>
 
 
                 <div>
+
                     {info.map(list => {
                         return (
+
                             <LoadDateoff
                                 id={+list.id}
                                 name={list.name}
@@ -86,8 +91,10 @@ export function Dayofflist() {
                                 fixed_amount={+list.fixed_ammount}
                                 remain={+list.remain}
                                 employee_type={list.employee_type}
-                            />)
+                            />
+                        )
                     })}
+
                 </div>
 
 
@@ -96,7 +103,7 @@ export function Dayofflist() {
             <br></br>
             <br></br>
 
-            <h4>filter DB login :await this.knex.select("column").from("staff_dayoff_table").where("id","=",1 && "dayofftyle","=","AL" )</h4>
+
             <br></br>
         </div>
     )

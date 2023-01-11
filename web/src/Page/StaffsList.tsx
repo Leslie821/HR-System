@@ -8,7 +8,7 @@ interface Props {
   data: information[];
 }
 
-const useStyleTable = createStyles((theme) => ({
+export const useStyleTable = createStyles((theme) => ({
   body: {
     // display: "flex",
     // alignItems: "center",

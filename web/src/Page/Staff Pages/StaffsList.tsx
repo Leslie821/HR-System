@@ -13,6 +13,8 @@ import {
 import { IconArrowNarrowLeft, IconGavel, IconSettings } from "@tabler/icons";
 
 import DataTable from "react-data-table-component";
+import downloadCSV from "react-data-table-component";
+
 import { information } from "../../App";
 
 interface Props {
@@ -31,35 +33,35 @@ export const useStyleTable = createStyles((theme) => ({
   table: {},
 }));
 
-const info2 = [
-  {
-    id: 1,
-    name: "Leslie",
-    department: "IT",
-    jobTitle: "IT",
-    email: "leslie@Gmail.comfaslkjflsajlkfjlk",
-    employDate: "2014-01-01",
-    status: "active",
-  },
-  {
-    id: 1,
-    name: "Leslie",
-    department: "IT",
-    jobTitle: "IT",
-    email: "leslie@Gmail.com",
-    employDate: "2014-01-01",
-    status: "active",
-  },
-  {
-    id: 1,
-    name: "Leslie",
-    department: "IT",
-    jobTitle: "IT",
-    email: "leslie@Gmail.com",
-    employDate: "2014-01-01",
-    status: "active",
-  },
-];
+// const info2 = [
+//   {
+//     id: 1,
+//     name: "Leslie",
+//     department: "IT",
+//     jobTitle: "IT",
+//     email: "leslie@Gmail.comfaslkjflsajlkfjlk",
+//     employDate: "2014-01-01",
+//     status: "active",
+//   },
+//   {
+//     id: 1,
+//     name: "Leslie",
+//     department: "IT",
+//     jobTitle: "IT",
+//     email: "leslie@Gmail.com",
+//     employDate: "2014-01-01",
+//     status: "active",
+//   },
+//   {
+//     id: 1,
+//     name: "Leslie",
+//     department: "IT",
+//     jobTitle: "IT",
+//     email: "leslie@Gmail.com",
+//     employDate: "2014-01-01",
+//     status: "active",
+//   },
+// ];
 
 const columns = [
   {
@@ -70,45 +72,51 @@ const columns = [
   {
     name: "Name",
     selector: (row: any) => row.year,
+    sortable: true,
   },
   {
     name: "Department",
     selector: (row: any) => row.year,
+    sortable: true,
   },
   {
     name: "Title",
     selector: (row: any) => row.year,
+    sortable: true,
   },
   {
     name: "Email",
     selector: (row: any) => row.year,
+    sortable: true,
   },
   {
     name: "Employ Date",
     selector: (row: any) => row.year,
+    sortable: true,
   },
   {
     name: "Status",
     selector: (row: any) => row.year,
+    sortable: true,
   },
 ];
 
 export function StaffsList(props: Props) {
   const { classes } = useStyleTable();
 
-  const info = info2.map((items) => () => {
-    return (
-      <tr key={items.name}>
-        <td> {items.id}</td>
-        <td> {items.name}</td>
-        <td> {items.department}</td>
-        <td> {items.jobTitle}</td>
-        <td> {items.email}</td>
-        <td> {items.employDate}</td>
-        <td> {items.status}</td>
-      </tr>
-    );
-  });
+  // const info = info2.map((items) => () => {
+  //   return (
+  //     <tr key={items.name}>
+  //       <td> {items.id}</td>
+  //       <td> {items.name}</td>
+  //       <td> {items.department}</td>
+  //       <td> {items.jobTitle}</td>
+  //       <td> {items.email}</td>
+  //       <td> {items.employDate}</td>
+  //       <td> {items.status}</td>
+  //     </tr>
+  //   );
+  // });
 
   const data = [
     {
@@ -134,13 +142,10 @@ export function StaffsList(props: Props) {
       </Group>
 
       <DataTable columns={columns} data={data} />
-      {/* <Table striped withColumnBorders verticalSpacing="md">
-      selectableRows
-        <thead>{header}</thead>
-        <tbody>{info}</tbody>
-      </Table> */}
     </Group>
   );
 }
+
+//pagination
 
 export default StaffsList;

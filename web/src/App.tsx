@@ -12,6 +12,7 @@ import { DayoffPending } from "./Page/ Leave Pages/showDayoffApplicationPage";
 import StaffsList from "./Page/Staff Pages/StaffsList";
 import { Dayofflist } from "./Page/ Leave Pages/showDayoffResultPage";
 import { DayoffType } from "./Page/ Leave Pages/showDayoffTypePage";
+import { AddLeaveType } from "./Page/ Leave Pages/addLeaveType";
 
 // "@types/styled-components": "^5.1.26",
 export interface information {
@@ -44,9 +45,11 @@ function App() {
         <Route path="/new-employee" element={<CreateNewEmployee />} />
         {/* <Route path="/employee-info" element={<EmployeeInfo />} /> */}
         <Route path="/apply-day-off" element={<ApplyDayOff />} />
+        <Route path="/add-dayoff-type" element={<AddLeaveType />} />
         <Route path="/show_day-off-list" element={<Dayofflist />} />
         <Route path="/show_dayoff_application" element={<DayoffPending />} />
         <Route path="/show_dayoff_type" element={<DayoffType />} />
+
       </Route>
     </Routes>
   );

@@ -17,7 +17,7 @@ export function ApplyDayOff() {
 
   formData.append("name", info.name);
   formData.append("type", info.type);
-  formData.append("reason", info.reason);
+
   formData.append("from", from);
   formData.append("to", to);
   formData.append("total", total);

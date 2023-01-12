@@ -1,23 +1,11 @@
-import { createStyles } from "@mantine/core";
-import { useState } from "react";
+import { useRef } from "react";
+import { dateArr } from "./data";
+import "./dash.css";
 
-export function Dashboard() {
-  const [count, setCount] = useState(0);
-
-  const useStyles = createStyles((theme) => ({
-    test: {
-      backgroundColor: theme.black,
-      width: "100vw",
-      height: "100vh",
-      padding: theme.spacing.md,
-      color: theme.black,
-    },
-  }));
-  const { classes } = useStyles();
-
+export default function Dashboard() {
   return (
-    <div className={classes.test}>
-      <p>123456</p>
+    <div style={{ width: "80vw", height: "90vh" }}>
+      <h1>Hello Donny</h1>
     </div>
   );
 }

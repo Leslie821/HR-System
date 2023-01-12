@@ -2,16 +2,15 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
 import { NavbarNested } from "./components/sideBar/SideBar2";
-import { Dashboard } from "./Page/Dashboard Page/dashboard";
-
+import Dashboard from "./Page/Dashboard Page/dashboard";
 import { Route, Routes } from "react-router-dom";
 import { CreateNewEmployee } from "./Page/Staff Pages/createNewEmployeePage";
 import { ApplyDayOff } from "./Page/ Leave Pages/applydayoffPage";
-
 import { DayoffPending } from "./Page/ Leave Pages/showDayoffApplicationPage";
 import { Dayofflist } from "./Page/ Leave Pages/showDayoffResultPage";
 import { DayoffType } from "./Page/ Leave Pages/showDayoffTypePage";
 import { StaffsList } from "./Page/Staff Pages/StaffsList";
+import EmployeeInfoForm from "./Page/EmployeeFunction";
 
 // "@types/styled-components": "^5.1.26",
 export interface information {
@@ -47,6 +46,10 @@ function App() {
         <Route path="/show_day-off-list" element={<Dayofflist />} />
         <Route path="/show_dayoff_application" element={<DayoffPending />} />
         <Route path="/show_dayoff_type" element={<DayoffType />} />
+        {/* <Route
+          path="/createNewEmployee"
+          element={<EmployeeInfoForm mode={"create"} />}
+        /> */}
       </Route>
     </Routes>
   );

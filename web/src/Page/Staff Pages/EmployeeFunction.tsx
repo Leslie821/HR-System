@@ -1,22 +1,30 @@
 import React, { useEffect, useState } from 'react'
-import { useForm } from '@mantine/form';
+import { zodResolver } from '@mantine/form';
 import { TextInput, Button, Group, Col, Grid } from '@mantine/core';
-import { randomId } from '@mantine/hooks';
-import { Container } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
+import { z } from 'zod';
 
-type EmployeeInfoFormProps = {
+const schema = z.object({
+  name: z.string().min(2, { message: 'Name should have at least 2 letters' }),
+  email: z.string().email({ message: 'Invalid email' }),
+  age: z.number().min(18, { message: 'You must be at least 18 to create an account' }),
+});
+
+
+export type EmployeeInfoFormProps = {
     mode: "create" | "edit"
     data?: any
 }
    
 
 
-function EmployeeInfoForm({ mode, data }: EmployeeInfoFormProps){
+export default function EmployeeInfoForm({ mode, data }: EmployeeInfoFormProps){
   
   const [state,setState] = useState({
         header: mode ==="create" ?"Create New Employee": "Employee Info",
+        fetch: mode ==="create" ?"register": "Edit",
         name: mode === "create" ? "" : data.name,
+        validate: zodResolver(schema),
         birthday: '',
         gender:'',
         email: '',
@@ -71,10 +79,13 @@ function EmployeeInfoForm({ mode, data }: EmployeeInfoFormProps){
     }
   return (
           <>
-           <form onSubmit={e => {
+           {/* <form onSubmit={e => {
             e.preventDefault()
-
-           }}>
+            fetch({state.fetch},{
+              method: 'POST',
+              body : formData
+            })
+           }}> */}
           <h1>{state.header}</h1>
               <h2>Employee Information</h2>
                   <Grid justify="space-between" align="center">
@@ -112,9 +123,9 @@ function EmployeeInfoForm({ mode, data }: EmployeeInfoFormProps){
                   {state.button}
                 </Button>
               </div>
-              </form>
+              {/* </form> */}
           </>
           )
 }
     
-export default EmployeeInfoForm
+// export default EmployeeInfoForm;

@@ -9,13 +9,9 @@ import { ApplyDayOff } from "./Page/ Leave Pages/applydayoffPage";
 import { DayoffPending } from "./Page/ Leave Pages/showDayoffApplicationPage";
 import { Dayofflist } from "./Page/ Leave Pages/showDayoffResultPage";
 import { DayoffType } from "./Page/ Leave Pages/showDayoffTypePage";
-<<<<<<< HEAD
 import { NewEmployee} from "./Page/Staff Pages/newEmployee";
-=======
-import { StaffsList } from "./Page/Staff Pages/StaffsList";
 import { AddLeaveType } from "./Page/ Leave Pages/addLeaveType";
-
->>>>>>> 98f5e5beb91064e6721758f73d7f266752d217ac
+import StaffsList from "./Page/Staff Pages/StaffsList";
 // "@types/styled-components": "^5.1.26",
 export interface information {
   id: string;

@@ -13,15 +13,7 @@ export function ApplyDayOff() {
     reason: "",
   });
 
-  const formData = new FormData();
 
-  formData.append("name", info.name);
-  formData.append("type", info.type);
-
-  formData.append("from", from);
-  formData.append("to", to);
-  formData.append("total", total);
-  formData.append("reason", info.reason);
 
   useEffect(() => {
     let d1: any = from;
@@ -32,14 +24,26 @@ export function ApplyDayOff() {
     setTotal(totalday);
   }, [from, to]);
 
+
   return (
     <>
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          fetch("applyDayoff", {
+          const formObject: any = {};
+
+          formObject["name"] = info.name;
+          formObject["type"] = info.type;
+          formObject["from"] = from;
+          formObject["to"] = to;
+          formObject["total"] = total;
+          formObject["reason"] = info.reason;
+          fetch("http://localhost:3000/leave/application", {
             method: "Post",
-            body: formData,
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formObject),
           });
         }}
       >

@@ -6,6 +6,10 @@ import { useEffect, useState } from "react";
 // import { useStyleTable } from "./Page/StaffsList";
 
 
+
+
+
+
 const columns = [
 
 
@@ -19,7 +23,7 @@ const columns = [
     },
     {
         name: "One-time Dayoff",
-        selector: (row: any) => row.one_time_dayoff,
+        selector: (row: any) => row.short_form,
     },
     {
         name: "Paid leave ?",
@@ -34,36 +38,35 @@ const columns = [
 
 export function DayoffType() {
     const [opened, setOpened] = useState(false);
-    const [info, setInfo] = useState<any>([
-        {
-            dayoff_name: "Annual Leave",
-            short_form: "AL",
-            one_time_dayoff: "Yes",
-            paid_leave: "Yes"
-        }
-    ])
+    const [info, setInfo] = useState<any>([])
+    const [addnewInfo, setaddnewInfo] = useState({
+        dayoff_name: "",
+        short_form: "",
+        one_time_dayoff: "",
+        paid_leave: ""
+    })
+
     async function getType() {
-        let res = await fetch("/getType", {
+        let res = await fetch("http://localhost:3000/leave/getdayofftype", {
             method: "Get",
         })
+        // console.log(res);
+
         const result = await res.json()
         setInfo(result)
     }
 
 
+
+
     useEffect(() => {
+
+
         getType()
 
     }, [])
 
-    const formData = new FormData();
 
-    formData.append("dayoff_name", info.dayoff_name);
-    formData.append("short_form", info.short_form);
-
-    formData.append("one_time_dayoff", info.one_time_dayoff);
-
-    formData.append("paid_leave", info.paid_leave);
 
 
 
@@ -79,9 +82,20 @@ export function DayoffType() {
                 <form
                     onSubmit={(event) => {
                         event.preventDefault();
-                        fetch("applyDayoff", {
+                        const formObject: any = {};
+
+                        formObject["dayoff_name"] = addnewInfo.dayoff_name;
+                        formObject["short_form"] = addnewInfo.short_form;
+                        formObject["one_time_dayoff"] = addnewInfo.one_time_dayoff;
+                        formObject["paid_leave"] = addnewInfo.paid_leave;
+
+
+                        fetch("http://localhost:3000/leave/applyDayoff", {
                             method: "Post",
-                            body: formData,
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(formObject),
                         });
                     }}
                 >
@@ -92,9 +106,9 @@ export function DayoffType() {
                             <div style={{ margin: "0px 10px" }}>Dayoff Name</div>
                             <br />
                             <input
-                                value={info.dayoff_name}
+                                value={addnewInfo.dayoff_name}
                                 onChange={(e) => {
-                                    setInfo({ ...info, dayoff_name: e.currentTarget.value });
+                                    setaddnewInfo({ ...addnewInfo, dayoff_name: e.target.value });
                                 }}
                                 name="dayoff_name"
                                 id="dayoff_name"
@@ -107,9 +121,9 @@ export function DayoffType() {
                             <div style={{ margin: "0px 10px" }}>Short Form</div>
                             <br />
                             <input
-                                value={info.short_form}
+                                value={addnewInfo.short_form}
                                 onChange={(e) => {
-                                    setInfo({ ...info, short_form: e.currentTarget.value });
+                                    setaddnewInfo({ ...addnewInfo, short_form: e.target.value });
                                 }}
                                 name="short_form"
                                 id="short_form"
@@ -127,9 +141,9 @@ export function DayoffType() {
                             <div style={{ margin: "0px 10px" }}>One Time Dayoff</div>
                             <br></br>
                             <input
-                                value={info.one_time_dayoff}
+                                value={addnewInfo.one_time_dayoff}
                                 onChange={(e) => {
-                                    setInfo({ ...info, one_time_dayoff: e.currentTarget.value });
+                                    setaddnewInfo({ ...addnewInfo, one_time_dayoff: e.target.value });
                                 }}
                                 name="one_time_dayoff"
                                 id="one_time_dayoff"
@@ -144,9 +158,9 @@ export function DayoffType() {
                             <div style={{ margin: "0px 10px" }}>Paid Leave</div>
                             <br></br>
                             <input
-                                value={info.paid_leave}
+                                value={addnewInfo.paid_leave}
                                 onChange={(e) => {
-                                    setInfo({ ...info, paid_leave: e.currentTarget.value });
+                                    setaddnewInfo({ ...addnewInfo, paid_leave: e.target.value });
                                 }}
                                 name="paid_leave"
                                 id="paid_leave"

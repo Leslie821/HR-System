@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 import { Button, Group, Table } from "@mantine/core";
@@ -14,7 +14,9 @@ export function DayoffPending() {
 
   const [selectedRows, setSelectedRows] = React.useState<Dayoff[]>([]);
   const [toggleCleared, setToggleCleared] = React.useState(false);
-  const [data, setData] = React.useState();
+  const [result, setResult] = useState<any>();
+
+  useEffect(() => { getAll() }, [])
 
   const handleRowSelected = React.useCallback((state: { selectedRows: any; }) => {
 
@@ -24,66 +26,18 @@ export function DayoffPending() {
   }, []);
 
 
-  // console.log(selectedRows[0]);
-
-
-
-
 
 
   const rowDisabledCriteria = (row: any) => row.status == "Approved" || row.status == "Rejected";
 
 
 
-
-
-
-  /////////////////////////////////select row/////
-  let info = [
-    {
-      id: "1",
-      staffid: "5",
-      name: "Alice",
-      day_off_type: "SL",
-      from: "2022 - 11 - 10",
-      to: "2022 - 11 - 15",
-      day_off_length: 6,
-      application_date: "2022-11-19",
-      approved_by: "Tony",
-      status: "Pending",
-      reason: "gdfgdfgdfgdfgdfgrdfgerg",
-    },
-    {
-      id: "2",
-      staffid: "100",
-      name: "Alice",
-      day_off_type: "SL",
-      from: "2022 - 11 - 10",
-      to: "2022 - 11 - 15",
-      day_off_length: 6,
-      application_date: "2022-11-19",
-      approved_by: "Tony",
-      status: "Pending",
-      reason: "gdfgdfgdfgdfgdfgrdfgerg",
-    },
-    {
-      id: "3",
-      staffid: "100",
-      name: "Alice",
-      day_off_type: "SL",
-      from: "2022 - 11 - 10",
-      to: "2022 - 11 - 15",
-      day_off_length: 6,
-      application_date: "2022-11-19",
-      approved_by: "Tony",
-      status: "Rejected",
-      reason: "gdfgdfgdfgdfgdfgrdfgerg",
-    }
-  ];
-
   async function getAll() {
-    let res: any = await fetch("/all");
-    info = await res.json()
+    let res: any = await fetch("http://localhost:3000/leave/getapplicationstatus");
+    let resultfromdb = await res.json()
+    console.log(resultfromdb);
+
+    setResult(resultfromdb)
   }
   async function getPending() {
     let res: any = await fetch("/pending"),
@@ -94,10 +48,10 @@ export function DayoffPending() {
       info = await res.json()
   }
   async function approveItems() {
-    let res: any = await fetch("/approve", {
+    await fetch("http://localhost:3000/leave/updateapplication", {
       method: "Post",
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(selectedRows)
+      body: JSON.stringify(selectedRows[0])
 
     }
     )
@@ -122,7 +76,7 @@ export function DayoffPending() {
     },
     {
       name: "Dayoff Type",
-      selector: (row: any) => row.day_off_type,
+      selector: (row: any) => row.dayoff_type,
     },
     {
       name: "From",
@@ -134,11 +88,11 @@ export function DayoffPending() {
     },
     {
       name: "Day Length",
-      selector: (row: any) => row.day_off_length,
+      selector: (row: any) => row.day_length,
     },
     {
       name: "Application Date",
-      selector: (row: any) => row.application_date,
+      selector: (row: any) => row.created_at,
     },
     {
       name: "Approved By",
@@ -178,12 +132,7 @@ export function DayoffPending() {
 
 
 
-                <div>
-                  <button
-                    onClick={() => {
-                      getAll();
-                    }} >Show all Application</button>
-                </div>
+
                 {/* ********************* */}
 
                 <div>
@@ -216,7 +165,7 @@ export function DayoffPending() {
             </div>
             <DataTable
               columns={columns}
-              data={info}
+              data={result}
 
               // contextActions={contextActions}
               selectableRows
@@ -226,28 +175,14 @@ export function DayoffPending() {
 
             />
 
-
-
-
-            {/* <Table striped withColumnBorders verticalSpacing="md">
-      selectableRows
-        <thead>{header}</thead>
-        <tbody>{info}</tbody>
-      </Table> */}
           </Group>
         </div>
 
 
       </div>
 
-      <br></br>
-      <br></br>
 
-      <h4>
-        filter DB login :await
-        this.knex.select("column").from("staff_dayoff_table").where("id","=",1
-        && "dayofftyle","=","AL" )
-      </h4>
+
       <br></br>
     </div>
   );

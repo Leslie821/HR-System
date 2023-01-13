@@ -9,9 +9,13 @@ import { ApplyDayOff } from "./Page/ Leave Pages/applydayoffPage";
 import { DayoffPending } from "./Page/ Leave Pages/showDayoffApplicationPage";
 import { Dayofflist } from "./Page/ Leave Pages/showDayoffResultPage";
 import { DayoffType } from "./Page/ Leave Pages/showDayoffTypePage";
+<<<<<<< HEAD
+import { NewEmployee} from "./Page/Staff Pages/newEmployee";
+=======
 import { StaffsList } from "./Page/Staff Pages/StaffsList";
-import { AddLeaveType } from "./Page/ Leave Pages/addLeaveType";
+// import { AddLeaveType } from "./Page/ Leave Pages/addLeaveType";
 
+>>>>>>> 98f5e5beb91064e6721758f73d7f266752d217ac
 // "@types/styled-components": "^5.1.26",
 export interface information {
   id: string;
@@ -41,9 +45,9 @@ function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/staff-list" element={<StaffsList data={info} />} />
         <Route path="/new-employee" element={<CreateNewEmployee />} />
-        {/* <Route path="/employee-info" element={<EmployeeInfo />} /> */}
+        <Route path="/employee-info" element={< NewEmployee mode={"create"} />} />
         <Route path="/apply-day-off" element={<ApplyDayOff />} />
-        <Route path="/add-dayoff-type" element={<AddLeaveType />} />
+        {/* <Route path="/add-dayoff-type" element={<AddLeaveType />} /> */}
         <Route path="/show_day-off-list" element={<Dayofflist />} />
         <Route path="/show_dayoff_application" element={<DayoffPending />} />
         <Route path="/show_dayoff_type" element={<DayoffType />} />

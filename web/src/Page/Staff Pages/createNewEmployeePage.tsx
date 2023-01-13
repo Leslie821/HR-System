@@ -32,6 +32,7 @@ export function CreateNewEmployee() {
     mpf: "",
   });
   //
+  console.log("info:", info);
 
   ///////////////////////////////////down  is send file b
   const handleContract = (e: ChangeEvent<HTMLInputElement>) => {

@@ -1,42 +1,30 @@
 import { useState } from "react";
 
-
 import { Button, Group, Table } from "@mantine/core";
 import { IconArrowNarrowLeft } from "@tabler/icons";
 import DataTable from "react-data-table-component";
 import React from "react";
 
 type Dayoff = {
-  id?: string
-}
+  id?: string;
+};
 
 export function DayoffPending() {
-
   const [selectedRows, setSelectedRows] = React.useState<Dayoff[]>([]);
   const [toggleCleared, setToggleCleared] = React.useState(false);
   const [data, setData] = React.useState();
 
-  const handleRowSelected = React.useCallback((state: { selectedRows: any; }) => {
-
-    setSelectedRows(state.selectedRows);
-
-
-  }, []);
-
+  const handleRowSelected = React.useCallback(
+    (state: { selectedRows: any }) => {
+      setSelectedRows(state.selectedRows);
+    },
+    []
+  );
 
   // console.log(selectedRows[0]);
 
-
-
-
-
-
-  const rowDisabledCriteria = (row: any) => row.status == "Approved" || row.status == "Rejected";
-
-
-
-
-
+  const rowDisabledCriteria = (row: any) =>
+    row.status == "Approved" || row.status == "Rejected";
 
   /////////////////////////////////select row/////
   let info = [
@@ -78,32 +66,28 @@ export function DayoffPending() {
       approved_by: "Tony",
       status: "Rejected",
       reason: "gdfgdfgdfgdfgdfgrdfgerg",
-    }
+    },
   ];
 
   async function getAll() {
     let res: any = await fetch("/all");
-    info = await res.json()
+    info = await res.json();
   }
   async function getPending() {
     let res: any = await fetch("/pending"),
-      info = await res.json()
+      info = await res.json();
   }
   async function getApproved() {
     let res: any = await fetch("/approved"),
-      info = await res.json()
+      info = await res.json();
   }
   async function approveItems() {
     let res: any = await fetch("/approve", {
       method: "Post",
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(selectedRows)
-
-    }
-    )
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(selectedRows),
+    });
   }
-
-
 
   const columns = [
     {
@@ -154,14 +138,8 @@ export function DayoffPending() {
     },
   ];
 
-
-
-
-
   return (
     <div>
-
-
       <div>
         <div>
           <Group>
@@ -173,16 +151,17 @@ export function DayoffPending() {
               <h2>Leave Type</h2>
             </Group>
             <div>
-              <div style={{ display: "flex", margin: "0px 50px", padding: "30px" }}>
-
-
-
-
+              <div
+                style={{ display: "flex", margin: "0px 50px", padding: "30px" }}
+              >
                 <div>
                   <button
                     onClick={() => {
                       getAll();
-                    }} >Show all Application</button>
+                    }}
+                  >
+                    Show all Application
+                  </button>
                 </div>
                 {/* ********************* */}
 
@@ -190,7 +169,10 @@ export function DayoffPending() {
                   <button
                     onClick={() => {
                       getPending();
-                    }}>Show Pending Application</button>
+                    }}
+                  >
+                    Show Pending Application
+                  </button>
                 </div>
                 {/* ********************* */}
 
@@ -198,36 +180,34 @@ export function DayoffPending() {
                   <button
                     onClick={() => {
                       getApproved();
-                    }}>Show Approved Application</button>
+                    }}
+                  >
+                    Show Approved Application
+                  </button>
                 </div>
 
                 {/* ********************* */}
 
                 <div>
-                  <button onClick={() => {
-                    approveItems();
-                  }}>
+                  <button
+                    onClick={() => {
+                      approveItems();
+                    }}
+                  >
                     Approve Selected Case
                   </button>
                 </div>
-
-
               </div>
             </div>
             <DataTable
               columns={columns}
               data={info}
-
               // contextActions={contextActions}
               selectableRows
               selectableRowDisabled={rowDisabledCriteria}
               onSelectedRowsChange={handleRowSelected}
               clearSelectedRows={toggleCleared}
-
             />
-
-
-
 
             {/* <Table striped withColumnBorders verticalSpacing="md">
       selectableRows
@@ -236,8 +216,6 @@ export function DayoffPending() {
       </Table> */}
           </Group>
         </div>
-
-
       </div>
 
       <br></br>
@@ -252,5 +230,3 @@ export function DayoffPending() {
     </div>
   );
 }
-
-

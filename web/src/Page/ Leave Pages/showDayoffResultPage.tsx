@@ -5,128 +5,135 @@ import { IconArrowNarrowLeft } from "@tabler/icons";
 import DataTable from "react-data-table-component";
 
 const columns = [
-    {
-        name: "ID",
-        selector: (row: any) => row.id,
-        sortable: true,
-    },
-    {
-        name: "Name",
-        selector: (row: any) => row.name,
-    },
-    {
-        name: "Remainder",
-        selector: (row: any) => row.remain,
-    },
-    {
-        name: "Fixed Amount",
-        selector: (row: any) => row.fixed_amount,
-    },
+  {
+    name: "ID",
+    selector: (row: any) => row.id,
+    sortable: true,
+  },
+  {
+    name: "Name",
+    selector: (row: any) => row.name,
+  },
+  {
+    name: "Remainder",
+    selector: (row: any) => row.remain,
+  },
+  {
+    name: "Fixed Amount",
+    selector: (row: any) => row.fixed_amount,
+  },
 
-    {
-        name: "Employee Type",
-        selector: (row: any) => row.employee_type,
-    },
+  {
+    name: "Employee Type",
+    selector: (row: any) => row.employee_type,
+  },
 ];
 
-
 export function Dayofflist() {
+  const [info, setInfo] = useState([
+    {
+      id: "100",
+      name: "Alice",
+      remain: "6",
+      fixed_amount: "10",
+      employee_type: "fulltime",
+    },
+    {
+      id: "39",
+      name: "Bob",
+      remain: "3",
+      fixed_amount: "10",
+      employee_type: "fulltime",
+    },
+  ]);
 
-    const [info, setInfo] = useState([
-        {
-            id: "100",
-            name: "Alice",
-            remain: "6",
-            fixed_amount: "10",
-            employee_type: "fulltime"
-        },
-        {
-            id: "39",
-            name: "Bob",
-            remain: "3",
-            fixed_amount: "10",
-            employee_type: "fulltime"
-        },
+  // const info1 = info.map((items) => (
 
-    ])
+  //     <tr key={items.name}>
+  //         <th> {items.id}</th>
+  //         <th> {items.name}</th>
+  //         <th> {items.remain}</th>
+  //         <th> {items.fixed_amount}</th>
+  //         <th> {items.employee_type}</th>
 
-    // const info1 = info.map((items) => (
+  //     </tr>
+  // )
+  // );
 
-    //     <tr key={items.name}>
-    //         <th> {items.id}</th>
-    //         <th> {items.name}</th>
-    //         <th> {items.remain}</th>
-    //         <th> {items.fixed_amount}</th>
-    //         <th> {items.employee_type}</th>
+  async function getAL() {
+    let res: any = await fetch("/al");
+    let data = await res.json();
+    setInfo(data);
+  }
+  async function getSL() {
+    let res: any = await fetch("/sl", {});
+    let data = await res.json();
+    setInfo(data);
+  }
+  async function getBL() {
+    let res: any = await fetch("/bl", {
+      method: "Get",
+    });
+    let data = await res.json();
+    setInfo(data);
+  }
 
-    //     </tr>
-    // )
-    // );
-
-    async function getAL() {
-        let res: any = await fetch("/al")
-        let data = await res.json()
-        setInfo(data)
-    }
-    async function getSL() {
-        let res: any = await fetch("/sl", {})
-        let data = await res.json()
-        setInfo(data)
-    }
-    async function getBL() {
-        let res: any = await fetch("/bl", {
-            method: "Get",
-        })
-        let data = await res.json()
-        setInfo(data)
-    }
-
-
-    return (
+  return (
+    <div>
+      <div style={{ padding: "0px 30px" }}>
         <div>
-            <div style={{ padding: "0px 30px" }}>
+          <Group>
+            <Group>
+              <Button variant="light">
+                <IconArrowNarrowLeft size={18} stroke={1.5} />
+              </Button>
 
+              <h2>Leave Balance</h2>
+            </Group>
+            <div
+              style={{ display: "flex", margin: "0px 50px", padding: "30px" }}
+            >
+              <div style={{ padding: "30px" }}> Filter</div>
+              <div
+                style={{ padding: "30px" }}
+                onClick={() => {
+                  getAL();
+                }}
+              >
+                <button> Show AL </button>
+              </div>
+              <div
+                style={{ padding: "30px" }}
+                onClick={() => {
+                  getSL();
+                }}
+              >
+                <button>Show SL</button>
+              </div>
+              <div
+                style={{ padding: "30px" }}
+                onClick={() => {
+                  getBL();
+                }}
+              >
+                <button>Show BL</button>
+              </div>
+            </div>
 
-
-                <div>
-
-                    <Group>
-                        <Group>
-                            <Button variant="light">
-                                <IconArrowNarrowLeft size={18} stroke={1.5} />
-                            </Button>
-
-                            <h2>Leave Balance</h2>
-
-                        </Group>
-                        <div style={{ display: "flex", margin: "0px 50px", padding: "30px" }} >
-                            <div style={{ padding: "30px" }}> Filter</div>
-                            <div style={{ padding: "30px" }} onClick={() => { getAL() }}><button > Show AL  </button></div>
-                            <div style={{ padding: "30px" }} onClick={() => { getSL() }}><button >Show SL</button></div>
-                            <div style={{ padding: "30px" }} onClick={() => { getBL() }}><button >Show BL</button></div>
-                        </div>
-
-                        <DataTable columns={columns} data={info} />
-                        {/* <Table striped withColumnBorders verticalSpacing="md">
+            <DataTable columns={columns} data={info} />
+            {/* <Table striped withColumnBorders verticalSpacing="md">
       selectableRows
         <thead>{header}</thead>
         <tbody>{info}</tbody>
       </Table> */}
-                    </Group>
-
-
-
-                </div>
-
-
-
-                <br></br>
-            </div>
+          </Group>
         </div>
-    )
 
+        <br></br>
+      </div>
+    </div>
+  );
 }
-function useStyleTable(): { classes: any; } {
-    throw new Error("Function not implemented.");
+function useStyleTable(): { classes: any } {
+  throw new Error("Function not implemented.");
 }
-

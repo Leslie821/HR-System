@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
 import { NavbarNested } from "./components/sideBar/SideBar2";
@@ -12,6 +12,10 @@ import { DayoffType } from "./Page/ Leave Pages/showDayoffTypePage";
 import { NewEmployee} from "./Page/Staff Pages/newEmployee";
 import { AddLeaveType } from "./Page/ Leave Pages/addLeaveType";
 import StaffsList from "./Page/Staff Pages/StaffsList";
+import { StaffsList } from "./Page/Staff Pages/StaffsList";
+import { NewEmployee } from "./Page/Staff Pages/newEmployee";
+// import { AddLeaveType } from "./Page/ Leave Pages/addLeaveType";
+
 // "@types/styled-components": "^5.1.26",
 export interface information {
   id: string;
@@ -43,7 +47,7 @@ function App() {
         <Route path="/new-employee" element={<CreateNewEmployee />} />
         <Route path="/employee-info" element={< NewEmployee mode={"create"} />} />
         <Route path="/apply-day-off" element={<ApplyDayOff />} />
-        <Route path="/add-dayoff-type" element={<AddLeaveType />} />
+        {/* <Route path="/add-dayoff-type" element={<AddLeaveType />} /> */}
         <Route path="/show_day-off-list" element={<Dayofflist />} />
         <Route path="/show_dayoff_application" element={<DayoffPending />} />
         <Route path="/show_dayoff_type" element={<DayoffType />} />

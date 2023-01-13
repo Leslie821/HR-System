@@ -18,10 +18,12 @@ import {
   IconSearch,
   IconSettings,
 } from "@tabler/icons";
+import { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import downloadCSV from "react-data-table-component";
 
 import { information } from "../../App";
+import SearchBar from "../../components/searchBar/SearchBar";
 
 interface Props {
   data: information[];
@@ -59,61 +61,71 @@ export const useStyleTable = createStyles((theme) => ({
   },
 }));
 
-function createNewEmployee() {}
-
 const columns = [
   {
     name: "ID",
-    selector: (row: any) => row.title,
+    selector: (row: any) => row.id,
     sortable: true,
   },
   {
     name: "Name",
-    selector: (row: any) => row.year,
+    selector: (row: any) => row.name,
     sortable: true,
   },
   {
     name: "Department",
-    selector: (row: any) => row.year,
+    selector: (row: any) => row.department,
     sortable: true,
   },
   {
     name: "Title",
-    selector: (row: any) => row.year,
+    selector: (row: any) => row.title,
     sortable: true,
   },
   {
     name: "Email",
-    selector: (row: any) => row.year,
+    selector: (row: any) => row.email,
     sortable: true,
   },
   {
     name: "Employ Date",
-    selector: (row: any) => row.year,
+    selector: (row: any) => row.employ_date,
     sortable: true,
   },
   {
     name: "Status",
-    selector: (row: any) => row.year,
+    selector: (row: any) => row.status,
     sortable: true,
   },
 ];
 
 export function StaffsList(props: Props) {
   const { classes } = useStyleTable();
+  const [searchValue, setSearchValue] = useState("");
 
-  const data = [
+  const [users, setUsers] = useState<any>([
     {
-      id: 2,
-      title: "Ghostbusters",
-      year: "1988",
+      name: "",
+      email: "",
+      department: "",
+      id: "",
+      title: "",
+      employ_date: "",
+      status: "",
     },
-    {
-      id: 2,
-      title: "Ghostbusters",
-      year: "1984",
-    },
-  ];
+  ]);
+
+  const fetchUsers = async () => {
+    const res = await fetch(`http://localhost:5173/staffs?q=tom`, {
+      method: "GET",
+    });
+    const usersFromDB = await res.json();
+    setUsers(usersFromDB);
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   return (
     <Group className={classes.body}>
@@ -125,12 +137,18 @@ export function StaffsList(props: Props) {
 
       <div>
         <Group className={classes.table}>
-          <Input placeholder="search" style={{ marginBottom: 8 }}></Input>
+          <SearchBar apiPath={"/"} setBackData={() => {}} />
+          <Input
+            placeholder="search"
+            type="text"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            style={{ marginBottom: 8 }}
+          ></Input>
           <Button variant="light" style={{ marginBottom: 8 }}>
-            {/* <IconPlus size={18} stroke={1.5} style={{ marginRight: 6 }} /> */}
             Create New Employ
           </Button>
-          <DataTable columns={columns} data={data} pagination />
+          <DataTable columns={columns} data={users} pagination />
         </Group>
       </div>
     </Group>

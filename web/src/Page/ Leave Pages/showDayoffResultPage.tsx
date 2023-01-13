@@ -1,130 +1,127 @@
 import { useState } from "react";
 
-import { Container, Table } from "@mantine/core";
+import { Button, Container, Group, Table } from "@mantine/core";
+import { IconArrowNarrowLeft } from "@tabler/icons";
+import DataTable from "react-data-table-component";
 
 const columns = [
     {
         name: "ID",
-        selector: (row: any) => row.title,
+        selector: (row: any) => row.id,
         sortable: true,
     },
     {
         name: "Name",
-        selector: (row: any) => row.year,
+        selector: (row: any) => row.name,
     },
     {
         name: "Remainder",
-        selector: (row: any) => row.year,
+        selector: (row: any) => row.remain,
     },
     {
         name: "Fixed Amount",
-        selector: (row: any) => row.year,
+        selector: (row: any) => row.fixed_amount,
     },
 
     {
         name: "Employee Type",
-        selector: (row: any) => row.year,
+        selector: (row: any) => row.employee_type,
     },
 ];
 
 
 export function Dayofflist() {
-    // const { classes } = useStyleTable();
+
     const [info, setInfo] = useState([
         {
             id: "100",
             name: "Alice",
             remain: "6",
-            fixed_ammount: "10",
+            fixed_amount: "10",
             employee_type: "fulltime"
         },
         {
             id: "39",
             name: "Bob",
             remain: "3",
-            fixed_ammount: "10",
+            fixed_amount: "10",
             employee_type: "fulltime"
         },
 
     ])
 
-    const info1 = info.map((items) => (
+    // const info1 = info.map((items) => (
 
-        <tr key={items.name}>
-            <th> {items.id}</th>
-            <th> {items.name}</th>
-            <th> {items.remain}</th>
-            <th> {items.fixed_ammount}</th>
-            <th> {items.employee_type}</th>
+    //     <tr key={items.name}>
+    //         <th> {items.id}</th>
+    //         <th> {items.name}</th>
+    //         <th> {items.remain}</th>
+    //         <th> {items.fixed_amount}</th>
+    //         <th> {items.employee_type}</th>
 
-        </tr>
-    )
-    );
+    //     </tr>
+    // )
+    // );
 
     async function getAL() {
         let res: any = await fetch("/al")
-        setInfo(res)
+        let data = await res.json()
+        setInfo(data)
     }
     async function getSL() {
-        let res: any = await fetch("/al", {
-            method: "POST",
-            headers: { "Content-Type": "application/JSON" },
-            body: JSON.stringify("")
-        })
-        setInfo(res)
+        let res: any = await fetch("/sl", {})
+        let data = await res.json()
+        setInfo(data)
     }
     async function getBL() {
-        let res: any = await fetch("getAL", {
+        let res: any = await fetch("/bl", {
             method: "Get",
-            headers: { "Content-Type": "application/JSON" },
         })
-        setInfo(res)
+        let data = await res.json()
+        setInfo(data)
     }
 
 
     return (
+        <div>
+            <div style={{ padding: "0px 30px" }}>
 
-        <div style={{ padding: "0px 30px" }}>
-            <div >
-                <div style={{ display: "flex", margin: "0px 50px", padding: "30px" }} >
-                    <div style={{ padding: "30px" }}> Filter</div>
-                    <div style={{ padding: "30px" }} onClick={() => { getAL() }}><button > Show AL  </button></div>
-                    <div style={{ padding: "30px" }} onClick={() => { getSL() }}><button >Show SL</button></div>
-                    <div style={{ padding: "30px" }} onClick={() => { getBL() }}><button >Show BL</button></div>
-                </div>
-            </div>
-            <div>
-
-                <div >
-
-                    <Table>
-                        <thead>
-                            <tr>
-                                <th > id</th>
-                                <th > name</th>
-                                <th  >current_remainder</th>
-                                <th  > fixed_ammount</th>
-                                <th >remain</th>
-                                <th > employee_type</th>
-                            </tr>
-                        </thead>
-                    </Table>
-
-                </div>
 
 
                 <div>
 
-                    <tbody>{info1}</tbody>
+                    <Group>
+                        <Group>
+                            <Button variant="light">
+                                <IconArrowNarrowLeft size={18} stroke={1.5} />
+                            </Button>
+
+                            <h2>Leave Balance</h2>
+
+                        </Group>
+                        <div style={{ display: "flex", margin: "0px 50px", padding: "30px" }} >
+                            <div style={{ padding: "30px" }}> Filter</div>
+                            <div style={{ padding: "30px" }} onClick={() => { getAL() }}><button > Show AL  </button></div>
+                            <div style={{ padding: "30px" }} onClick={() => { getSL() }}><button >Show SL</button></div>
+                            <div style={{ padding: "30px" }} onClick={() => { getBL() }}><button >Show BL</button></div>
+                        </div>
+
+                        <DataTable columns={columns} data={info} />
+                        {/* <Table striped withColumnBorders verticalSpacing="md">
+      selectableRows
+        <thead>{header}</thead>
+        <tbody>{info}</tbody>
+      </Table> */}
+                    </Group>
+
+
 
                 </div>
 
 
+
+                <br></br>
             </div>
-
-
-
-            <br></br>
         </div>
     )
 

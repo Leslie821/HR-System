@@ -16,7 +16,7 @@ export class LeaveController {
       paid_leave: string;
     },
   ) {
-    // console.log('controller newDayofftype', body);
+    console.log('controller newDayofftype', body);
     let result = await this.leaveService.createNewDayoffType(body);
 
     return { result };
@@ -24,7 +24,7 @@ export class LeaveController {
   @Get('getdayofftype')
   async getDayoffType() {
     let result = await this.leaveService.getDayoffType();
-    // console.log('controller Get newDayofftype', result);
+    console.log('controller Get newDayofftype', result);
 
     return result;
   }
@@ -32,15 +32,13 @@ export class LeaveController {
   async submitapplication(
     @Body()
     body: {
-      name: string;
-      type: string;
+      info: any;
       from: string;
       to: string;
       total: number;
-      reason: string;
     },
   ) {
-    // console.log('controller application ', body);
+    // console.log('controller application ', body.info);
     let result = await this.leaveService.submitapplication(body);
 
     return { result };
@@ -58,7 +56,7 @@ export class LeaveController {
       id: number;
     },
   ) {
-    console.log('controller ', body);
+    // console.log('controller ', body);
 
     let result = await this.leaveService.updateApplication(body);
 

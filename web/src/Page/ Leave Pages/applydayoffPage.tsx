@@ -4,24 +4,18 @@ import { DatePicker } from "@mantine/dates";
 import { useEffect, useState } from "react";
 
 export function ApplyDayOff() {
-  const [from, setFrom] = useState<any>(new Date());
-  const [to, setTo] = useState<any>(new Date());
+  const [from, setFrom] = useState<any>(new Date())
+  const [to, setTo] = useState<any>(new Date())
   const [total, setTotal] = useState<any>(0);
-  const [info, setInfo] = useState({
+  const [info, setInfo] = useState<any>({
     name: "",
     type: "",
     reason: "",
+
   });
 
-  const formData = new FormData();
 
-  formData.append("name", info.name);
-  formData.append("type", info.type);
 
-  formData.append("from", from);
-  formData.append("to", to);
-  formData.append("total", total);
-  formData.append("reason", info.reason);
 
   useEffect(() => {
     let d1: any = from;
@@ -29,7 +23,8 @@ export function ApplyDayOff() {
     let result = d2 - d1;
     let one_day = 1000 * 60 * 60 * 24;
     let totalday = result / one_day;
-    setTotal(totalday);
+    let newtotal = Math.ceil(totalday)
+    setTotal(newtotal);
   }, [from, to]);
 
   return (
@@ -37,9 +32,12 @@ export function ApplyDayOff() {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          fetch("applyDayoff", {
+          // const form = event.target as HTMLFormElement
+          // const formData = new FormData(form)
+          fetch("http://localhost:3000/leave/application", {
             method: "Post",
-            body: formData,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ info, from, to, total, })
           });
         }}
       >
@@ -129,7 +127,7 @@ export function ApplyDayOff() {
           <Container>
             <div style={{ paddingLeft: "700px" }}>
               <div>
-                <Button type="submit" onClick={() => {}}>
+                <Button type="submit" onClick={() => { }}>
                   Submit
                 </Button>
               </div>

@@ -25,17 +25,25 @@ const columns = [
 ];
 
 export function DayoffType() {
-  const [opened, setOpened] = useState(false);
-  const [info, setInfo] = useState<any>([
+  const [inpputtye, setinputtype] = useState(
     {
-      dayoff_name: "Annual Leave",
-      short_form: "AL",
-      one_time_dayoff: "Yes",
-      paid_leave: "Yes",
+      dayoff_name: "",
+      short_form: "",
+      one_time_dayoff: "",
+      paid_leave: "",
     },
-  ]);
+  )
+  const [opened, setOpened] = useState(false);
+  const [info, setInfo] = useState<any>(
+    {
+      dayoff_name: "",
+      short_form: "",
+      one_time_dayoff: "",
+      paid_leave: "",
+    },
+  );
   async function getType() {
-    let res = await fetch("/getType", {
+    let res = await fetch("http://localhost:3000/leave/getdayofftype", {
       method: "Get",
     });
     const result = await res.json();
@@ -46,14 +54,8 @@ export function DayoffType() {
     getType();
   }, []);
 
-  const formData = new FormData();
 
-  formData.append("dayoff_name", info.dayoff_name);
-  formData.append("short_form", info.short_form);
 
-  formData.append("one_time_dayoff", info.one_time_dayoff);
-
-  formData.append("paid_leave", info.paid_leave);
 
   return (
     <div>
@@ -61,9 +63,20 @@ export function DayoffType() {
         <form
           onSubmit={(event) => {
             event.preventDefault();
-            fetch("applyDayoff", {
+            // const form = event.target as HTMLFormElement
+            // const formData = new FormData(form);
+            // console.log(formData);
+
+            // formData.append("dayoff_name", info.dayoff_name);
+            // formData.append("short_form", info.short_form);
+
+            // formData.append("one_time_dayoff", info.one_time_dayoff);
+
+            // formData.append("paid_leave", info.paid_leave);
+            fetch("http://localhost:3000/leave/applyDayoff", {
               method: "Post",
-              body: formData,
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(inpputtye),
             });
           }}
         >
@@ -72,9 +85,9 @@ export function DayoffType() {
               <div style={{ margin: "0px 10px" }}>Dayoff Name</div>
               <br />
               <input
-                value={info.dayoff_name}
+                value={inpputtye.dayoff_name}
                 onChange={(e) => {
-                  setInfo({ ...info, dayoff_name: e.currentTarget.value });
+                  setinputtype({ ...inpputtye, dayoff_name: e.currentTarget.value });
                 }}
                 name="dayoff_name"
                 id="dayoff_name"
@@ -87,9 +100,9 @@ export function DayoffType() {
               <div style={{ margin: "0px 10px" }}>Short Form</div>
               <br />
               <input
-                value={info.short_form}
+                value={inpputtye.short_form}
                 onChange={(e) => {
-                  setInfo({ ...info, short_form: e.currentTarget.value });
+                  setinputtype({ ...inpputtye, short_form: e.currentTarget.value });
                 }}
                 name="short_form"
                 id="short_form"
@@ -107,9 +120,9 @@ export function DayoffType() {
               <div style={{ margin: "0px 10px" }}>One Time Dayoff</div>
               <br></br>
               <input
-                value={info.one_time_dayoff}
+                value={inpputtye.one_time_dayoff}
                 onChange={(e) => {
-                  setInfo({ ...info, one_time_dayoff: e.currentTarget.value });
+                  setinputtype({ ...inpputtye, one_time_dayoff: e.currentTarget.value });
                 }}
                 name="one_time_dayoff"
                 id="one_time_dayoff"
@@ -123,9 +136,9 @@ export function DayoffType() {
               <div style={{ margin: "0px 10px" }}>Paid Leave</div>
               <br></br>
               <input
-                value={info.paid_leave}
+                value={inpputtye.paid_leave}
                 onChange={(e) => {
-                  setInfo({ ...info, paid_leave: e.currentTarget.value });
+                  setinputtype({ ...inpputtye, paid_leave: e.currentTarget.value });
                 }}
                 name="paid_leave"
                 id="paid_leave"
@@ -137,7 +150,7 @@ export function DayoffType() {
           </div>
 
           <div style={{ paddingLeft: "250px" }}>
-            <Button type="submit" onClick={() => {}}>
+            <Button type="submit" onClick={() => { }}>
               Submit
             </Button>
           </div>

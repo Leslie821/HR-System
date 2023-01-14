@@ -12,7 +12,7 @@ export class LeaveService {
     one_time_dayoff: string;
     paid_leave: string;
   }) {
-    // console.log('service: createNewDayoffTyep', formInfo);
+    console.log('service: createNewDayoffTyep', formInfo);
     try {
       let id = await this.knex
         .insert({
@@ -39,24 +39,22 @@ export class LeaveService {
     }
   }
   async submitapplication(formInfo: {
-    name: string;
-    type: string;
+    info: any;
     from: string;
     to: string;
     total: number;
-    reason: string;
   }) {
     try {
       let result = await this.knex
         .insert({
           staffid: 1,
-          name: formInfo.name,
-          dayoff_type: formInfo.type,
+          name: formInfo.info.name,
+          dayoff_type: formInfo.info.type,
           from: formInfo.from,
           to: formInfo.to,
           day_length: formInfo.total,
           status: 'Pending',
-          reason: formInfo.reason,
+          reason: formInfo.info.reason,
         })
         .into('leave_status')
         .returning('id');
@@ -70,7 +68,7 @@ export class LeaveService {
   async getapplicationstatuse() {
     try {
       let result = await this.knex.select().from('leave_status');
-      console.log('service get application status', result);
+      // console.log('service get application status', result);
       return result;
     } catch (error) {
       console.log('get type error', error);
@@ -83,7 +81,7 @@ export class LeaveService {
         .from('leave_status')
         .where('id', formInfo.id)
         .andWhere('status', 'Pending');
-      console.log('service update status', result);
+      // console.log('service update status', result);
       return result;
     } catch (error) {
       console.log('get type error', error);

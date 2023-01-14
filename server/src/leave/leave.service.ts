@@ -12,7 +12,7 @@ export class LeaveService {
     one_time_dayoff: string;
     paid_leave: string;
   }) {
-    console.log('service: createNewDayoffTyep', formInfo);
+    // console.log('service: createNewDayoffTyep', formInfo);
     try {
       let id = await this.knex
         .insert({
@@ -85,6 +85,16 @@ export class LeaveService {
       return result;
     } catch (error) {
       console.log('get type error', error);
+    }
+  }
+  async getdayofftye() {
+    try {
+      let result = await this.knex.select('short_form').from('dayoff_type');
+      console.log('service select tyep', result);
+
+      return result;
+    } catch (error) {
+      console.log(error);
     }
   }
 }

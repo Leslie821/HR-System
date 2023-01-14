@@ -24,7 +24,7 @@ export class LeaveController {
   @Get('getdayofftype')
   async getDayoffType() {
     let result = await this.leaveService.getDayoffType();
-    console.log('controller Get newDayofftype', result);
+    // console.log('controller Get newDayofftype', result);
 
     return result;
   }
@@ -60,6 +60,13 @@ export class LeaveController {
 
     let result = await this.leaveService.updateApplication(body);
 
+    return result;
+  }
+  @Get('gettype')
+  async getdayofftye() {
+    let result = await this.leaveService.getdayofftye();
+
+    // console.log('controller result for select type ', result);
     return result;
   }
 }

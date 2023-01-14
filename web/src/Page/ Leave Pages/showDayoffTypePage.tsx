@@ -67,12 +67,7 @@ export function DayoffType() {
             // const formData = new FormData(form);
             // console.log(formData);
 
-            // formData.append("dayoff_name", info.dayoff_name);
-            // formData.append("short_form", info.short_form);
 
-            // formData.append("one_time_dayoff", info.one_time_dayoff);
-
-            // formData.append("paid_leave", info.paid_leave);
             fetch("http://localhost:3000/leave/applyDayoff", {
               method: "Post",
               headers: { "Content-Type": "application/json" },

@@ -1,9 +1,15 @@
-import { Button, Container } from "@mantine/core";
+import { Button, Container, List } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 
 import { useEffect, useState } from "react";
+import { Loaddayoff } from "./loaddayofftype";
+
+
 
 export function ApplyDayOff() {
+  const [dayofftype, setdayofftype] = useState<any>(
+
+  )
   const [from, setFrom] = useState<any>(new Date())
   const [to, setTo] = useState<any>(new Date())
   const [total, setTotal] = useState<any>(0);
@@ -13,10 +19,29 @@ export function ApplyDayOff() {
     reason: "",
 
   });
+  //----------------------------------------------------------------
+  async function getdayofftype() {
+    let rawresult: any = await fetch("http://localhost:3000/leave/gettype", {
+      method: "Get"
+    })
+    let result = await rawresult.json()
+
+
+    setdayofftype(result)
+  }
 
 
 
 
+  useEffect(() => {
+    getdayofftype()
+  }, [])
+
+  // console.log(dayofftype);
+
+
+
+  //----------------------------------------------------------------
   useEffect(() => {
     let d1: any = from;
     let d2: any = to;
@@ -65,7 +90,7 @@ export function ApplyDayOff() {
             <div>
               <div style={{ margin: "0px 60px" }}>Dayoff Type</div>
               <br />
-              <input
+              {/* <input
                 value={info.type}
                 onChange={(e) => {
                   setInfo({ ...info, type: e.currentTarget.value });
@@ -75,7 +100,14 @@ export function ApplyDayOff() {
                 type="dayoff_type"
                 placeholder="dayoff type"
                 style={{ margin: "0px 60px" }}
-              ></input>
+              ></input> */}
+              <select value={info.type} onChange={(e) => setInfo({ ...info, type: e.currentTarget.value })} style={{ margin: "0px 60px" }}>
+                {dayofftype.map((r: any) => {
+                  r.short_form
+                })}
+
+
+              </select>
             </div>
           </div>
           <hr />

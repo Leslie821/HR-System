@@ -14,6 +14,7 @@ import { DayoffType } from "./Page/ Leave Pages/showDayoffTypePage";
 // import StaffsList from "./Page/Staff Pages/StaffsList";
 import { StaffsList } from "./Page/Staff Pages/StaffsList";
 import { NewEmployee } from "./Page/Staff Pages/newEmployee";
+import Login from "./Page/loginPages/login";
 // import { AddLeaveType } from "./Page/ Leave Pages/addLeaveType";
 
 // "@types/styled-components": "^5.1.26",
@@ -43,6 +44,7 @@ function App() {
     <Routes>
       <Route path="/" element={<NavbarNested />}>
         <Route path="/" element={<Dashboard />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/staff-list" element={<StaffsList data={info} />} />
         <Route path="/new-employee" element={<CreateNewEmployee />} />
         <Route path="/employee-info" element={< NewEmployee mode={"create"} />} />

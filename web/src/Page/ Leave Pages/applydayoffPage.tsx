@@ -1,15 +1,14 @@
-import { Button, Container, List } from "@mantine/core";
+import { Alert, Button, Container, List } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
+import { IconAlertCircle, IconWindowMaximize } from "@tabler/icons";
 
 import { useEffect, useState } from "react";
-import { Loaddayoff } from "./loaddayofftype";
+// import { Loaddayoff } from "./loaddayofftype";
 
 
 
 export function ApplyDayOff() {
-  const [dayofftype, setdayofftype] = useState<any>(
-
-  )
+  const [dayofftype, setdayofftype] = useState<any[]>([])
   const [from, setFrom] = useState<any>(new Date())
   const [to, setTo] = useState<any>(new Date())
   const [total, setTotal] = useState<any>(0);
@@ -19,6 +18,8 @@ export function ApplyDayOff() {
     reason: "",
 
   });
+  const [refresh, setRefresh] = useState(true)
+
   //----------------------------------------------------------------
   async function getdayofftype() {
     let rawresult: any = await fetch("http://localhost:3000/leave/gettype", {
@@ -26,13 +27,24 @@ export function ApplyDayOff() {
     })
     let result = await rawresult.json()
 
+    console.log(result);
 
-    setdayofftype(result)
+
+
+
+    setdayofftype(result.filter((v: { short_form: any; }) => !!v.short_form))
   }
+  //////should the page refresh ?///////
+  useEffect(() => {
+    if (refresh == false) {
+      console.log("does it reload?");
 
+      window.location.reload()
+      setRefresh(true)
+    }
+  }, [refresh])
 
-
-
+  ///////load the dayoff type for selection///////////
   useEffect(() => {
     getdayofftype()
   }, [])
@@ -84,48 +96,24 @@ export function ApplyDayOff() {
                 id="employee"
                 type="text"
                 placeholder="name"
+
                 style={{ margin: "0px 30px" }}
               ></input>
             </div>
             <div>
               <div style={{ margin: "0px 60px" }}>Dayoff Type</div>
               <br />
-              {/* <input
-                value={info.type}
-                onChange={(e) => {
-                  setInfo({ ...info, type: e.currentTarget.value });
-                }}
-                name="dayoff_type"
-                id="dayoff_type"
-                type="dayoff_type"
-                placeholder="dayoff type"
-                style={{ margin: "0px 60px" }}
-              ></input> */}
-              <select value={info.type} onChange={(e) => setInfo({ ...info, type: e.currentTarget.value })} style={{ margin: "0px 60px" }}>
-                {dayofftype.map((r: any) => {
-                  r.short_form
-                })}
 
+              <select value={info.type} onChange={(e) => setInfo({ ...info, type: e.currentTarget.value })} style={{ margin: "0px 60px" }}>
+                <option value="Select a type"> Select a type </option>
+                {dayofftype.map(v => <option value={v.short_form}> {v.short_form} </option>)}
 
               </select>
             </div>
           </div>
           <hr />
           <br></br>
-          <div style={{ display: "flex", margin: "20px" }}>
-            <div style={{ margin: "0px 30px" }}>{"Total"}</div>
 
-            <input
-              value={total}
-              onChange={() => {
-                setTotal(total);
-              }}
-              name="total"
-              id="total"
-              placeholder="number of days"
-              type="number"
-            ></input>
-          </div>
 
           <div style={{ display: "flex", margin: "5px" }}>
             <div style={{ margin: "0px 40px" }}>
@@ -138,6 +126,24 @@ export function ApplyDayOff() {
               <br />
               <DatePicker value={to} onChange={setTo} />
             </div>
+          </div>
+          <br></br>
+          <hr />
+
+          <div style={{ display: "flex", margin: "20px" }}>
+            <div style={{ margin: "0px 30px" }}>{"Total"}</div>
+
+            <input
+
+              value={total}
+              onChange={() => {
+                setTotal(total);
+              }}
+              name="total"
+              id="total"
+              placeholder="number of days"
+              type="number"
+            ></input>
           </div>
           <br></br>
           <hr />
@@ -156,15 +162,32 @@ export function ApplyDayOff() {
               style={{ width: "300px", height: "100px" }}
             ></textarea>
           </div>
-          <Container>
+
+
+
+          {/* total should not be ZERO!!!!!!!!!!!!!!! */}
+          {total <= 0 ? <Alert icon={<IconAlertCircle size={16} />} title="Bummer!" color="red">
+            Something terrible happened! Bro!  Total should not be 0 or a negative number!
+          </Alert> : <Container>
             <div style={{ paddingLeft: "700px" }}>
               <div>
-                <Button type="submit" onClick={() => { }}>
+                <Button type="submit" onClick={() => {
+                  setRefresh(false);
+                }}>
                   Submit
                 </Button>
+
               </div>
             </div>
-          </Container>
+          </Container>}
+          {/* total should not be ZERO!!!!!!!!!!!!!!! */}
+
+
+
+
+
+
+
           <br></br>
         </Container>
       </form>

@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get } from '@nestjs/common';
+import { Body, Controller, Post, Get, Query } from '@nestjs/common';
 
 import { LeaveService } from './leave.service';
 
@@ -16,7 +16,7 @@ export class LeaveController {
       paid_leave: string;
     },
   ) {
-    console.log('controller newDayofftype', body);
+    // console.log('controller newDayofftype', body);
     let result = await this.leaveService.createNewDayoffType(body);
 
     return { result };
@@ -52,11 +52,9 @@ export class LeaveController {
   @Post('updateapplication')
   async updateApplication(
     @Body()
-    body: {
-      id: number;
-    },
+    body: {},
   ) {
-    // console.log('controller ', body);
+    console.log('controller ', body);
 
     let result = await this.leaveService.updateApplication(body);
 
@@ -67,6 +65,15 @@ export class LeaveController {
     let result = await this.leaveService.getdayofftye();
 
     // console.log('controller result for select type ', result);
+    return result;
+  }
+  @Get('getstaffalsl')
+  async getstaffalsl(@Query() query) {
+    // console.log('qurty from controller', typeof query.qq);
+
+    let result = await this.leaveService.getstaffalsl(query.qq);
+    // console.log('controller result for select type ', result);
+
     return result;
   }
 }

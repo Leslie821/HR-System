@@ -74,8 +74,8 @@ user_id fk -< users.id
 leave_type
 ----------
 id integer PK
-Type varchar(255)
-Short_Form varchar(255)
+type varchar(255)
+short_form varchar(255)
 one_time_day_off (boolean)
 pay_leave (boolean)
 
@@ -101,7 +101,7 @@ pic integer
 claim_type
 ----------
 id integer PK
-Type varchar(255)
+type varchar(255)
 
 claim_request
 ----------

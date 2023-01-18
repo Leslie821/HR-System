@@ -76,8 +76,8 @@ export async function up(knex: Knex): Promise<void> {
   if (!(await knex.schema.hasTable('leave_type'))) {
     await knex.schema.createTable('leave_type', table => {
       table.increments('id')
-      table.string('Type', 255).notNullable()
-      table.string('Short_Form', 255).notNullable()
+      table.string('type', 255).notNullable()
+      table.string('short_form', 255).notNullable()
       table.boolean('one_time_day_off').notNullable()
       table.boolean('pay_leave').notNullable()
       table.timestamps(false, true)
@@ -110,7 +110,7 @@ export async function up(knex: Knex): Promise<void> {
   if (!(await knex.schema.hasTable('claim_type'))) {
     await knex.schema.createTable('claim_type', table => {
       table.increments('id')
-      table.string('Type', 255).notNullable()
+      table.string('type', 255).notNullable()
       table.timestamps(false, true)
     })
   }

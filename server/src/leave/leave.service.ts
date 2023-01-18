@@ -38,29 +38,30 @@ export class LeaveService {
       console.log('get type error', error);
     }
   }
-  async submitapplication(formInfo: {
-    info: any;
-    from: string;
-    to: string;
-    total: number;
-  }) {
+  async submitapplication(formInfo: {}) // info: any;
+  // from: string;
+  // to: string;
+  // total: number;
+  {
     try {
-      let result = await this.knex
-        .insert({
-          staffid: 1,
-          name: formInfo.info.name,
-          dayoff_type: formInfo.info.type,
-          from: formInfo.from,
-          to: formInfo.to,
-          day_length: formInfo.total,
-          status: 'Pending',
-          reason: formInfo.info.reason,
-        })
-        .into('leave_status')
-        .returning('id');
+      console.log('service', formInfo);
+
+      // let result = await this.knex
+      //   .insert({
+      //     staffid: 1,
+      //     name: formInfo.info.name,
+      //     dayoff_type: formInfo.info.type,
+      //     from: formInfo.from,
+      //     to: formInfo.to,
+      //     day_length: formInfo.total,
+      //     status: 'Pending',
+      //     reason: formInfo.info.reason,
+      //   })
+      //   .into('leave_status')
+      //   .returning('id');
       // console.log('service: application', result);
 
-      return result;
+      // return result;
     } catch (error) {
       console.log('get type error', error);
     }

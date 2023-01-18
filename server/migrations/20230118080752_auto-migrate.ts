@@ -73,8 +73,8 @@ export async function up(knex: Knex): Promise<void> {
     })
   }
 
-  if (!(await knex.schema.hasTable('Leave_Type'))) {
-    await knex.schema.createTable('Leave_Type', table => {
+  if (!(await knex.schema.hasTable('leave_type'))) {
+    await knex.schema.createTable('leave_type', table => {
       table.increments('id')
       table.string('Type', 255).notNullable()
       table.string('Short_Form', 255).notNullable()
@@ -84,16 +84,16 @@ export async function up(knex: Knex): Promise<void> {
     })
   }
 
-  if (!(await knex.schema.hasTable('Leave_request'))) {
-    await knex.schema.createTable('Leave_request', table => {
+  if (!(await knex.schema.hasTable('leave_request'))) {
+    await knex.schema.createTable('leave_request', table => {
       table.increments('id')
       table.integer('staff_id').unsigned().notNullable().references('users.id')
       table.integer('approved_staff_id').unsigned().notNullable().references('users.id')
-      table.integer('leave_type_id').unsigned().notNullable().references('Leave_Type.id')
+      table.integer('leave_type_id').unsigned().notNullable().references('leave_type.id')
       table.timestamp('start_date').notNullable()
       table.integer('total_date').notNullable()
       table.string('remark', 1000).notNullable()
-      table.enum('status', ['pennding', 'apporved', 'rejected']).notNullable()
+      table.enum('status', ['pending', 'approved', 'rejected']).notNullable()
       table.timestamps(false, true)
     })
   }
@@ -101,29 +101,29 @@ export async function up(knex: Knex): Promise<void> {
   if (!(await knex.schema.hasTable('pic_request_leave'))) {
     await knex.schema.createTable('pic_request_leave', table => {
       table.increments('id')
-      table.integer('req_id').unsigned().notNullable().references('Leave_request.id')
+      table.integer('req_id').unsigned().notNullable().references('leave_request.id')
       table.integer('pic').notNullable()
       table.timestamps(false, true)
     })
   }
 
-  if (!(await knex.schema.hasTable('Claim_type'))) {
-    await knex.schema.createTable('Claim_type', table => {
+  if (!(await knex.schema.hasTable('claim_type'))) {
+    await knex.schema.createTable('claim_type', table => {
       table.increments('id')
       table.string('Type', 255).notNullable()
       table.timestamps(false, true)
     })
   }
 
-  if (!(await knex.schema.hasTable('Claim_request'))) {
-    await knex.schema.createTable('Claim_request', table => {
+  if (!(await knex.schema.hasTable('claim_request'))) {
+    await knex.schema.createTable('claim_request', table => {
       table.increments('id')
       table.integer('staff_id').unsigned().notNullable().references('users.id')
       table.integer('approved_staff_id').unsigned().notNullable().references('users.id')
-      table.integer('claim_type').unsigned().notNullable().references('Claim_type.id')
+      table.integer('claim_type').unsigned().notNullable().references('claim_type.id')
       table.integer('amount').notNullable()
       table.string('remark', 1000).notNullable()
-      table.enum('status', ['pennding', 'apporved', 'rejected']).notNullable()
+      table.enum('status', ['pending', 'approved ', 'rejected']).notNullable()
       table.timestamps(false, true)
     })
   }
@@ -131,7 +131,7 @@ export async function up(knex: Knex): Promise<void> {
   if (!(await knex.schema.hasTable('pic_request_claim'))) {
     await knex.schema.createTable('pic_request_claim', table => {
       table.increments('id')
-      table.integer('req_id').unsigned().notNullable().references('Claim_request.id')
+      table.integer('req_id').unsigned().notNullable().references('claim_request.id')
       table.integer('pic').notNullable()
       table.timestamps(false, true)
     })
@@ -165,11 +165,11 @@ export async function down(knex: Knex): Promise<void> {
   await knex.schema.dropTableIfExists('check_in_record')
   await knex.schema.dropTableIfExists('schedule_list')
   await knex.schema.dropTableIfExists('pic_request_claim')
-  await knex.schema.dropTableIfExists('Claim_request')
-  await knex.schema.dropTableIfExists('Claim_type')
+  await knex.schema.dropTableIfExists('claim_request')
+  await knex.schema.dropTableIfExists('claim_type')
   await knex.schema.dropTableIfExists('pic_request_leave')
-  await knex.schema.dropTableIfExists('Leave_request')
-  await knex.schema.dropTableIfExists('Leave_Type')
+  await knex.schema.dropTableIfExists('leave_request')
+  await knex.schema.dropTableIfExists('leave_type')
   await knex.schema.dropTableIfExists('department_approver')
   await knex.schema.dropTableIfExists('users')
   await knex.schema.dropTableIfExists('department_relation')

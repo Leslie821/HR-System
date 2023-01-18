@@ -71,7 +71,7 @@ department_id fk -< department.id
 user_id fk -< users.id
 
 
-Leave_Type
+leave_type
 ----------
 id integer PK
 Type varchar(255)
@@ -79,46 +79,46 @@ Short_Form varchar(255)
 one_time_day_off (boolean)
 pay_leave (boolean)
 
-Leave_request
+leave_request
 -------------
 id integer PK
 staff_id fk -< users.id
 approved_staff_id fk -< users.id
-leave_type_id fk - Leave_Type.id
+leave_type_id fk - leave_type.id
 start_date timestamp
 total_date integer
 remark varchar(1000)
-status enum(pennding, apporved, rejected)
+status enum(pending, approved, rejected)
 created_at timestamp
 updated_at timestamp
 
 pic_request_leave
 ---
 id
-req_id fk - Leave_request.id
+req_id fk - leave_request.id
 pic integer
 
-Claim_type
+claim_type
 ----------
 id integer PK
 Type varchar(255)
 
-Claim_request
+claim_request
 ----------
 id integer PK
 staff_id fk -< users.id
 approved_staff_id fk -< users.id
-claim_type fk - Claim_type.id
+claim_type fk - claim_type.id
 amount integer
 remark varchar(1000)
-status enum(pennding, apporved, rejected)
+status enum(pending, approved, rejected)
 created_at timestamp
 updated_at timestamp
 
 pic_request_claim
 ---
 id
-req_id fk - Claim_request.id
+req_id fk - claim_request.id
 pic integer
 
 
@@ -142,8 +142,8 @@ updated_at timestamp
 
 # view: (77, 137)
 # zoom: 0.525
-# Leave_request (848, 28)
-# Claim_request (42, 608)
+# leave_request (848, 28)
+# claim_request (42, 608)
 # pic_request_leave (1394, 97)
 # pic_request_claim (86, 442)
 # schedule_list (1169, 306)
@@ -154,5 +154,5 @@ updated_at timestamp
 # department_relation (1334, 513)
 # users (549, 351)
 # department_approver (873, 425)
-# Leave_Type (433, 101)
-# Claim_type (35, 336)
+# leave_type (433, 101)
+# claim_type (35, 336)

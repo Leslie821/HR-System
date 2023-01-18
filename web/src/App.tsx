@@ -14,6 +14,7 @@ import { DayoffType } from "./Page/ Leave Pages/showDayoffTypePage";
 // import StaffsList from "./Page/Staff Pages/StaffsList";
 import { StaffsList } from "./Page/Staff Pages/StaffsList";
 import { NewEmployee } from "./Page/Staff Pages/newEmployee";
+import EmployeeInfoForm from "./Page/Staff Pages/EmployeeFunction";
 // import { AddLeaveType } from "./Page/ Leave Pages/addLeaveType";
 
 // "@types/styled-components": "^5.1.26",

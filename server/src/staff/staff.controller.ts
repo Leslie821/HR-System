@@ -31,5 +31,6 @@ export class StaffController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.staffService.remove(+id);
+    // comment
   }
 }

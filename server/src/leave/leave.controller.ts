@@ -31,14 +31,12 @@ export class LeaveController {
   @Post('application')
   async submitapplication(
     @Body()
-    body: {
-      info: any;
-      from: string;
-      to: string;
-      total: number;
-    },
-  ) {
-    // console.log('controller application ', body.info);
+    body: any, // info: any;
+  ) // from: string;
+  // to: string;
+  // total: number;
+  {
+    console.log('controller application ', body);
     let result = await this.leaveService.submitapplication(body);
 
     return { result };

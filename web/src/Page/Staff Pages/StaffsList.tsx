@@ -1,29 +1,13 @@
-import { ClassNames } from "@emotion/react";
-import {
-  ActionIcon,
-  Box,
-  Button,
-  Checkbox,
-  ChevronIcon,
-  createStyles,
-  Group,
-  Input,
-  Table,
-  Text,
-} from "@mantine/core";
-import {
-  IconArrowNarrowLeft,
-  IconGavel,
-  IconPlus,
-  IconSearch,
-  IconSettings,
-} from "@tabler/icons";
+import { Button, createStyles, Group, Input } from "@mantine/core";
+import { IconRowInsertBottom } from "@tabler/icons";
+import React from "react";
 import { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import downloadCSV from "react-data-table-component";
-
+import { useNavigate } from "react-router-dom";
 import { information } from "../../App";
 import SearchBar from "../../components/searchBar/SearchBar";
+import { NewEmployee } from "./newEmployee";
+import { CSVLink, CSVDownload } from "react-csv";
 
 interface Props {
   data: information[];
@@ -59,47 +43,66 @@ export const useStyleTable = createStyles((theme) => ({
     borderRadius: theme.radius.sm,
     boxShadow: theme.shadows.md,
   },
+  button: {
+    marginBottom: 8,
+  },
 }));
 
-const columns = [
-  {
-    name: "ID",
-    selector: (row: any) => row.id,
-    sortable: true,
-  },
-  {
-    name: "Name",
-    selector: (row: any) => row.name,
-    sortable: true,
-  },
-  {
-    name: "Department",
-    selector: (row: any) => row.department,
-    sortable: true,
-  },
-  {
-    name: "Title",
-    selector: (row: any) => row.title,
-    sortable: true,
-  },
-  {
-    name: "Email",
-    selector: (row: any) => row.email,
-    sortable: true,
-  },
-  {
-    name: "Employ Date",
-    selector: (row: any) => row.employ_date,
-    sortable: true,
-  },
-  {
-    name: "Status",
-    selector: (row: any) => row.status,
-    sortable: true,
-  },
-];
-
 export function StaffsList(props: Props) {
+  const navigate = useNavigate();
+  const columns = [
+    {
+      name: "ID",
+      selector: (row: any) => row.id,
+      sortable: true,
+    },
+    {
+      name: "Name",
+      selector: (row: any) => row.name,
+      sortable: true,
+    },
+    {
+      name: "Department",
+      selector: (row: any) => row.department,
+      sortable: true,
+    },
+    {
+      name: "Title",
+      selector: (row: any) => row.title,
+      sortable: true,
+    },
+    {
+      name: "Email",
+      selector: (row: any) => row.email,
+      sortable: true,
+    },
+    {
+      name: "Employ Date",
+      selector: (row: any) => row.employ_date,
+      sortable: true,
+    },
+    {
+      name: "Status",
+      selector: (row: any) => row.status,
+      sortable: true,
+    },
+    {
+      name: "Check Details",
+      button: true,
+      cell: (row: any) => (
+        <Button
+          variant="light"
+          style={{ width: 80 }}
+          type="button"
+          id={row.id}
+          onClick={() => navigate(`?q${row.name}`)}
+        >
+          View
+        </Button>
+      ),
+    },
+  ];
+
   const { classes } = useStyleTable();
   const [searchValue, setSearchValue] = useState("");
 
@@ -116,7 +119,7 @@ export function StaffsList(props: Props) {
   ]);
 
   const fetchUsers = async () => {
-    const res = await fetch(`http://localhost:5173/staffs?q=tom`, {
+    const res = await fetch(`http://localhost:5173/staffs`, {
       method: "GET",
     });
     const usersFromDB = await res.json();
@@ -143,12 +146,19 @@ export function StaffsList(props: Props) {
             type="text"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
-            style={{ marginBottom: 8 }}
+            className={classes.button}
           ></Input>
-          <Button variant="light" style={{ marginBottom: 8 }}>
+          <Button
+            variant="light"
+            className={classes.button}
+            onClick={() => navigate(`/staff-list/create-new-employee`)}
+          >
             Create New Employ
           </Button>
-          <DataTable columns={columns} data={users} pagination />
+          <Button className={classes.button}>
+            <CSVLink data={users}>Download me</CSVLink>
+          </Button>
+          <DataTable columns={columns} data={users} pagination pointerOnHover />
         </Group>
       </div>
     </Group>

@@ -40,6 +40,7 @@ export function SearchBar({ apiPath, setBackData }: SearchBarProps) {
   return (
     <>
       <Input
+        style={{ marginBottom: 8 }}
         placeholder="Search me"
         type="text"
         value={query}

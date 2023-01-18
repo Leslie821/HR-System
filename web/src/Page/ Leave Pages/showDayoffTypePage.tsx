@@ -42,6 +42,7 @@ export function DayoffType() {
       paid_leave: "",
     },
   );
+  const [refresh, setRefresh] = useState(true)
   async function getType() {
     let res = await fetch("http://localhost:3000/leave/getdayofftype", {
       method: "Get",
@@ -49,6 +50,18 @@ export function DayoffType() {
     const result = await res.json();
     setInfo(result);
   }
+  /////does the page reload ? /////////////
+  useEffect(() => {
+    if (refresh == false) {
+      console.log("does it reload?");
+
+      window.location.reload()
+      setRefresh(true)
+    }
+  }, [refresh])
+
+
+  //////////////////get the type when the page is loaded /////////
 
   useEffect(() => {
     getType();
@@ -114,38 +127,36 @@ export function DayoffType() {
             <div>
               <div style={{ margin: "0px 10px" }}>One Time Dayoff</div>
               <br></br>
-              <input
-                value={inpputtye.one_time_dayoff}
-                onChange={(e) => {
-                  setinputtype({ ...inpputtye, one_time_dayoff: e.currentTarget.value });
-                }}
-                name="one_time_dayoff"
-                id="one_time_dayoff"
-                placeholder="one_time_dayoff"
-                type="one_time_dayoff"
-                style={{ margin: "0px 10px" }}
-              ></input>
+
+
+              <select style={{ margin: "0px 10px" }} value={inpputtye.one_time_dayoff} onChange={(e) => {
+                setinputtype({ ...inpputtye, one_time_dayoff: e.currentTarget.value });
+              }}>
+                <option value="" selected disabled hidden>Choose here</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+
+
             </div>
 
             <div>
               <div style={{ margin: "0px 10px" }}>Paid Leave</div>
               <br></br>
-              <input
-                value={inpputtye.paid_leave}
-                onChange={(e) => {
-                  setinputtype({ ...inpputtye, paid_leave: e.currentTarget.value });
-                }}
-                name="paid_leave"
-                id="paid_leave"
-                placeholder="paid leave"
-                type="paid_leave"
-                style={{ margin: "0px 10px" }}
-              ></input>
+
+
+              <select style={{ margin: "0px 10px" }} value={inpputtye.paid_leave} onChange={(e) => {
+                setinputtype({ ...inpputtye, paid_leave: e.currentTarget.value });
+              }}>
+                <option value="" selected disabled hidden>Choose here</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
             </div>
           </div>
 
           <div style={{ paddingLeft: "250px" }}>
-            <Button type="submit" onClick={() => { }}>
+            <Button type="submit" onClick={() => { setRefresh(false) }}>
               Submit
             </Button>
           </div>

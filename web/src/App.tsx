@@ -14,6 +14,7 @@ import { DayoffType } from "./Page/ Leave Pages/showDayoffTypePage";
 // import StaffsList from "./Page/Staff Pages/StaffsList";
 import { StaffsList } from "./Page/Staff Pages/StaffsList";
 import { NewEmployee } from "./Page/Staff Pages/newEmployee";
+import EmployeeInfoForm from "./Page/Staff Pages/EmployeeFunction";
 // import { AddLeaveType } from "./Page/ Leave Pages/addLeaveType";
 
 // "@types/styled-components": "^5.1.26",
@@ -44,13 +45,24 @@ function App() {
       <Route path="/" element={<NavbarNested />}>
         <Route path="/" element={<Dashboard />} />
         <Route path="/staff-list" element={<StaffsList data={info} />} />
-        <Route path="/new-employee" element={<CreateNewEmployee />} />
-        <Route path="/employee-info" element={< NewEmployee mode={"create"} />} />
+        <Route
+          path="/staff-list/create-new-employee"
+          element={<EmployeeInfoForm mode={"create"} />}
+        />
+        <Route
+          path="/staff-list?q="
+          element={<EmployeeInfoForm mode={"edit"} />}
+        />
+        {/* <Route path="/new-employee" element={<CreateNewEmployee />} /> */}
         <Route path="/apply-day-off" element={<ApplyDayOff />} />
         {/* <Route path="/add-dayoff-type" element={<AddLeaveType />} /> */}
         <Route path="/show_day-off-list" element={<Dayofflist />} />
         <Route path="/show_dayoff_application" element={<DayoffPending />} />
         <Route path="/show_dayoff_type" element={<DayoffType />} />
+        <Route
+          path="/employee-info"
+          element={<NewEmployee mode={"create"} />}
+        />
       </Route>
     </Routes>
   );

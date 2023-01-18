@@ -31,6 +31,7 @@
     "nest-knexjs": "^0.0.13",
     "pg": "^8.8.0",
     "populate-env": "^2.0.0",
+    "quick-erd": "^4.0.4",
     "react-hook-form": "^7.41.5",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",

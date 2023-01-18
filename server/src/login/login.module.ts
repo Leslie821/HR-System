@@ -4,7 +4,6 @@ import { LoginController } from './login.controller';
 
 @Module({
   providers: [LoginService],
-  controllers: [LoginController],
+  controllers: [LoginController]
 })
 export class LoginModule {}
-//connet

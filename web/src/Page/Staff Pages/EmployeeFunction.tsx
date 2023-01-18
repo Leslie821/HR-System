@@ -1,83 +1,88 @@
-import React, { useEffect, useState } from 'react'
-import { zodResolver } from '@mantine/form';
-import { TextInput, Button, Group, Col, Grid } from '@mantine/core';
-import { DatePicker } from '@mantine/dates';
-import { z } from 'zod';
+import React, { useEffect, useState } from "react";
+import { zodResolver } from "@mantine/form";
+import { TextInput, Button, Group, Col, Grid } from "@mantine/core";
+import { DatePicker } from "@mantine/dates";
+import { z } from "zod";
 
 const schema = z.object({
-  name: z.string().min(2, { message: 'Name should have at least 2 letters' }),
-  email: z.string().email({ message: 'Invalid email' }),
-  age: z.number().min(18, { message: 'You must be at least 18 to create an account' }),
+  name: z.string().min(2, { message: "Name should have at least 2 letters" }),
+  email: z.string().email({ message: "Invalid email" }),
+  age: z
+    .number()
+    .min(18, { message: "You must be at least 18 to create an account" }),
 });
 
-
 export type EmployeeInfoFormProps = {
-    mode: "create" | "edit"
-    data?: any
-}
-   
+  mode: "create" | "edit";
+  data?: any;
+};
 
-function EmployeeInfoForm({ mode, data }: EmployeeInfoFormProps) {
+// function EmployeeInfoForm({ mode, data }: EmployeeInfoFormProps) {
+//   const [state, setState] = useState({
+//     header: mode === "create" ? "Create New Employee" : "Employee Info",
+//     name: mode === "create" ? "" : data.name,
+//     birthday: "",
+//     gender: "",
+//     email: "",
+//     phone: "",
+//     address: "",
+//     department: "",
+//     job_title: "",
+//     employee_type: "",
+//     salary: "",
+//     job_nature: "",
+//     employ_date: "",
+//     sick_type: "",
+//     termination_date: "",
+//     annual_leave: "",
+//     working_time: "",
+//     bank_account: "",
+//     user_name: "",
+//     access_level: "",
+//     contract: "",
+//     mpf: "",
+//     button: mode === "create" ? "Submit" : "Update Information",
+//   });}
+
+export default function EmployeeInfoForm({
+  mode,
+  data,
+}: EmployeeInfoFormProps) {
   const [state, setState] = useState({
     header: mode === "create" ? "Create New Employee" : "Employee Info",
+    fetch: mode === "create" ? "register" : "Edit",
     name: mode === "create" ? "" : data.name,
-    birthday: "",
-    gender: "",
-    email: "",
-    phone: "",
-    address: "",
-    department: "",
-    job_title: "",
-    employee_type: "",
-    salary: "",
-    job_nature: "",
-    employ_date: "",
-    sick_type: "",
-    termination_date: "",
-    annual_leave: "",
-    working_time: "",
-    bank_account: "",
-    user_name: "",
-    access_level: "",
-    contract: "",
-    mpf: "",
+    validate: zodResolver(schema),
+    birthday: "", //
+    gender: "", //
+    email: "", //
+    phone: "", //
+    address: "", //
+    department: "", //
+    job_title: "", //
+    employee_type: "", //
+    salary: "", //
+    job_nature: "", //
+    employ_date: "", //
+    sick_type: "", //
+    termination_date: "", //
+    annual_leave: "", //
+    working_time: "", //
+    bank_account: "", //
+    user_name: "", //
+    access_level: "", //
+    contract: "", //
+    mpf: "", //
     button: mode === "create" ? "Submit" : "Update Information",
-  });}
+  });
 
-export default function EmployeeInfoForm({ mode, data }: EmployeeInfoFormProps){
-  
-  const [state,setState] = useState({
-        header: mode ==="create" ?"Create New Employee": "Employee Info",
-        fetch: mode ==="create" ?"register": "Edit",
-        name: mode === "create" ? "" : data.name,
-        validate: zodResolver(schema),
-        birthday: '',
-        gender:'',
-        email: '',
-        phone: '',
-        address: '',
-        department: '',
-        job_title: '',
-        employee_type: '',
-        salary: '',
-        job_nature: '',
-        employ_date: '',
-        sick_type: '',
-        termination_date: '',
-        annual_leave: '',
-        working_time: '',
-        bank_account: '',
-        user_name: '',
-        access_level: '',
-        contract: '',
-        mpf:  '',
-        button : mode ==="create" ?"Submit": "Update Information" ,
-      },
-  );
-  
-  type FormState = typeof state
-  
-  function inputGroup(label:string,key: keyof FormState,type:"text"|'password'){
+  type FormState = typeof state;
+
+  function inputGroup(
+    label: string,
+    key: keyof FormState,
+    type: "text" | "password"
+  ) {
     return (
       <Grid.Col span={6} style={{ minHeight: 80 }}>
         <label htmlFor={label}>{label}</label>

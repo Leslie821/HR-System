@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 
-import { Button, Group, Table } from "@mantine/core";
+import { Button, Group, Input, Modal, Table, TextInput } from "@mantine/core";
 import { IconArrowNarrowLeft } from "@tabler/icons";
 import DataTable from "react-data-table-component";
 import React from "react";
+
+// TRUNCATE dayoff_type  RESTART IDENTITY;/////  ****************
 
 type Dayoff = {
   id?: string;
@@ -13,6 +15,13 @@ export function DayoffPending() {
   const [selectedRows, setSelectedRows] = React.useState<Dayoff[]>([]);
   const [toggleCleared, setToggleCleared] = React.useState(false);
   const [result, setResult] = useState<any>();
+  const [opened, setOpened] = useState(false);
+  const [query, setQuery] = useState<string>("")
+  const [togglesearch, settoggleSearch] = useState<boolean>(true)
+  const [searchresult, setSearchresult] = useState<any>()
+
+  console.log("frontsend pending to be approved list ", selectedRows);
+
 
   useEffect(() => {
     getAll();
@@ -33,7 +42,7 @@ export function DayoffPending() {
       "http://localhost:3000/leave/getapplicationstatus"
     );
     let resultfromdb = await res.json();
-    console.log(resultfromdb);
+    // console.log(resultfromdb);
 
     setResult(resultfromdb);
   }
@@ -49,20 +58,47 @@ export function DayoffPending() {
     await fetch("http://localhost:3000/leave/updateapplication", {
       method: "Post",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(selectedRows[0]),
+      body: JSON.stringify(selectedRows),
     });
+  }
+  /////////////////below toggle search/////////////////
+
+  useEffect(() => {
+    if (togglesearch) {
+      settoggleSearch(false)
+      return
+    }
+    fetchdata()
+  }, [query])
+
+
+  const fetchdata = async () => {
+    try {
+      const res = await fetch(`http://localhost:3000/leave/getstaffalsl` + `?qq=${query}`, {
+
+      })
+      // console.log("result from db about staff", res);
+
+      const data = await res.json()
+
+      setSearchresult(data)
+
+
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const columns = [
     {
       name: "ID",
       selector: (row: any) => row.id,
-      sortable: true,
+
     },
     {
       name: "StaffID",
       selector: (row: any) => row.staffid,
-      sortable: true,
+
     },
     {
       name: "Name",
@@ -102,6 +138,25 @@ export function DayoffPending() {
     },
   ];
 
+  // ////////////////show staff al sl ///////////////////////////
+  const al_sl_columns = [
+    {
+      name: 'Staff Name',
+      selector: (row: any) => row.name,
+
+    },
+    {
+      name: 'Dayoff Type',
+      selector: (row: any) => row.dayoff_type,
+
+    },
+    {
+      name: 'Used ',
+      selector: (row: any) => row.dayoff_count,
+
+    },
+  ];
+
   return (
     <div>
       <div>
@@ -121,36 +176,41 @@ export function DayoffPending() {
                 {/* ********************* */}
 
                 <div>
-                  <button
+                  <Button
                     onClick={() => {
                       getPending();
                     }}
                   >
                     Show Pending Application
-                  </button>
+                  </Button>
                 </div>
                 {/* ********************* */}
 
                 <div>
-                  <button
+                  <Button
                     onClick={() => {
                       getApproved();
                     }}
                   >
                     Show Approved Application
-                  </button>
+                  </Button>
                 </div>
 
                 {/* ********************* */}
 
                 <div>
-                  <button
+                  <Button
                     onClick={() => {
                       approveItems();
                     }}
                   >
                     Approve Selected Case
-                  </button>
+                  </Button>
+                </div>
+                <div>
+                  <Group >
+                    <Button onClick={() => setOpened(true)}>Show Stafff AL SL remain</Button>
+                  </Group>
                 </div>
               </div>
             </div>
@@ -167,7 +227,24 @@ export function DayoffPending() {
         </div>
       </div>
 
-      <br></br>
+
+      {/* /////////////////show staff  al  sl //////////////////////////////////////// */}
+
+      <Modal
+        opened={opened}
+        onClose={() => setOpened(false)}
+        title=""
+      >
+        <Input
+          placeholder="Search me"
+          type="text"
+          value={query}
+          onChange={(e: any) => {
+            setQuery(e.target.value);
+          }}
+        ></Input>
+        <DataTable columns={al_sl_columns} data={searchresult} />
+      </Modal>
     </div>
   );
 }

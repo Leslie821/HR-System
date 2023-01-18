@@ -31,34 +31,22 @@ const columns = [
 
 export function Dayofflist() {
   const [info, setInfo] = useState([
-    {
-      id: "100",
-      name: "Alice",
-      remain: "6",
-      fixed_amount: "10",
-      employee_type: "fulltime",
-    },
-    {
-      id: "39",
-      name: "Bob",
-      remain: "3",
-      fixed_amount: "10",
-      employee_type: "fulltime",
-    },
+    // {
+    //   id: "100",
+    //   name: "Alice",
+    //   remain: "6",
+    //   fixed_amount: "10",
+    //   employee_type: "fulltime",
+    // },
+    // {
+    //   id: "39",
+    //   name: "Bob",
+    //   remain: "3",
+    //   fixed_amount: "10",
+    //   employee_type: "fulltime",
+    // },
   ]);
 
-  // const info1 = info.map((items) => (
-
-  //     <tr key={items.name}>
-  //         <th> {items.id}</th>
-  //         <th> {items.name}</th>
-  //         <th> {items.remain}</th>
-  //         <th> {items.fixed_amount}</th>
-  //         <th> {items.employee_type}</th>
-
-  //     </tr>
-  // )
-  // );
 
   async function getAL() {
     let res: any = await fetch("/al");
@@ -121,11 +109,7 @@ export function Dayofflist() {
             </div>
 
             <DataTable columns={columns} data={info} />
-            {/* <Table striped withColumnBorders verticalSpacing="md">
-      selectableRows
-        <thead>{header}</thead>
-        <tbody>{info}</tbody>
-      </Table> */}
+
           </Group>
         </div>
 
@@ -134,6 +118,4 @@ export function Dayofflist() {
     </div>
   );
 }
-function useStyleTable(): { classes: any } {
-  throw new Error("Function not implemented.");
-}
+

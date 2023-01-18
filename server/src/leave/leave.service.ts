@@ -39,24 +39,22 @@ export class LeaveService {
     }
   }
   async submitapplication(formInfo: {
-    name: string;
-    type: string;
+    info: any;
     from: string;
     to: string;
     total: number;
-    reason: string;
   }) {
     try {
       let result = await this.knex
         .insert({
           staffid: 1,
-          name: formInfo.name,
-          dayoff_type: formInfo.type,
+          name: formInfo.info.name,
+          dayoff_type: formInfo.info.type,
           from: formInfo.from,
           to: formInfo.to,
           day_length: formInfo.total,
           status: 'Pending',
-          reason: formInfo.reason,
+          reason: formInfo.info.reason,
         })
         .into('leave_status')
         .returning('id');
@@ -70,23 +68,55 @@ export class LeaveService {
   async getapplicationstatuse() {
     try {
       let result = await this.knex.select().from('leave_status');
-      console.log('service get application status', result);
+      // console.log('service get application status', result);
       return result;
     } catch (error) {
       console.log('get type error', error);
     }
   }
-  async updateApplication(formInfo: { id: number }) {
+  async updateApplication(formInfo: any) {
     try {
-      let result = await this.knex
-        .update({ status: 'Approved' })
-        .from('leave_status')
-        .where('id', formInfo.id)
-        .andWhere('status', 'Pending');
-      console.log('service update status', result);
-      return result;
+      for (let i = 0; i < formInfo.length; i++) {
+        await this.knex
+          .update({ status: 'Approved' })
+          .from('leave_status')
+          .where('id', formInfo[i].id)
+          .andWhere('status', 'Pending');
+      }
+      // console.log('service update status', result);
     } catch (error) {
       console.log('get type error', error);
     }
   }
+  async getdayofftye() {
+    try {
+      let result = await this.knex.select('short_form').from('dayoff_type');
+      // console.log('service select tyep', result);
+
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  ///////////////////////////select group by
+  async getstaffalsl(query: string) {
+    try {
+      // console.log('query from service', query);
+
+      let result = await this.knex.raw(
+        `select name,dayoff_type,count(dayoff_type)as dayoff_count 
+        from leave_status  
+        where  (name = ?)
+        and (status='Approved') 
+        group by name,dayoff_type`,
+        [query],
+      );
+
+      return result.rows;
+    } catch (error: any) {
+      console.log(error);
+      return [];
+    }
+  }
+  //////////////////////////////////
 }

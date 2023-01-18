@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get } from '@nestjs/common';
+import { Body, Controller, Post, Get, Query } from '@nestjs/common';
 
 import { LeaveService } from './leave.service';
 
@@ -32,15 +32,13 @@ export class LeaveController {
   async submitapplication(
     @Body()
     body: {
-      name: string;
-      type: string;
+      info: any;
       from: string;
       to: string;
       total: number;
-      reason: string;
     },
   ) {
-    // console.log('controller application ', body);
+    // console.log('controller application ', body.info);
     let result = await this.leaveService.submitapplication(body);
 
     return { result };
@@ -54,13 +52,27 @@ export class LeaveController {
   @Post('updateapplication')
   async updateApplication(
     @Body()
-    body: {
-      id: number;
-    },
+    body: {},
   ) {
     console.log('controller ', body);
 
     let result = await this.leaveService.updateApplication(body);
+
+    return result;
+  }
+  @Get('gettype')
+  async getdayofftye() {
+    let result = await this.leaveService.getdayofftye();
+
+    // console.log('controller result for select type ', result);
+    return result;
+  }
+  @Get('getstaffalsl')
+  async getstaffalsl(@Query() query) {
+    // console.log('qurty from controller', typeof query.qq);
+
+    let result = await this.leaveService.getstaffalsl(query.qq);
+    // console.log('controller result for select type ', result);
 
     return result;
   }

@@ -6,6 +6,7 @@ import { LeaveModule } from './leave/leave.module';
 import { env } from '../env';
 import { KnexModule } from 'nest-knexjs';
 // import { MulterModule } from '@nestjs/platform-express';
+import { CheckInModule } from './check_in/check_in.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { KnexModule } from 'nest-knexjs';
     }),
     LoginModule,
     LeaveModule,
+    CheckInModule,
   ],
   controllers: [AppController],
   providers: [AppService],

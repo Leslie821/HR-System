@@ -3,6 +3,7 @@ import { DatePicker } from "@mantine/dates";
 import { IconAlertCircle, IconWindowMaximize } from "@tabler/icons";
 
 import { ChangeEvent, useEffect, useState } from "react";
+import { Checkin } from "../Check in Page/check_in";
 // import { Loaddayoff } from "./loaddayofftype";
 
 
@@ -246,7 +247,11 @@ export function ApplyDayOff() {
 
       </Container>
 
-
+      <div style={{ paddingLeft: "600px" }}>
+        <button onClick={() => {
+          Checkin()
+        }}>check ip</button>
+      </div>
 
     </>
   );

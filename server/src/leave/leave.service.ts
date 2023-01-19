@@ -80,7 +80,7 @@ export class LeaveService {
   }
   async getapplicationstatuse() {
     try {
-      let result = await this.knex.select().from('leave_status');
+      let result = await this.knex.select().from('leave_request');
       // console.log('service get application status', result);
       return result;
     } catch (error) {
@@ -92,7 +92,7 @@ export class LeaveService {
       for (let i = 0; i < formInfo.length; i++) {
         await this.knex
           .update({ status: 'Approved' })
-          .from('leave_status')
+          .from('leave_request')
           .where('id', formInfo[i].id)
           .andWhere('status', 'Pending');
       }
@@ -117,11 +117,11 @@ export class LeaveService {
       // console.log('query from service', query);
 
       let result = await this.knex.raw(
-        `select name,dayoff_type,count(dayoff_type)as dayoff_count 
-        from leave_status  
-        where  (name = ?)
+        `select staff_id,leave_type_id,count(leave_type_id)as dayoff_count 
+        from leave_request 
+        where  (staff_id = ?)
         and (status='Approved') 
-        group by name,dayoff_type`,
+        group by staff_id,leave_type_id`,
         [query],
       );
 
@@ -133,3 +133,4 @@ export class LeaveService {
   }
   //////////////////////////////////
 }
+// `SELECT name FROM users WHERE (id=staff_id)`

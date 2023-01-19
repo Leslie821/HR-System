@@ -1,14 +1,15 @@
-import { Button, Container, Group, Modal, Table } from "@mantine/core";
+import { Badge, Button, Container, Group, Modal, Table } from "@mantine/core";
 import { useStyleTable } from "../Staff Pages/StaffsList";
 import { IconArrowNarrowLeft } from "@tabler/icons";
 import DataTable from "react-data-table-component";
 import { useEffect, useState } from "react";
+import { boolean } from "zod";
 // import { useStyleTable } from "./Page/StaffsList";
 
 const columns = [
   {
     name: "Dayoff Name",
-    selector: (row: any) => row.dayoff_name,
+    selector: (row: any) => row.type,
   },
   {
     name: "Short Form",
@@ -16,11 +17,11 @@ const columns = [
   },
   {
     name: "One-time Dayoff",
-    selector: (row: any) => row.one_time_dayoff,
+    selector: (row: any) => row.one_time_day_off ? <Badge>true</Badge> : <Badge color={"red"}>false</Badge>,
   },
   {
     name: "Paid leave ?",
-    selector: (row: any) => row.paid_leave,
+    selector: (row: any) => row.pay_leave ? <Badge>true</Badge> : <Badge color={"red"}>false</Badge>,
   },
 ];
 
@@ -29,17 +30,17 @@ export function DayoffType() {
     {
       dayoff_name: "",
       short_form: "",
-      one_time_dayoff: "",
-      paid_leave: "",
+      one_time_day_off: "",
+      pay_leave: ""
     },
   )
   const [opened, setOpened] = useState(false);
   const [info, setInfo] = useState<any>(
     {
-      dayoff_name: "",
+      type: "",
       short_form: "",
-      one_time_dayoff: "",
-      paid_leave: "",
+      one_time_day_off: "",
+      pay_leave: ""
     },
   );
   const [refresh, setRefresh] = useState(true)
@@ -48,6 +49,8 @@ export function DayoffType() {
       method: "Get",
     });
     const result = await res.json();
+    // console.log(result);
+
     setInfo(result);
   }
   /////does the page reload ? /////////////
@@ -74,18 +77,20 @@ export function DayoffType() {
     <div>
       <Modal size="auto" opened={opened} onClose={() => setOpened(false)}>
         <form
-          onSubmit={(event) => {
+          onSubmit={async (event) => {
             event.preventDefault();
             // const form = event.target as HTMLFormElement
             // const formData = new FormData(form);
             // console.log(formData);
 
 
-            fetch("http://localhost:3000/leave/applyDayoff", {
+            await fetch("http://localhost:3000/leave/addDayofftype", {
               method: "Post",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(inpputtye),
             });
+
+            setOpened(false)
           }}
         >
           <div style={{ display: "flex", margin: "20px" }}>
@@ -129,8 +134,8 @@ export function DayoffType() {
               <br></br>
 
 
-              <select style={{ margin: "0px 10px" }} value={inpputtye.one_time_dayoff} onChange={(e) => {
-                setinputtype({ ...inpputtye, one_time_dayoff: e.currentTarget.value });
+              <select style={{ margin: "0px 10px" }} value={inpputtye.one_time_day_off} onChange={(e) => {
+                setinputtype({ ...inpputtye, one_time_day_off: e.currentTarget.value });
               }}>
                 <option value="" selected disabled hidden>Choose here</option>
                 <option value="Yes">Yes</option>
@@ -145,8 +150,8 @@ export function DayoffType() {
               <br></br>
 
 
-              <select style={{ margin: "0px 10px" }} value={inpputtye.paid_leave} onChange={(e) => {
-                setinputtype({ ...inpputtye, paid_leave: e.currentTarget.value });
+              <select style={{ margin: "0px 10px" }} value={inpputtye.pay_leave} onChange={(e) => {
+                setinputtype({ ...inpputtye, pay_leave: e.currentTarget.value });
               }}>
                 <option value="" selected disabled hidden>Choose here</option>
                 <option value="Yes">Yes</option>
@@ -156,7 +161,10 @@ export function DayoffType() {
           </div>
 
           <div style={{ paddingLeft: "250px" }}>
-            <Button type="submit" onClick={() => { setRefresh(false) }}>
+            {/* <Button type="submit" onClick={() => { setRefresh(false) }}>
+              Submit
+            </Button> */}
+            <Button type="submit">
               Submit
             </Button>
           </div>

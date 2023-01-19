@@ -6,6 +6,7 @@ export async function up(knex: Knex): Promise<void> {
       table.increments('id');
       table.string('name', 255).notNullable();
       table.timestamps(false, true);
+      table.integer('father_department_id').references('department.id');
     });
   }
 
@@ -13,11 +14,7 @@ export async function up(knex: Knex): Promise<void> {
     await knex.schema.createTable('job_title', (table) => {
       table.increments('id');
       table.string('type', 255).notNullable();
-      table
-        .integer('department_id')
-        .unsigned()
-        .notNullable()
-        .references('department.id');
+      table.integer('department_id').references('department.id');
       table.timestamps(false, true);
     });
   }
@@ -30,22 +27,14 @@ export async function up(knex: Knex): Promise<void> {
     });
   }
 
-  if (!(await knex.schema.hasTable('department_relation'))) {
-    await knex.schema.createTable('department_relation', (table) => {
-      table.increments('id');
-      table
-        .integer('father_department_id')
-        .unsigned()
-        .notNullable()
-        .references('department.id');
-      table
-        .integer('child_department_id')
-        .unsigned()
-        .notNullable()
-        .references('department.id');
-      table.timestamps(false, true);
-    });
-  }
+  // if (!(await knex.schema.hasTable('department_relation'))) {
+  //   await knex.schema.createTable('department_relation', table => {
+  //     table.increments('id')
+  //     table.integer('father_department_id').unsigned().notNullable().references('department.id')
+  //     table.integer('child_department_id').unsigned().notNullable().references('department.id')
+  //     table.timestamps(false, true)
+  //   })
+  // }
 
   if (!(await knex.schema.hasTable('users'))) {
     await knex.schema.createTable('users', (table) => {
@@ -57,8 +46,8 @@ export async function up(knex: Knex): Promise<void> {
       table.string('job_nature', 255).notNullable();
       table.string('username', 255).notNullable();
       table.string('password', 255).notNullable();
-      table.string('contract', 255).notNullable();
-      table.string('mpf', 255).notNullable();
+      table.string('contract', 255);
+      table.string('mpf', 255);
       table.timestamp('birthday').notNullable();
       table.timestamp('employ_date').notNullable();
       table.timestamp('termination_date').notNullable();
@@ -78,6 +67,11 @@ export async function up(knex: Knex): Promise<void> {
         .unsigned()
         .notNullable()
         .references('job_title.id');
+      table
+        .integer('department_id')
+        .unsigned()
+        .notNullable()
+        .references('department.id');
       table.timestamps(false, true);
     });
   }
@@ -187,11 +181,11 @@ export async function up(knex: Knex): Promise<void> {
     await knex.schema.createTable('schedule_list', (table) => {
       table.increments('id');
       table.integer('staff_id').unsigned().notNullable().references('users.id');
-      table.timestamp('start_date').notNullable();
-      table.timestamp('end_date').notNullable();
-      table.string('title', 255).notNullable();
-      table.string('remark', 255).notNullable();
-      table.string('label', 255).notNullable();
+      table.timestamp('start_date');
+      table.timestamp('end_date');
+      table.string('title', 255);
+      table.string('remark', 255);
+      table.string('label', 255);
       table.timestamps(false, true);
     });
   }

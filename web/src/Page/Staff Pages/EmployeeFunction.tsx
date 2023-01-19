@@ -28,26 +28,26 @@ export default function EmployeeInfoForm({
     fetch: mode === "create" ? "register" : "Edit",
     name: mode === "create" ? "" : data.name,
     validate: zodResolver(schema),
-    birthday: "",
     gender: "",
     email: "",
-    phone: "",
     address: "",
-    department: "",
-    job_title: "",
-    employee_type: "",
-    salary: "",
     job_nature: "",
-    employ_date: "",
-    sick_type: "",
-    termination_date: "",
-    annual_leave: "",
-    working_time: "",
-    bank_account: "",
     user_name: "",
-    access_level: "",
+    password: "",
     contract: "",
     mpf: "",
+    birthday: "",
+    employ_date: "",
+    termination_date: "",
+    working_time: "",
+    salary: "",
+    annual_leave_fixed: "",
+    sick_leave_fixed: "",
+    bank_account: "",
+    phone: "",
+    access_level: "",
+    job_title: "",
+    department: "",
     button: mode === "create" ? "Create" : "Update Information",
   });
 
@@ -145,20 +145,23 @@ export default function EmployeeInfoForm({
         <Grid justify="space-between" align="center">
           {inputGroup("Department", "department", "text")}
           {inputGroup("Job Title", "job_title", "text")}
-          {inputGroup("Employee Type", "employee_type", "text")}
           {inputGroup("Salary", "salary", "text")}
           {inputGroup("Job Nature", "job_nature", "text")}
           {inputdate("Employ Date", "employ_date")}
-          {inputGroup("Sick Type", "sick_type", "text")}
+          {inputGroup("Sick Leave", "sick_leave_fixed", "text")}
           {inputdate("Termination Date", "termination_date")}
-          {inputGroup("Annual Leave", "annual_leave", "text")}
+          {inputGroup("Annual Leave", "annual_leave_fixed", "text")}
           {inputGroup("Working Time", "working_time", "text")}
           {inputGroup("Bank Account", "bank_account", "text")}
         </Grid>
         <h3>Log-in Access</h3>
         <Grid justify="space-between" align="center">
-          {inputGroup("Email", "user_name", "text")}
+          {inputGroup("User Name", "user_name", "text")}
+          {inputGroup("Password", "password", "password")}
           {inputGroup("Access Level", "access_level", "text")}
+        </Grid>
+        <h3>File</h3>
+        <Grid>
           {inputGroup("Contract", "contract", "text")}
           {inputGroup("Mpf", "mpf", "text")}
         </Grid>

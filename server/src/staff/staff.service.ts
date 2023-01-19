@@ -4,8 +4,15 @@ import { UpdateStaffDto } from './dto/update-staff.dto';
 
 @Injectable()
 export class StaffService {
-  create(createStaffDto: CreateStaffDto) {
-    return 'This action adds a new staff';
+  create(body: CreateStaffDto) {
+
+    try {
+
+    } catch {
+
+    }
+
+    return;
   }
 
   findAll() {

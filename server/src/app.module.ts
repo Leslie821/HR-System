@@ -5,6 +5,7 @@ import { LoginModule } from './login/login.module';
 import { LeaveModule } from './leave/leave.module';
 import { env } from '../env';
 import { KnexModule } from 'nest-knexjs';
+import { LoginModule } from './login/login.module';
 
 @Module({
   imports: [

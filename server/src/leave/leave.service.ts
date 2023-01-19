@@ -16,12 +16,12 @@ export class LeaveService {
     try {
       let id = await this.knex
         .insert({
-          dayoff_name: formInfo.dayoff_name,
+          type: formInfo.dayoff_name,
           short_form: formInfo.short_form,
-          one_time_dayoff: formInfo.one_time_dayoff,
-          paid_leave: formInfo.paid_leave,
+          one_time_day_off: formInfo.one_time_dayoff,
+          pay_leave: formInfo.paid_leave,
         })
-        .into('dayoff_type')
+        .into('leave_type')
         .returning('id');
 
       return id;
@@ -38,8 +38,9 @@ export class LeaveService {
       console.log('get type error', error);
     }
   }
-  async submitapplication(formInfo: {}) // info: any;
-  // from: string;
+  async submitapplication(
+    formInfo: {}, // info: any;
+  ) // from: string;
   // to: string;
   // total: number;
   {

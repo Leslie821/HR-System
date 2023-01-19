@@ -3,13 +3,17 @@ import { StaffService } from './staff.service';
 import { CreateStaffDto } from './dto/create-staff.dto';
 import { UpdateStaffDto } from './dto/update-staff.dto';
 
-@Controller('staff')
+@Controller('employees')
 export class StaffController {
   constructor(private readonly staffService: StaffService) { }
 
   @Post()
-  create(@Body() createStaffDto: CreateStaffDto) {
-    return this.staffService.create(createStaffDto);
+  async create(@Body()
+  body: CreateStaffDto
+
+  ) {
+    let result = this.staffService.create(body);
+    return { result }
   }
 
   @Get()

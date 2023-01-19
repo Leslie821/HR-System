@@ -9,8 +9,8 @@ export class LeaveService {
   async createNewDayoffType(formInfo: {
     dayoff_name: string;
     short_form: string;
-    one_time_dayoff: string;
-    paid_leave: string;
+    one_time_day_off: string;
+    pay_leave: string;
   }) {
     // console.log('service: createNewDayoffTyep', formInfo);
     try {
@@ -18,8 +18,8 @@ export class LeaveService {
         .insert({
           type: formInfo.dayoff_name,
           short_form: formInfo.short_form,
-          one_time_day_off: formInfo.one_time_dayoff,
-          pay_leave: formInfo.paid_leave,
+          one_time_day_off: formInfo.one_time_day_off === 'Yes',
+          pay_leave: formInfo.pay_leave === 'Yes',
         })
         .into('leave_type')
         .returning('id');
@@ -31,7 +31,7 @@ export class LeaveService {
   }
   async getDayoffType() {
     try {
-      let result = await this.knex.select().from('dayoff_type');
+      let result = await this.knex.select().from('leave_type');
       // console.log('service get dayoff', result);
       return result;
     } catch (error) {
@@ -39,28 +39,39 @@ export class LeaveService {
     }
   }
   async submitapplication(
-    formInfo: {}, // info: any;
-  ) // from: string;
-  // to: string;
-  // total: number;
-  {
+    file: any,
+    formInfo: {
+      name: string;
+      type: string;
+      reason: string;
+      from: string;
+      total: string;
+    },
+  ) {
     try {
-      console.log('service', formInfo);
+      // console.log('service', formInfo);
 
-      // let result = await this.knex
-      //   .insert({
-      //     staffid: 1,
-      //     name: formInfo.info.name,
-      //     dayoff_type: formInfo.info.type,
-      //     from: formInfo.from,
-      //     to: formInfo.to,
-      //     day_length: formInfo.total,
-      //     status: 'Pending',
-      //     reason: formInfo.info.reason,
-      //   })
-      //   .into('leave_status')
-      //   .returning('id');
-      // console.log('service: application', result);
+      let result = await this.knex
+        .insert({
+          staff_id: 1,
+          approved_staff_id: 1,
+          leave_type_id: formInfo.type,
+          start_date: new Date(formInfo.from),
+          total_date: formInfo.total,
+          status: 'pending',
+          remark: formInfo.reason,
+        })
+        .into('leave_request')
+        .returning('id');
+
+      let fileresult = await this.knex
+        .insert({
+          req_id: result[0].id,
+          pic: file,
+        })
+        .into('pic_request_leave')
+        .returning('id');
+      // console.log('service: application', result, fileresult);
 
       // return result;
     } catch (error) {
@@ -92,7 +103,7 @@ export class LeaveService {
   }
   async getdayofftye() {
     try {
-      let result = await this.knex.select('short_form').from('dayoff_type');
+      let result = await this.knex.select().from('leave_type');
       // console.log('service select tyep', result);
 
       return result;

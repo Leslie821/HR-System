@@ -18,8 +18,10 @@ export function ApplyDayOff() {
     reason: "",
 
   });
+  // console.log("info  id-----------", typeof info.type);
+
   const [refresh, setRefresh] = useState(true)
-  const [file, setFile] = useState<File>()
+  const [file, setFile] = useState<any>()
 
   //----------------------------------------------------------------
   async function getdayofftype() {
@@ -28,7 +30,8 @@ export function ApplyDayOff() {
     })
     let result = await rawresult.json()
 
-    console.log(result);
+    // console.log(result);
+
 
 
 
@@ -68,7 +71,7 @@ export function ApplyDayOff() {
   //////should the page refresh ?///////
   useEffect(() => {
     if (refresh == false) {
-      console.log("does it reload?");
+      // console.log("does it reload?");
 
       window.location.reload()
       setRefresh(true)
@@ -105,8 +108,11 @@ export function ApplyDayOff() {
     const formData = new FormData();
     formData.append("name", info.name)
     formData.append("type", info.type)
-    formData.append("type", info.reason)
-    // formData.append("file", file)
+    formData.append("from", from)
+    formData.append("to", to)
+    formData.append("total", total)
+    formData.append("reason", info.reason)
+    formData.append("file", file)
 
 
 
@@ -116,6 +122,7 @@ export function ApplyDayOff() {
     });
 
     const result = await res.json();
+    // setRefresh(false);
   }
   return (
     <>
@@ -148,7 +155,7 @@ export function ApplyDayOff() {
 
             <select value={info.type} onChange={(e) => setInfo({ ...info, type: e.currentTarget.value })} style={{ margin: "0px 60px" }}>
               <option value="Select a type"> Select a type </option>
-              {dayofftype.map(v => <option value={v.short_form}> {v.short_form} </option>)}
+              {dayofftype.map(v => <option value={v.id}> {v.short_form} </option>)}
 
             </select>
           </div>
@@ -223,7 +230,7 @@ export function ApplyDayOff() {
           <div style={{ paddingLeft: "700px" }}>
             <div>
               <Button type="submit" onClick={() => {
-                setRefresh(false);
+
                 submitfile();
               }}>
                 Submit

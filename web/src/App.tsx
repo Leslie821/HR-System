@@ -14,7 +14,7 @@ import { DayoffType } from "./Page/ Leave Pages/showDayoffTypePage";
 // import StaffsList from "./Page/Staff Pages/StaffsList";
 import { StaffsList } from "./Page/Staff Pages/StaffsList";
 import { NewEmployee } from "./Page/Staff Pages/newEmployee";
-import Login from "./Page/loginPages/login";
+import {Login} from "./Page/loginPages/login";
 import EmployeeInfoForm from "./Page/Staff Pages/EmployeeFunction";
 // import { AddLeaveType } from "./Page/ Leave Pages/addLeaveType";
 
@@ -43,9 +43,10 @@ function App() {
   ];
   return (
     <Routes>
+      <Route path="/login" element={<Login />} />
       <Route path="/" element={<NavbarNested />}>
         <Route path="/" element={<Dashboard />} />
-        <Route path="/login" element={<Login />} />
+
         <Route path="/staff-list" element={<StaffsList data={info} />} />
         <Route
           path="/staff-list/create-new-employee"

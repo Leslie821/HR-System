@@ -6,6 +6,8 @@ import {
   Query,
   UseInterceptors,
   UploadedFile,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 
 import { LeaveService } from './leave.service';
@@ -28,17 +30,43 @@ export class LeaveController {
       pay_leave: string;
     },
   ) {
-    // console.log('controller newDayofftype', body);
-    let result = await this.leaveService.createNewDayoffType(body);
+    try {
+      // console.log('controller newDayofftype', body);
+      let result = await this.leaveService.createNewDayoffType(body);
 
-    return { result };
+      return { result };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'Fail to add new dayoff type',
+        },
+        HttpStatus.BAD_REQUEST,
+        {
+          cause: error,
+        },
+      );
+    }
   }
   @Get('getdayofftype')
   async getDayoffType() {
-    let result = await this.leaveService.getDayoffType();
-    // console.log('controller Get newDayofftype', result);
+    try {
+      let result = await this.leaveService.getDayoffType();
+      // console.log('controller Get newDayofftype', result);
 
-    return result;
+      return result;
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'Fail to load dayoff type from DataBase',
+        },
+        HttpStatus.BAD_REQUEST,
+        {
+          cause: error,
+        },
+      );
+    }
   }
   @Post('application')
   @UseInterceptors(FileInterceptor('file', fileOptions))
@@ -48,18 +76,46 @@ export class LeaveController {
     // console.log(file);
     // console.log(from);
     // console.log(total);
+    try {
+      let result = await this.leaveService.submitapplication(
+        file.filename,
+        body,
+      );
 
-    let result = await this.leaveService.submitapplication(file.filename, body);
-
-    return { result };
+      return { result };
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'Fail to upload file',
+        },
+        HttpStatus.BAD_REQUEST,
+        {
+          cause: error,
+        },
+      );
+    }
   }
 
   @Get('getapplicationstatus')
   async getapplicationstatus() {
-    let result = await this.leaveService.getapplicationstatuse();
-    console.log('controller application list from db', result);
+    try {
+      let result = await this.leaveService.getapplicationstatuse();
+      console.log('controller application list from db', result);
 
-    return result;
+      return result;
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'Fail to load application status',
+        },
+        HttpStatus.BAD_REQUEST,
+        {
+          cause: error,
+        },
+      );
+    }
   }
   @Post('updateapplication')
   async updateApplication(
@@ -67,25 +123,62 @@ export class LeaveController {
     body: {},
   ) {
     // console.log('controller ', body);
+    try {
+      let result = await this.leaveService.updateApplication(body);
 
-    let result = await this.leaveService.updateApplication(body);
-
-    return result;
+      return result;
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'Fail to update application',
+        },
+        HttpStatus.BAD_REQUEST,
+        {
+          cause: error,
+        },
+      );
+    }
   }
   @Get('gettype')
   async getdayofftye() {
-    let result = await this.leaveService.getdayofftye();
+    try {
+      let result = await this.leaveService.getdayofftye();
 
-    // console.log('controller result for select type ', result);
-    return result;
+      // console.log('controller result for select type ', result);
+      return result;
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'Fail to update get dayoff type for selection',
+        },
+        HttpStatus.BAD_REQUEST,
+        {
+          cause: error,
+        },
+      );
+    }
   }
   @Get('getstaffalsl')
   async getstaffalsl(@Query() query) {
     // console.log('qurty from controller', typeof query.qq);
+    try {
+      let result = await this.leaveService.getstaffalsl(query.qq);
+      // console.log('controller result for select type ', result);
 
-    let result = await this.leaveService.getstaffalsl(query.qq);
-    // console.log('controller result for select type ', result);
-
-    return result;
+      return result;
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'Fail to load staff dayoff status',
+        },
+        HttpStatus.BAD_REQUEST,
+        {
+          cause: error,
+        },
+      );
+    }
   }
 }

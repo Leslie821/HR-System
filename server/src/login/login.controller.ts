@@ -16,15 +16,13 @@ export class LoginController {
   async loginForm(
     @Body()
     body: {
-      username: string;
+      email: string;
       password: string;
     },
-    // @Res() res: Response,
   ) {
-    console.log(body);
     let result = await this.loginService.loginForm(body);
     try {
-      if (!body.username) {
+      if (!body.email) {
         throw new HttpException('Missing Info', HttpStatus.BAD_REQUEST);
       }
       if (!body.password) {

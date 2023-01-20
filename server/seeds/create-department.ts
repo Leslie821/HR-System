@@ -35,7 +35,6 @@ export async function seed(knex: Knex): Promise<void> {
       email: 'yua_mikami@gmail.com',
       address: 'フクオカケン, キタキュウシュウシトバタク, トバタ, 226-1162',
       job_nature: 'av女優',
-      username: 'yua_mikami',
       password: '!TEK-067',
       birthday: '1993-08-16',
       employ_date: '2009-03-01',

@@ -5,8 +5,8 @@ import { InjectModel } from 'nest-knexjs';
 @Injectable()
 export class LoginService {
   constructor(@InjectModel() private knex: Knex) {}
-  loginForm(body: { username: string; password: string }) {
-    console.log(body);
-    return body;
+  async loginForm(body: { email: string; password: string }) {
+    try {
+    } catch {}
   }
 }

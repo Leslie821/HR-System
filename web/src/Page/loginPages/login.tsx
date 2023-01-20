@@ -47,9 +47,9 @@ const useStyles = createStyles((theme) => ({
 
 export function Login() {
   const { classes } = useStyles();
-  const [username, setusername] = useState("");
+  const [email, setEmail] = useState("");
 
-  const [password, setpassword] = useState("");
+  const [password, setPassword] = useState("");
 
   console.log("password:",password);
   async  function submitLogin(){
@@ -57,7 +57,7 @@ export function Login() {
     await fetch("http://localhost:3000/login", {
       method: "Post",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({username, password}),
+      body: JSON.stringify({email, password}),
     }
     )
   }
@@ -73,19 +73,19 @@ export function Login() {
         </Title>
 
         <TextInput 
-          label="Username" 
-          placeholder="hello@gmail.com" 
+          label="Email Address" 
+          placeholder="your@gmail.com" 
           size="md" 
           type= 'text'
-          value={username} 
-          onChange={(e) => setusername(e.target.value)}/>
+          value={email} 
+          onChange={(e) => setEmail(e.target.value)}/>
         <PasswordInput 
           label="Password" 
           placeholder="Your password" 
           mt="md" 
           size="md" 
           value={password}
-          onChange={(e) => setpassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
         />
         <Checkbox label="Keep me logged in" mt="xl" size="md" />
         <Button 

@@ -142,7 +142,7 @@ export function DayoffPending() {
     },
     {
       name: 'Dayoff Type',
-      selector: (row: any) => row.dayoff_type,
+      selector: (row: any) => row.type,
 
     },
     {

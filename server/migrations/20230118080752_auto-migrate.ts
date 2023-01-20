@@ -127,7 +127,7 @@ export async function up(knex: Knex): Promise<void> {
         .unsigned()
         .notNullable()
         .references('leave_request.id');
-      table.integer('pic').notNullable();
+      table.string('pic').notNullable();
       table.timestamps(false, true);
     });
   }

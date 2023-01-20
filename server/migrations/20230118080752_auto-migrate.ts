@@ -41,7 +41,6 @@ export async function up(knex: Knex): Promise<void> {
       table.string('email', 255).notNullable();
       table.string('address', 255).notNullable();
       table.string('job_nature', 255).notNullable();
-      table.string('username', 255).notNullable();
       table.string('password', 255).notNullable();
       table.string('contract', 255);
       table.string('mpf', 255);

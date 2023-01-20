@@ -30,22 +30,7 @@ const columns = [
 ];
 
 export function Dayofflist() {
-  const [info, setInfo] = useState([
-    // {
-    //   id: "100",
-    //   name: "Alice",
-    //   remain: "6",
-    //   fixed_amount: "10",
-    //   employee_type: "fulltime",
-    // },
-    // {
-    //   id: "39",
-    //   name: "Bob",
-    //   remain: "3",
-    //   fixed_amount: "10",
-    //   employee_type: "fulltime",
-    // },
-  ]);
+  const [info, setInfo] = useState([]);
 
 
   async function getAL() {

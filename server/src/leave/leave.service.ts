@@ -80,9 +80,12 @@ export class LeaveService {
   }
   async getapplicationstatuse() {
     try {
-      let result = await this.knex.select().from('leave_request');
+      let result = await this.knex
+        .raw(`SELECT leave_request.id,leave_request.created_at, remark,staff_id, name,staff_id,type,start_date,total_date, status FROM leave_request 
+      JOIN users ON staff_id=users.id JOIN leave_type ON leave_type_id=leave_type.id`);
+
       // console.log('service get application status', result);
-      return result;
+      return result.rows;
     } catch (error) {
       console.log('get type error', error);
     }
@@ -91,12 +94,12 @@ export class LeaveService {
     try {
       for (let i = 0; i < formInfo.length; i++) {
         await this.knex
-          .update({ status: 'Approved' })
+          .update({ status: 'approved' })
           .from('leave_request')
           .where('id', formInfo[i].id)
-          .andWhere('status', 'Pending');
+          .andWhere('status', 'pending');
       }
-      // console.log('service update status', result);
+      console.log('service update status', formInfo);
     } catch (error) {
       console.log('get type error', error);
     }

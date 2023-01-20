@@ -101,7 +101,7 @@ export class LeaveController {
   async getapplicationstatus() {
     try {
       let result = await this.leaveService.getapplicationstatuse();
-      console.log('controller application list from db', result);
+      // console.log('controller application list from db', result);
 
       return result;
     } catch (error) {

@@ -20,7 +20,7 @@ export function DayoffPending() {
   const [togglesearch, settoggleSearch] = useState<boolean>(true)
   const [searchresult, setSearchresult] = useState<any>()
 
-  console.log("frontsend pending to be approved list ", selectedRows);
+
 
 
   useEffect(() => {
@@ -34,8 +34,7 @@ export function DayoffPending() {
     []
   );
 
-  const rowDisabledCriteria = (row: any) =>
-    row.status == "Approved" || row.status == "Rejected";
+  const rowDisabledCriteria = (row: any) => row.status == "approved" || row.status == "rejected";
 
   async function getAll() {
     let res: any = await fetch(
@@ -97,7 +96,7 @@ export function DayoffPending() {
     },
     {
       name: "StaffID",
-      selector: (row: any) => row.staffid,
+      selector: (row: any) => row.staff_id,
 
     },
     {
@@ -106,19 +105,15 @@ export function DayoffPending() {
     },
     {
       name: "Dayoff Type",
-      selector: (row: any) => row.dayoff_type,
+      selector: (row: any) => row.type,
     },
     {
       name: "From",
-      selector: (row: any) => row.from,
-    },
-    {
-      name: "To",
-      selector: (row: any) => row.to,
+      selector: (row: any) => row.start_date,
     },
     {
       name: "Day Length",
-      selector: (row: any) => row.day_length,
+      selector: (row: any) => row.total_date,
     },
     {
       name: "Application Date",
@@ -126,7 +121,7 @@ export function DayoffPending() {
     },
     {
       name: "Approved By",
-      selector: (row: any) => row.approved_by,
+      selector: (row: any) => row.staff_id,
     },
     {
       name: "Status",
@@ -134,7 +129,7 @@ export function DayoffPending() {
     },
     {
       name: "Reason",
-      selector: (row: any) => row.reason,
+      selector: (row: any) => row.remark,
     },
   ];
 

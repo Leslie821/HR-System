@@ -154,8 +154,8 @@ export default function EmployeeInfoForm({
         </Grid>
         <h3>Job Detail</h3>
         <Grid justify="space-between" align="center">
-          {inputGroup("Department", "department", "text")}
-          {inputGroup("Job Title", "job_title", "text")}
+          {/* {inputGroup("Department", "department", "text")} */}
+          {/* {inputGroup("Job Title", "job_title", "text")}  */}
           {inputGroup("Salary", "salary", "text")}
           {inputGroup("Job Nature", "job_nature", "text")}
           {inputdate("Employ Date", "employ_date")}
@@ -169,7 +169,7 @@ export default function EmployeeInfoForm({
         <Grid justify="space-between" align="center">
           {inputGroup("User Name", "user_name", "text")}
           {inputGroup("Password", "password", "password")}
-          {inputGroup("Access Level", "access_level", "text")}
+          {/* {inputGroup("Access Level", "access_level", "text")} */}
         </Grid>
         <h3>File</h3>
         <Grid>

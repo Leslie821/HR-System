@@ -5,10 +5,17 @@ import { LoginModule } from './login/login.module';
 import { LeaveModule } from './leave/leave.module';
 import { env } from '../env';
 import { KnexModule } from 'nest-knexjs';
-import { LoginModule } from './login/login.module';
+// import { MulterModule } from '@nestjs/platform-express';
+import { CheckInModule } from './check_in/check_in.module';
 
 @Module({
   imports: [
+    /////upload file///
+    // MulterModule.register({
+    //   dest: './upload',
+    // }),
+
+    /////upload file  end///
     KnexModule.forRoot({
       config: {
         client: 'postgresql',
@@ -28,8 +35,9 @@ import { LoginModule } from './login/login.module';
     }),
     LoginModule,
     LeaveModule,
+    CheckInModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

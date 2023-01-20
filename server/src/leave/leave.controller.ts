@@ -1,19 +1,31 @@
-import { Body, Controller, Post, Get, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Get,
+  Query,
+  UseInterceptors,
+  UploadedFile,
+} from '@nestjs/common';
 
 import { LeaveService } from './leave.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
+import { fileOptions } from 'src/multerOptions';
 
 @Controller('leave')
 export class LeaveController {
   constructor(private leaveService: LeaveService) {}
 
-  @Post('applyDayoff')
+  @Post('addDayofftype')
   async createNewDayoffType(
     @Body()
     body: {
       dayoff_name: string;
       short_form: string;
-      one_time_dayoff: string;
-      paid_leave: string;
+      one_time_day_off: string;
+      pay_leave: string;
     },
   ) {
     // console.log('controller newDayofftype', body);
@@ -29,21 +41,23 @@ export class LeaveController {
     return result;
   }
   @Post('application')
-  async submitapplication(
-    @Body()
-    body: any, // info: any;
-  ) // from: string;
-  // to: string;
-  // total: number;
-  {
-    console.log('controller application ', body);
-    let result = await this.leaveService.submitapplication(body);
+  @UseInterceptors(FileInterceptor('file', fileOptions))
+  async uploadFile(@UploadedFile() file: Express.Multer.File, @Body() body) {
+    // console.log(body);
+
+    // console.log(file);
+    // console.log(from);
+    // console.log(total);
+
+    let result = await this.leaveService.submitapplication(file.filename, body);
 
     return { result };
   }
+
   @Get('getapplicationstatus')
   async getapplicationstatus() {
     let result = await this.leaveService.getapplicationstatuse();
+    console.log('controller application list from db', result);
 
     return result;
   }
@@ -52,7 +66,7 @@ export class LeaveController {
     @Body()
     body: {},
   ) {
-    console.log('controller ', body);
+    // console.log('controller ', body);
 
     let result = await this.leaveService.updateApplication(body);
 

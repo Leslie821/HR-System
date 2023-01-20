@@ -8,11 +8,10 @@ export class StaffController {
   constructor(private readonly staffService: StaffService) { }
 
   @Post()
-  async create(@Body()
+  async createNewEmployee(@Body()
   body: CreateStaffDto
-
   ) {
-    let result = this.staffService.create(body);
+    let result = this.staffService.createNewEmployee(body);
     return { result }
   }
 

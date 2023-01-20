@@ -7,7 +7,6 @@ export async function up(knex: Knex): Promise<void> {
     await knex.schema.createTable('department', table => {
       table.increments('id')
       table.string('name', 255).notNullable()
-      table.timestamps(false, true)
       table.integer('father_department_id').references('department.id')
     })
   }
@@ -17,7 +16,6 @@ export async function up(knex: Knex): Promise<void> {
       table.increments('id')
       table.string('type', 255).notNullable()
       table.integer('department_id').references('department.id')
-      table.timestamps(false, true)
     })
   }
 
@@ -25,7 +23,6 @@ export async function up(knex: Knex): Promise<void> {
     await knex.schema.createTable('access_level', table => {
       table.increments('id')
       table.string('level', 255).notNullable()
-      table.timestamps(false, true)
     })
   }
 

@@ -162,7 +162,7 @@ export class LeaveController {
   }
   @Get('getstaffalsl')
   async getstaffalsl(@Query() query) {
-    // console.log('qurty from controller', typeof query.qq);
+    console.log('qurty from controller', typeof query.qq);
     try {
       let result = await this.leaveService.getstaffalsl(query.qq);
       // console.log('controller result for select type ', result);

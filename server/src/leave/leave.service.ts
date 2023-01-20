@@ -120,9 +120,9 @@ export class LeaveService {
       // console.log('query from service', query);
 
       let result = await this.knex.raw(
-        `SELECT username,staff_id,type,COUNT(type) AS dayoff_count FROM leave_request 
-        JOIN users ON staff_id=users.id JOIN leave_type ON leave_type_id=leave_type.id WHERE staff_id=? AND status="Approved" 
-        GROUP BY staff_id,type`,
+        `SELECT name,type,COUNT(type) AS dayoff_count FROM leave_request 
+        JOIN users ON staff_id=users.id JOIN leave_type ON leave_type_id=leave_type.id WHERE (name=?) AND (status='approved') 
+        GROUP BY type,name`,
         [query],
       );
 

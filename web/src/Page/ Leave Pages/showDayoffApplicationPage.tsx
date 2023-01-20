@@ -11,6 +11,7 @@ type Dayoff = {
   id?: string;
 };
 
+
 export function DayoffPending() {
   const [selectedRows, setSelectedRows] = React.useState<Dayoff[]>([]);
   const [toggleCleared, setToggleCleared] = React.useState(false);
@@ -20,7 +21,28 @@ export function DayoffPending() {
   const [togglesearch, settoggleSearch] = useState<boolean>(true)
   const [searchresult, setSearchresult] = useState<any>()
 
+  const customStyles = {
+    headCells: {
+      style: {
 
+        fontSize: "15px",
+        marginRight: "0px",
+        marginLeft: "0px",
+        paddingLeft: "0px",
+        paddingRight: "0px",
+      },
+    },
+    cells: {
+      style: {
+
+        fontSize: "15px",
+        marginRight: "0px",
+        marginLeft: "0px",
+        paddingLeft: "0px",
+        paddingRight: "0px",
+      },
+    }
+  }
 
 
   useEffect(() => {
@@ -213,6 +235,7 @@ export function DayoffPending() {
               columns={columns}
               data={result}
               // contextActions={contextActions}
+              customStyles={customStyles}
               selectableRows
               selectableRowDisabled={rowDisabledCriteria}
               onSelectedRowsChange={handleRowSelected}
@@ -238,7 +261,7 @@ export function DayoffPending() {
             setQuery(e.target.value);
           }}
         ></Input>
-        <DataTable columns={al_sl_columns} data={searchresult} />
+        <DataTable columns={al_sl_columns} data={searchresult} customStyles={customStyles} />
       </Modal>
     </div>
   );

@@ -3,7 +3,20 @@ import { useState } from "react";
 import { Button, Container, Group, Table } from "@mantine/core";
 import { IconArrowNarrowLeft } from "@tabler/icons";
 import DataTable from "react-data-table-component";
+const customStyles = {
+  rows: {
+    style: {
+      fontSize: '15px',
+      // font-family
+    },
+  },
+  headCells: {
+    style: {
+      fontSize: '200px', // override the cell padding for data cells
 
+    },
+  },
+}
 const columns = [
   {
     name: "ID",
@@ -93,7 +106,7 @@ export function Dayofflist() {
               </div>
             </div>
 
-            <DataTable columns={columns} data={info} />
+            <DataTable columns={columns} data={info} customStyles={customStyles} />
 
           </Group>
         </div>

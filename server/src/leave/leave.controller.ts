@@ -181,4 +181,26 @@ export class LeaveController {
       );
     }
   }
+  @Post('deletedayofftype')
+  async deleteDayOffType(
+    @Body()
+    body: {},
+  ) {
+    try {
+      console.log(body);
+
+      await this.leaveService.deleteDayOffType(body);
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'Fail to delete dayoff types',
+        },
+        HttpStatus.BAD_REQUEST,
+        {
+          cause: error,
+        },
+      );
+    }
+  }
 }

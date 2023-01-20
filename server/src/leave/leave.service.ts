@@ -132,6 +132,16 @@ export class LeaveService {
       return [];
     }
   }
+  async deleteDayOffType(formInfo: any) {
+    try {
+      for (let i = 0; i < formInfo.length; i++) {
+        await this.knex('leave_type').where('id', formInfo[i].id).del();
+      }
+    } catch (error: any) {
+      console.log(error);
+      return [];
+    }
+  }
   //////////////////////////////////
 }
 

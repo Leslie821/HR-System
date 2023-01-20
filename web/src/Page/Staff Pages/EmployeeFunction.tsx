@@ -21,7 +21,10 @@ export default function EmployeeInfoForm({
   mode,
   data,
 }: EmployeeInfoFormProps) {
-  const [file, setFile] = useState<File>();
+
+  const [fileContract, setFileContract] = useState<File>();
+  const [fileMpf, setFileMpf] = useState<File>();
+
 
   const [state, setState] = useState({
     header: mode === "create" ? "Create New Employee" : "Employee Info",
@@ -53,31 +56,39 @@ export default function EmployeeInfoForm({
 
   type FormState = typeof state;
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>, key: string) => {
     if (e.target.files) {
-      setFile(e.target.files[0]);
+
+      if(key === "contract"){
+        setFileContract(e.target.files[0])
+      }
+
+      if(key === "mpf"){
+        setFileMpf(e.target.files[0])
+      }
     }
   };
 
-  const handleUploadClick = () => {
-    if (!file) {
-      return;
-    }
+  // const handleUploadClick = () => {
+  //   if (!file) {
+  //     return;
+  //   }
 
-    // 👇 Uploading the file using the fetch API to the server
-    fetch("/uploadfile", {
-      method: "POST",
-      body: file,
-      // 👇 Set headers manually for single file upload
-      headers: {
-        "content-type": file.type,
-        "content-length": `${file.size}`, // 👈 Headers need to be a string
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((err) => console.error(err));
-  };
+  //   // 👇 Uploading the file using the fetch API to the server
+  //   fetch("/uploadfile", {
+  //     method: "POST",
+  //     body: file,
+  //     // 👇 Set headers manually for single file upload
+  //     headers: {
+  //       "content-type": file.type,
+  //       "content-length": `${file.size}`, // 👈 Headers need to be a string
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => console.log(data))
+  //     .catch((err) => console.error(err));
+  // };
+
   function inputGroup(
     label: string,
     key: keyof FormState,
@@ -113,13 +124,13 @@ export default function EmployeeInfoForm({
     );
   }
 
-  function upload(label: string, key: keyof FormState) {
+  function uploadfile(label: string, key: keyof FormState) {
     return (
       <>
         <Grid.Col span={6} style={{ minHeight: 80 }}>
           <label htmlFor={label}>{label}</label>
-          <input type="file" onChange={handleFileChange} />
-          <div>{file && `${file.name} - ${file.type}`}</div>
+          <input type="file" onChange={(e) => handleFileChange(e, key)} />
+          {/* <div>{file && `${file.name} - ${file.type}`}</div> */}
         </Grid.Col>
       </>
     );
@@ -162,8 +173,8 @@ export default function EmployeeInfoForm({
         </Grid>
         <h3>File</h3>
         <Grid>
-          {inputGroup("Contract", "contract", "text")}
-          {inputGroup("Mpf", "mpf", "text")}
+          {uploadfile("Contract", "contract")}
+          {uploadfile("Mpf", "mpf")}
         </Grid>
         <div></div>
         <div></div>
@@ -176,5 +187,3 @@ export default function EmployeeInfoForm({
     </>
   );
 }
-
-// export default EmployeeInfoForm;

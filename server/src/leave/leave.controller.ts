@@ -16,7 +16,7 @@ import { fileOptions } from 'src/multerOptions';
 
 @Controller('leave')
 export class LeaveController {
-  constructor(private leaveService: LeaveService) {}
+  constructor(private leaveService: LeaveService) { }
 
   @Post('addDayofftype')
   async createNewDayoffType(

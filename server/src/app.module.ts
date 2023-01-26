@@ -7,6 +7,7 @@ import { env } from '../env';
 import { KnexModule } from 'nest-knexjs';
 // import { MulterModule } from '@nestjs/platform-express';
 import { CheckInModule } from './check_in/check_in.module';
+import { StaffModule } from './staff/staff.module';
 
 @Module({
   imports: [
@@ -36,8 +37,9 @@ import { CheckInModule } from './check_in/check_in.module';
     LoginModule,
     LeaveModule,
     CheckInModule,
+    StaffModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

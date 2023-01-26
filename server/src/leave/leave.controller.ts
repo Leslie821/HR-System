@@ -12,13 +12,13 @@ import {
 
 import { LeaveService } from './leave.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
+// import { diskStorage } from 'multer';
+// import { extname } from 'path';
 import { fileOptions } from 'src/multerOptions';
 
 @Controller('leave')
 export class LeaveController {
-  constructor(private leaveService: LeaveService) {}
+  constructor(private leaveService: LeaveService) { }
 
   @Post('addDayofftype')
   async createNewDayoffType(
@@ -71,19 +71,20 @@ export class LeaveController {
   @Post('application')
   @UseInterceptors(FileInterceptor('file', fileOptions))
   async uploadFile(@UploadedFile() file: Express.Multer.File, @Body() body) {
-    // console.log(body);
-
-    // console.log(file);
     // console.log(from);
     // console.log(total);
     try {
-      let result = await this.leaveService.submitapplication(
-        file.filename,
-        body,
-      );
+      let result;
+      if (file) {
+        result = await this.leaveService.submitapplication(body, file.filename);
+      } else {
+        result = await this.leaveService.submitapplication(body);
+      }
 
       return { result };
     } catch (error) {
+      console.log('error:', error);
+
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,
@@ -101,7 +102,47 @@ export class LeaveController {
   async getapplicationstatus() {
     try {
       let result = await this.leaveService.getapplicationstatuse();
-      console.log('controller application list from db', result);
+      // console.log('controller application list from db', result);
+
+      return result;
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'Fail to load application status',
+        },
+        HttpStatus.BAD_REQUEST,
+        {
+          cause: error,
+        },
+      );
+    }
+  }
+  @Get('getpendingApplication')
+  async getpendingApplication() {
+    try {
+      let result = await this.leaveService.getpendingApplication();
+      // console.log('controller application list from db', result);
+
+      return result;
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'Fail to load application status',
+        },
+        HttpStatus.BAD_REQUEST,
+        {
+          cause: error,
+        },
+      );
+    }
+  }
+  @Get('getApprovedApplication')
+  async getApprovedApplication() {
+    try {
+      let result = await this.leaveService.getApprovedApplication();
+      // console.log('controller application list from db', result);
 
       return result;
     } catch (error) {
@@ -173,6 +214,50 @@ export class LeaveController {
         {
           status: HttpStatus.BAD_REQUEST,
           error: 'Fail to load staff dayoff status',
+        },
+        HttpStatus.BAD_REQUEST,
+        {
+          cause: error,
+        },
+      );
+    }
+  }
+  @Post('deletedayofftype')
+  async deleteDayOffType(
+    @Body()
+    body: {},
+  ) {
+    try {
+      // console.log(body);
+
+      await this.leaveService.deleteDayOffType(body);
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'Fail to delete dayoff types',
+        },
+        HttpStatus.BAD_REQUEST,
+        {
+          cause: error,
+        },
+      );
+    }
+  }
+  @Post('reject')
+  async reject(
+    @Body()
+    body: string,
+  ) {
+    try {
+      console.log('Reject', body);
+
+      await this.leaveService.rejectApplication(body);
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'Fail to delete dayoff types',
         },
         HttpStatus.BAD_REQUEST,
         {

@@ -17,6 +17,9 @@ import { NewEmployee } from "./Page/Staff Pages/newEmployee";
 import {Login} from "./Page/loginPages/login";
 import EmployeeInfoForm from "./Page/Staff Pages/EmployeeFunction";
 // import { AddLeaveType } from "./Page/ Leave Pages/addLeaveType";
+//redux
+import { store } from './store/store';
+import { Provider } from 'react-redux';
 
 // "@types/styled-components": "^5.1.26",
 export interface information {
@@ -43,7 +46,9 @@ function App() {
   ];
   return (
     <Routes>
+
       <Route path="/login" element={<Login />} />
+      <Provider store={store}> 
       <Route path="/" element={<NavbarNested />}>
         <Route path="/" element={<Dashboard />} />
 
@@ -67,6 +72,7 @@ function App() {
           element={<NewEmployee mode={"create"} />}
         />
       </Route>
+    </Provider>
     </Routes>
   );
 }

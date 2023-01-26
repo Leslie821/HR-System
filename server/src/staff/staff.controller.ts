@@ -11,29 +11,31 @@ export class StaffController {
   async createNewEmployee(@Body()
   body: CreateStaffDto
   ) {
-    let result = this.staffService.createNewEmployee(body);
+    console.log("hi");
+
+    let result = await this.staffService.createNewEmployee(body);
     return { result }
   }
 
-  @Get()
-  findAll() {
+  // @Get()
+  // findAll() {
 
-    return this.staffService.findAll();
-  }
+  //   return this.staffService.findAll();
+  // }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.staffService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    return this.staffService.editEmployee(+id);
   }
 
-  @Patch(':id')
+  @Patch('update/:id')
   update(@Param('id') id: string, @Body() updateStaffDto: UpdateStaffDto) {
-    return this.staffService.update(+id, updateStaffDto);
+    return this.staffService.updateEmployee(+id, updateStaffDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.staffService.remove(+id);
-    // comment
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.staffService.remove(+id);
+  //   // comment
+  // }
 }

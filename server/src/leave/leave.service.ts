@@ -5,7 +5,7 @@ import { InjectModel } from 'nest-knexjs';
 
 @Injectable()
 export class LeaveService {
-  constructor(@InjectModel() private knex: Knex) {}
+  constructor(@InjectModel() private knex: Knex) { }
   async createNewDayoffType(formInfo: {
     dayoff_name: string;
     short_form: string;

@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-import { Button, Group, Input, Modal, Table, TextInput } from "@mantine/core";
+import { Button, Group, Input, Modal, Table, TextInput, Textarea } from "@mantine/core";
 import { IconArrowNarrowLeft } from "@tabler/icons";
 import DataTable from "react-data-table-component";
 import React from "react";
@@ -11,6 +11,7 @@ type Dayoff = {
   id?: string;
 };
 
+
 export function DayoffPending() {
   const [selectedRows, setSelectedRows] = React.useState<Dayoff[]>([]);
   const [toggleCleared, setToggleCleared] = React.useState(false);
@@ -20,22 +21,49 @@ export function DayoffPending() {
   const [togglesearch, settoggleSearch] = useState<boolean>(true)
   const [searchresult, setSearchresult] = useState<any>()
 
-  console.log("frontsend pending to be approved list ", selectedRows);
+  const [openedSecondModal, setOpenedSecondModal] = useState(false);
+  const [rejectItem, setRejectItem] = useState<any>()
+  const [reject, setReject] = useState<any>("");
+
+
+  const customStyles = {
+    headCells: {
+      style: {
+
+        fontSize: "15px",
+        marginRight: "0px",
+        marginLeft: "0px",
+        paddingLeft: "0px",
+        paddingRight: "0px",
+        width: "5px"
+      },
+    },
+    cells: {
+      style: {
+
+        fontSize: "15px",
+        marginRight: "0px",
+        marginLeft: "0px",
+        paddingLeft: "0px",
+        paddingRight: "0px",
+        width: "fit-content"
+      },
+    }
+  }
 
 
   useEffect(() => {
     getAll();
   }, []);
-
+  ////// table check box   select items ///////////////////////////
   const handleRowSelected = React.useCallback(
     (state: { selectedRows: any }) => {
       setSelectedRows(state.selectedRows);
     },
     []
   );
-
-  const rowDisabledCriteria = (row: any) =>
-    row.status == "Approved" || row.status == "Rejected";
+  // /////// if status  == approved  || rejected  , item cannot be selected ///////
+  const rowDisabledCriteria = (row: any) => row.status == "approved" || row.status == "rejected";
 
   async function getAll() {
     let res: any = await fetch(
@@ -47,12 +75,16 @@ export function DayoffPending() {
     setResult(resultfromdb);
   }
   async function getPending() {
-    let res: any = await fetch("/pending"),
+    let res: any = await fetch("http://localhost:3000/leave/getpendingApplication"),
       info = await res.json();
+
+    setResult(info);
+
   }
   async function getApproved() {
-    let res: any = await fetch("/approved"),
+    let res: any = await fetch("http://localhost:3000/leave/getApprovedApplication"),
       info = await res.json();
+    setResult(info);
   }
   async function approveItems() {
     await fetch("http://localhost:3000/leave/updateapplication", {
@@ -60,8 +92,20 @@ export function DayoffPending() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(selectedRows),
     });
+    location.reload()
   }
-  /////////////////below toggle search/////////////////
+
+  async function rejectitems() {
+
+
+    await fetch("http://localhost:3000/leave/reject", {
+      method: "Post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ rejectItem, reject }),
+    })
+    location.reload()
+  }
+  /////////////////below is toggle search/////////////////
 
   useEffect(() => {
     if (togglesearch) {
@@ -80,6 +124,7 @@ export function DayoffPending() {
       // console.log("result from db about staff", res);
 
       const data = await res.json()
+      console.log("data from DB ", data);
 
       setSearchresult(data)
 
@@ -88,57 +133,83 @@ export function DayoffPending() {
       console.log(error)
     }
   }
-
+  ///////////-----------------toggle search ends  here  -------/////////////////
   const columns = [
     {
+
+      maxWidth: "1px",
       name: "ID",
       selector: (row: any) => row.id,
 
     },
     {
+
+      maxWidth: "1px",
       name: "StaffID",
-      selector: (row: any) => row.staffid,
+      selector: (row: any) => row.staff_id,
 
     },
     {
+
+      maxWidth: "1px",
       name: "Name",
       selector: (row: any) => row.name,
     },
     {
+
+      maxWidth: "1px",
       name: "Dayoff Type",
-      selector: (row: any) => row.dayoff_type,
+      selector: (row: any) => row.type,
     },
     {
+
+      maxWidth: "1px",
       name: "From",
-      selector: (row: any) => row.from,
+      selector: (row: any) => row.start_date,
     },
     {
-      name: "To",
-      selector: (row: any) => row.to,
-    },
-    {
+
+      maxWidth: "1px",
       name: "Day Length",
-      selector: (row: any) => row.day_length,
+      selector: (row: any) => row.total_date,
     },
     {
+
+      maxWidth: "1px",
       name: "Application Date",
       selector: (row: any) => row.created_at,
     },
     {
+
+      maxWidth: "1px",
       name: "Approved By",
-      selector: (row: any) => row.approved_by,
+      selector: (row: any) => row.staff_id,
     },
     {
+
+      maxWidth: "1px",
       name: "Status",
       selector: (row: any) => row.status,
     },
     {
-      name: "Reason",
-      selector: (row: any) => row.reason,
+
+      maxWidth: "1px",
+      name: "Reject Reason",
+      selector: (row: any) => row.remark,
     },
+    {
+
+      maxWidth: "1px",
+      name: "",
+
+      selector: (row: any) => (row.status == "pending" && <Button color="red" onClick={() => {
+        setOpenedSecondModal(true); setRejectItem(row.id);
+      }}>Reject</Button>),
+    }
   ];
 
-  // ////////////////show staff al sl ///////////////////////////
+
+  // ////////////////show staff al sl  inside modal ///////////////////////////
   const al_sl_columns = [
     {
       name: 'Staff Name',
@@ -147,14 +218,14 @@ export function DayoffPending() {
     },
     {
       name: 'Dayoff Type',
-      selector: (row: any) => row.dayoff_type,
+      selector: (row: any) => row.type,
 
     },
     {
       name: 'Used ',
       selector: (row: any) => row.dayoff_count,
-
     },
+
   ];
 
   return (
@@ -170,12 +241,11 @@ export function DayoffPending() {
               <h2>Leave Type</h2>
             </Group>
             <div>
-              <div
-                style={{ display: "flex", margin: "0px 50px", padding: "30px" }}
-              >
-                {/* ********************* */}
+              <div style={{ display: "flex", margin: "0px 50px", paddingLeft: "0px", paddingRight: "30px" }}>
 
-                <div>
+                {/* *********Button filter to show all pending cases************ */}
+
+                <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
                   <Button
                     onClick={() => {
                       getPending();
@@ -184,9 +254,20 @@ export function DayoffPending() {
                     Show Pending Application
                   </Button>
                 </div>
-                {/* ********************* */}
+                {/* *********Button filter to show all cases************ */}
 
-                <div>
+                <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
+                  <Button
+                    onClick={() => {
+                      getAll()
+                    }}
+                  >
+                    Show All Application
+                  </Button>
+                </div>
+                {/* *******Button filter to show all approved cases ************** */}
+
+                <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
                   <Button
                     onClick={() => {
                       getApproved();
@@ -196,9 +277,9 @@ export function DayoffPending() {
                   </Button>
                 </div>
 
-                {/* ********************* */}
+                {/* ********Button To Approve application ************* */}
 
-                <div>
+                <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
                   <Button
                     onClick={() => {
                       approveItems();
@@ -207,17 +288,21 @@ export function DayoffPending() {
                     Approve Selected Case
                   </Button>
                 </div>
-                <div>
+
+                {/* ********Button Show Staff Dayoff Remain ************* */}
+                <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
                   <Group >
-                    <Button onClick={() => setOpened(true)}>Show Stafff AL SL remain</Button>
+                    <Button onClick={() => setOpened(true)}>Show Staff Dayoff Remain</Button>
                   </Group>
                 </div>
+                {/* ********************* */}
               </div>
             </div>
             <DataTable
               columns={columns}
               data={result}
               // contextActions={contextActions}
+              customStyles={customStyles}
               selectableRows
               selectableRowDisabled={rowDisabledCriteria}
               onSelectedRowsChange={handleRowSelected}
@@ -228,13 +313,24 @@ export function DayoffPending() {
       </div>
 
 
-      {/* /////////////////show staff  al  sl //////////////////////////////////////// */}
+      {/* /////////////////search function in Modal , show staff dayoff condition //////////////////////////////////////// */}
 
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}
         title=""
       >
+        <div>
+          {/* <div>{[searchresult]}</div> */}
+          {searchresult ? (
+            <>
+              <div>Fixed Annual Leave: {searchresult[0].annual_leave_fixed}</div>
+              <br></br>
+              <div>Fixed Sick Leave: {searchresult[0].sick_leave_fixed}</div>
+            </>
+          ) : ""}
+          <br></br>
+        </div>
         <Input
           placeholder="Search me"
           type="text"
@@ -243,8 +339,35 @@ export function DayoffPending() {
             setQuery(e.target.value);
           }}
         ></Input>
-        <DataTable columns={al_sl_columns} data={searchresult} />
+        <DataTable columns={al_sl_columns} data={searchresult} customStyles={customStyles} />
+      </Modal>
+
+
+      {/***************** Second Modal (confirm delection of items)  *****************************************************/}
+      <Modal
+        size="auto"
+        opened={openedSecondModal}
+        onClose={() => setOpenedSecondModal(false)}
+        title="Please Confirm Again"
+      >
+        <div>The selected item ID:{rejectItem}</div>
+        <hr></hr>
+        <Textarea
+          value={reject}
+          placeholder="Reject reason"
+          onChange={(e: any) => {
+            setReject(e.target.value);
+          }}
+          withAsterisk
+        />
+        <br></br>
+        {<Button color="red" style={{ marginLeft: "100px", marginRight: "0px" }} onClick={() => {
+          rejectitems();
+        }}>Reject</Button>}
+
+
       </Modal>
     </div>
   );
+  // rejectitems(rejectItem)
 }

@@ -4,8 +4,22 @@ import { IconArrowNarrowLeft } from "@tabler/icons";
 import DataTable from "react-data-table-component";
 import { useEffect, useState } from "react";
 import { boolean } from "zod";
-// import { useStyleTable } from "./Page/StaffsList";
+import React from "react";
 
+const customStyles = {
+  rows: {
+    style: {
+      fontSize: '15px',
+      // font-family
+    },
+  },
+  headCells: {
+    style: {
+      fontSize: '20px', // override the cell padding for data cells
+
+    },
+  },
+}
 const columns = [
   {
     name: "Dayoff Name",
@@ -26,6 +40,8 @@ const columns = [
 ];
 
 export function DayoffType() {
+
+  //////   alll const starts here!!!  ///////////
   const [inpputtye, setinputtype] = useState(
     {
       dayoff_name: "",
@@ -34,7 +50,11 @@ export function DayoffType() {
       pay_leave: ""
     },
   )
+  ///////first modal for ADD NEW LEAVE TYPE ////////////////
   const [opened, setOpened] = useState(false);
+  ///////second modal for  DELECT item ////////////////
+  const [openSecondModal, setOpenSecondModal] = useState(false);
+
   const [info, setInfo] = useState<any>(
     {
       type: "",
@@ -44,6 +64,31 @@ export function DayoffType() {
     },
   );
   const [refresh, setRefresh] = useState(true)
+  /////// select items /////////////////////////
+  const [toggleCleared, setToggleCleared] = React.useState(false);
+  const [selectedRows, setSelectedRows] = React.useState<any[]>([]);
+  const handleRowSelected = React.useCallback(
+    (state: {
+      allSelected: any;
+      selectedCount: any;
+      selectedRows: any[];
+    }) => {
+      setSelectedRows(state.selectedRows);
+    },
+    []
+  );
+  // console.log("check type", selectedRows);
+
+  //////   all const ends  here!!!  ///////////
+
+  async function deleteSelectedType() {
+    await fetch("http://localhost:3000/leave/deletedayofftype", {
+      method: "Post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(selectedRows),
+    })
+  }
+
   async function getType() {
     let res = await fetch("http://localhost:3000/leave/getdayofftype", {
       method: "Get",
@@ -53,15 +98,6 @@ export function DayoffType() {
 
     setInfo(result);
   }
-  /////does the page reload ? /////////////
-  useEffect(() => {
-    if (refresh == false) {
-      console.log("does it reload?");
-
-      window.location.reload()
-      setRefresh(true)
-    }
-  }, [refresh])
 
 
   //////////////////get the type when the page is loaded /////////
@@ -74,7 +110,9 @@ export function DayoffType() {
 
 
   return (
-    <div>
+    <div style={{ padding: "30px" }}>
+
+      {/* pop up box  Modal (add new item )starts here!!!!!!! */}
       <Modal size="auto" opened={opened} onClose={() => setOpened(false)}>
         <form
           onSubmit={async (event) => {
@@ -91,13 +129,14 @@ export function DayoffType() {
             });
 
             setOpened(false)
+            window.location.reload()
           }}
         >
           <div style={{ display: "flex", margin: "20px" }}>
             <div>
               <div style={{ margin: "0px 10px" }}>Dayoff Name</div>
               <br />
-              <input
+              <input required
                 value={inpputtye.dayoff_name}
                 onChange={(e) => {
                   setinputtype({ ...inpputtye, dayoff_name: e.currentTarget.value });
@@ -112,7 +151,7 @@ export function DayoffType() {
             <div>
               <div style={{ margin: "0px 10px" }}>Short Form</div>
               <br />
-              <input
+              <input required
                 value={inpputtye.short_form}
                 onChange={(e) => {
                   setinputtype({ ...inpputtye, short_form: e.currentTarget.value });
@@ -134,7 +173,7 @@ export function DayoffType() {
               <br></br>
 
 
-              <select style={{ margin: "0px 10px" }} value={inpputtye.one_time_day_off} onChange={(e) => {
+              <select required style={{ margin: "0px 10px" }} value={inpputtye.one_time_day_off} onChange={(e) => {
                 setinputtype({ ...inpputtye, one_time_day_off: e.currentTarget.value });
               }}>
                 <option value="" selected disabled hidden>Choose here</option>
@@ -150,13 +189,14 @@ export function DayoffType() {
               <br></br>
 
 
-              <select style={{ margin: "0px 10px" }} value={inpputtye.pay_leave} onChange={(e) => {
+              <select required style={{ margin: "0px 10px" }} value={inpputtye.pay_leave} onChange={(e) => {
                 setinputtype({ ...inpputtye, pay_leave: e.currentTarget.value });
               }}>
                 <option value="" selected disabled hidden>Choose here</option>
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
               </select>
+
             </div>
           </div>
 
@@ -172,7 +212,29 @@ export function DayoffType() {
           <br></br>
         </form>
       </Modal>
+      {/* pop up box Modal(add new item) ends here!!!!!!! */}
 
+
+      {/* pop up box Modal (delete item) starts here!!!  */}
+      <Modal
+        opened={openSecondModal}
+        onClose={() => setOpenSecondModal(false)}
+        title="Are you sure you want to delete following items? "
+      >
+        <hr></hr>
+        {selectedRows.map(r => <div>{r.type}</div>)}
+        <br></br>
+        <div style={{ paddingLeft: "300px" }}>
+          <Button onClick={() => { deleteSelectedType() }}>
+            Confirm
+          </Button>
+        </div>
+
+      </Modal>
+      {/* pop up box Modal (delete item) ends here!!!  */}
+
+
+      {/***************** below is  buttons group  ---   */}
       <Group>
         <Group>
           <Button variant="light">
@@ -183,14 +245,22 @@ export function DayoffType() {
           <Group position="center">
             <Button onClick={() => setOpened(true)}>Add New Leave Type</Button>
           </Group>
-        </Group>
+          {/* 
+          <Group position="center">
+            <Button onClick={() => setOpenSecondModal(true)}>Delete Leave Type</Button>
+          </Group> */}
 
-        <DataTable columns={columns} data={info} />
-        {/* <Table striped withColumnBorders verticalSpacing="md">
-      selectableRows
-        <thead>{header}</thead>
-        <tbody>{info}</tbody>
-      </Table> */}
+        </Group>
+        {/************************* buttons group  ends here!!!   ************************ */}
+
+
+        <DataTable customStyles={customStyles} columns={columns} data={info}
+          // selectableRows
+          highlightOnHover
+
+          onSelectedRowsChange={handleRowSelected}
+          clearSelectedRows={toggleCleared} />
+
       </Group>
     </div>
   );

@@ -39,7 +39,6 @@ export class LeaveService {
     }
   }
   async submitapplication(
-    file: any,
     formInfo: {
       name: string;
       type: string;
@@ -47,9 +46,10 @@ export class LeaveService {
       from: string;
       total: string;
     },
+    file?: any,
   ) {
     try {
-      // console.log('service', formInfo);
+      // console.log('service:', formInfo);
 
       let result = await this.knex
         .insert({
@@ -63,14 +63,18 @@ export class LeaveService {
         })
         .into('leave_request')
         .returning('id');
+      // console.log('result id:', result);
 
-      let fileresult = await this.knex
-        .insert({
-          req_id: result[0].id,
-          pic: file,
-        })
-        .into('pic_request_leave')
-        .returning('id');
+      if (file) {
+        await this.knex
+          .insert({
+            req_id: result[0].id,
+            pic: file,
+          })
+          .into('pic_request_leave')
+          .returning('id');
+      }
+
       // console.log('service: application', result, fileresult);
 
       // return result;
@@ -90,6 +94,31 @@ export class LeaveService {
       console.log('get type error', error);
     }
   }
+  async getpendingApplication() {
+    try {
+      let result = await this.knex
+        .raw(`SELECT leave_request.id,leave_request.created_at, remark,staff_id, name,staff_id,type,start_date,total_date, status FROM leave_request 
+      JOIN users ON staff_id=users.id JOIN leave_type ON leave_type_id=leave_type.id WHERE (status='pending')`);
+
+      // console.log('service get application status', result);
+      return result.rows;
+    } catch (error) {
+      console.log('get type error', error);
+    }
+  }
+  async getApprovedApplication() {
+    try {
+      let result = await this.knex
+        .raw(`SELECT leave_request.id,leave_request.created_at, remark,staff_id, name,staff_id,type,start_date,total_date, status FROM leave_request 
+      JOIN users ON staff_id=users.id JOIN leave_type ON leave_type_id=leave_type.id WHERE (status='approved')`);
+
+      // console.log('service get application status', result);
+      return result.rows;
+    } catch (error) {
+      console.log('get type error', error);
+    }
+  }
+
   async updateApplication(formInfo: any) {
     try {
       for (let i = 0; i < formInfo.length; i++) {
@@ -120,9 +149,9 @@ export class LeaveService {
       // console.log('query from service', query);
 
       let result = await this.knex.raw(
-        `SELECT name,type,COUNT(type) AS dayoff_count FROM leave_request 
+        `SELECT name,type,annual_leave_fixed, sick_leave_fixed, COUNT(type) AS dayoff_count FROM leave_request 
         JOIN users ON staff_id=users.id JOIN leave_type ON leave_type_id=leave_type.id WHERE (name=?) AND (status='approved') 
-        GROUP BY type,name`,
+        GROUP BY type,name,annual_leave_fixed, sick_leave_fixed`,
         [query],
       );
 
@@ -135,11 +164,32 @@ export class LeaveService {
   async deleteDayOffType(formInfo: any) {
     try {
       for (let i = 0; i < formInfo.length; i++) {
+        await this.knex('leave_request')
+          .where('leave_type_id', formInfo[i].id)
+          .del();
+        await this.knex('pic_request_leave')
+          .where('req_id', formInfo[i].id)
+          .del();
         await this.knex('leave_type').where('id', formInfo[i].id).del();
       }
     } catch (error: any) {
       console.log(error);
       return [];
+    }
+  }
+
+  async rejectApplication(formInfo: any) {
+    try {
+      // console.log(formInfo);
+
+      await this.knex
+        .update({ status: 'rejected', remark: formInfo.reject })
+        .from('leave_request')
+        .where('id', formInfo.rejectItem)
+        .andWhere('status', 'pending')
+        .returning('id');
+    } catch (error) {
+      console.log('get type error', error);
     }
   }
   //////////////////////////////////

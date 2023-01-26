@@ -77,7 +77,7 @@ export function DayoffType() {
     },
     []
   );
-  console.log("check type", selectedRows);
+  // console.log("check type", selectedRows);
 
   //////   all const ends  here!!!  ///////////
 
@@ -98,15 +98,6 @@ export function DayoffType() {
 
     setInfo(result);
   }
-  /////reload the page when modal is closed  /////////////
-  useEffect(() => {
-    if (refresh == false) {
-
-
-      window.location.reload()
-      setRefresh(true)
-    }
-  }, [refresh])
 
 
   //////////////////get the type when the page is loaded /////////
@@ -138,13 +129,14 @@ export function DayoffType() {
             });
 
             setOpened(false)
+            window.location.reload()
           }}
         >
           <div style={{ display: "flex", margin: "20px" }}>
             <div>
               <div style={{ margin: "0px 10px" }}>Dayoff Name</div>
               <br />
-              <input
+              <input required
                 value={inpputtye.dayoff_name}
                 onChange={(e) => {
                   setinputtype({ ...inpputtye, dayoff_name: e.currentTarget.value });
@@ -159,7 +151,7 @@ export function DayoffType() {
             <div>
               <div style={{ margin: "0px 10px" }}>Short Form</div>
               <br />
-              <input
+              <input required
                 value={inpputtye.short_form}
                 onChange={(e) => {
                   setinputtype({ ...inpputtye, short_form: e.currentTarget.value });
@@ -181,7 +173,7 @@ export function DayoffType() {
               <br></br>
 
 
-              <select style={{ margin: "0px 10px" }} value={inpputtye.one_time_day_off} onChange={(e) => {
+              <select required style={{ margin: "0px 10px" }} value={inpputtye.one_time_day_off} onChange={(e) => {
                 setinputtype({ ...inpputtye, one_time_day_off: e.currentTarget.value });
               }}>
                 <option value="" selected disabled hidden>Choose here</option>
@@ -197,13 +189,14 @@ export function DayoffType() {
               <br></br>
 
 
-              <select style={{ margin: "0px 10px" }} value={inpputtye.pay_leave} onChange={(e) => {
+              <select required style={{ margin: "0px 10px" }} value={inpputtye.pay_leave} onChange={(e) => {
                 setinputtype({ ...inpputtye, pay_leave: e.currentTarget.value });
               }}>
                 <option value="" selected disabled hidden>Choose here</option>
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
               </select>
+
             </div>
           </div>
 
@@ -241,7 +234,7 @@ export function DayoffType() {
       {/* pop up box Modal (delete item) ends here!!!  */}
 
 
-      {/* buttons group  --- below  */}
+      {/***************** below is  buttons group  ---   */}
       <Group>
         <Group>
           <Button variant="light">
@@ -252,20 +245,17 @@ export function DayoffType() {
           <Group position="center">
             <Button onClick={() => setOpened(true)}>Add New Leave Type</Button>
           </Group>
-
+          {/* 
           <Group position="center">
             <Button onClick={() => setOpenSecondModal(true)}>Delete Leave Type</Button>
-          </Group>
+          </Group> */}
 
         </Group>
-        {/* buttons group  ends here!!!    */}
-
-
-
+        {/************************* buttons group  ends here!!!   ************************ */}
 
 
         <DataTable customStyles={customStyles} columns={columns} data={info}
-          selectableRows
+          // selectableRows
           highlightOnHover
 
           onSelectedRowsChange={handleRowSelected}

@@ -4,6 +4,7 @@ import { IconAlertCircle, IconWindowMaximize } from "@tabler/icons";
 
 import { ChangeEvent, useEffect, useState } from "react";
 import { Checkin } from "../Check in Page/check_in";
+import { number } from "zod";
 // import { Loaddayoff } from "./loaddayofftype";
 
 
@@ -17,11 +18,8 @@ export function ApplyDayOff() {
     name: "",
     type: "",
     reason: "",
-
   });
-  // console.log("info  id-----------", typeof info.type);
 
-  const [refresh, setRefresh] = useState(true)
   const [file, setFile] = useState<any>()
 
   //----------------------------------------------------------------
@@ -32,52 +30,19 @@ export function ApplyDayOff() {
     let result = await rawresult.json()
 
     // console.log(result);
-
-
-
-
-
     setdayofftype(result.filter((v: { short_form: any; }) => !!v.short_form))
   }
 
   ////////////////submit file///////////////////////////////
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
+  const handleFileChange = (e?: ChangeEvent<HTMLInputElement>) => {
+    if (e?.target.files) {
       setFile(e.target.files[0]);
     }
   };
 
-  // const handleUploadClick = () => {
-  //   if (!file) {
-  //     return;
-  //   }
-
-  //   // 👇 Uploading the file using the fetch API to the server
-  //   fetch('https://httpbin.org/post', {
-  //     method: 'POST',
-  //     body: file,
-  //     // 👇 Set headers manually for single file upload
-  //     headers: {
-  //       'content-type': file.type,
-  //       'content-length': `${file.size}`, // 👈 Headers need to be a string
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => console.log(data))
-  //     .catch((err) => console.error(err));
-  // };
 
 
 
-  //////should the page refresh ?///////
-  useEffect(() => {
-    if (refresh == false) {
-      // console.log("does it reload?");
-
-      window.location.reload()
-      setRefresh(true)
-    }
-  }, [refresh])
 
   ///////load the dayoff type for selection///////////
   useEffect(() => {
@@ -115,24 +80,34 @@ export function ApplyDayOff() {
     formData.append("reason", info.reason)
     formData.append("file", file)
 
-
-
     const res = await fetch("http://localhost:3000/leave/application", {
       method: "POST",
       body: formData,
     });
 
-    const result = await res.json();
-    // setRefresh(false);
+    setFrom("")
+    setTo("")
+    setInfo({
+      name: "",
+      type: "",
+      reason: "",
+    })
+    setTotal("")
+
+
+
+
   }
   return (
     <>
 
       <br></br>
       <br></br>
-      <br></br>
-      <br></br>
+
       <Container>
+        {/*************************    Employee Name Input   *************************/}
+        <h1>Dayoff Application</h1>
+        <h3>For sick leave, please attach doctor'note</h3>
         <div style={{ display: "flex", margin: "20px" }}>
           <div>
             <div style={{ margin: "0px 30px" }}>Employee</div>
@@ -150,21 +125,28 @@ export function ApplyDayOff() {
               style={{ margin: "0px 30px" }}
             ></input>
           </div>
+
+          {/*************************     DayOff Type Input  (dropdown menu) *************************/}
           <div>
             <div style={{ margin: "0px 60px" }}>Dayoff Type</div>
             <br />
 
-            <select value={info.type} onChange={(e) => setInfo({ ...info, type: e.currentTarget.value })} style={{ margin: "0px 60px" }}>
-              <option value="Select a type"> Select a type </option>
+            <select required value={info.type} onChange={(e) => setInfo({ ...info, type: e.currentTarget.value })} style={{ margin: "0px 60px" }}>
+              <option value="" selected disabled hidden > Select a type </option>
               {dayofftype.map(v => <option value={v.id}> {v.short_form} </option>)}
 
             </select>
+
           </div>
+          {info.type == "" ? <Alert icon={<IconAlertCircle size={16} />} title="Bummer!" color="red">
+            Please Select a type
+          </Alert> : ""}
+
         </div>
         <hr />
         <br></br>
 
-
+        {/**************      From   To   Input  ***********/}
         <div style={{ display: "flex", margin: "5px" }}>
           <div style={{ margin: "0px 40px" }}>
             <div>From</div>
@@ -177,14 +159,14 @@ export function ApplyDayOff() {
             <DatePicker value={to} onChange={setTo} />
           </div>
         </div>
+
         <br></br>
         <hr />
 
+        {/************** Show  Number of dayoff day (total)  ***********/}
         <div style={{ display: "flex", margin: "20px" }}>
           <div style={{ margin: "0px 30px" }}>{"Total"}</div>
-
-          <input
-
+          <input disabled
             value={total}
             onChange={() => {
               setTotal(total);
@@ -194,44 +176,38 @@ export function ApplyDayOff() {
             placeholder="number of days"
             type="number"
           ></input>
+          <div style={{ paddingLeft: "10px" }}> Day</div>
+
+
         </div>
-        <br></br>
-        <hr />
-
-        <div style={{ display: "flex" }}>
-          <div style={{ margin: "40px 40px" }}>
-            <div>Reason</div>
-            <br />
-            <textarea
-              value={info.reason}
-              onChange={(e) => {
-                setInfo({ ...info, reason: e.currentTarget.value });
-              }}
-              name="reason"
-              id="reason"
-              placeholder="descripe"
-              style={{ width: "300px", height: "100px" }}
-            ></textarea>
-          </div>
-
-          {/* submit file /////////////////////////////////////// */}
-          <div style={{ margin: "40px 40px" }}>
+        {/* submit file /////////////////////////////////////// */}
+        <div>
+          {info.type == 2 && <div style={{ margin: "40px 40px" }}>
             <input type="file" onChange={handleFileChange} />
 
             <div>{file && `${file.name} - ${file.type}`}</div>
-            {/* <button onClick={handleUploadClick}>Upload</button> */}
-          </div>
+
+          </div>}
+
         </div>
 
+        <hr />
 
-        {/* total should not be ZERO!!!!!!!!!!!!!!! */}
-        {total <= 0 ? <Alert icon={<IconAlertCircle size={16} />} title="Bummer!" color="red">
+
+
+
+
+
+
+
+
+        {/****8*********************  Logic to hide Submit button when totoal day is zero or negative  ************/}
+        {total <= 0 || info.type == "" ? <Alert icon={<IconAlertCircle size={16} />} title="Bummer!" color="red">
           Something terrible happened! Bro!  Total should not be 0 or a negative number!
         </Alert> : <Container>
           <div style={{ paddingLeft: "700px" }}>
             <div>
               <Button type="submit" onClick={() => {
-
                 submitfile();
               }}>
                 Submit
@@ -242,7 +218,7 @@ export function ApplyDayOff() {
         </Container>}
         {/* total should not be ZERO!!!!!!!!!!!!!!! */}
 
-        <br></br>
+
 
 
       </Container>

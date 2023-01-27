@@ -17,20 +17,24 @@ export class StaffController {
     return { result }
   }
 
-  // @Get()
-  // findAll() {
-
-  //   return this.staffService.findAll();
-  // }
+  @Get("list")
+  async findAll() {
+    return this.staffService.getUsers();
+  }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
+  async findOne(@Param('id') id: number) {
     return this.staffService.editEmployee(+id);
   }
 
   @Patch('update/:id')
-  update(@Param('id') id: string, @Body() updateStaffDto: UpdateStaffDto) {
+  async update(@Param('id') id: number, @Body() updateStaffDto: UpdateStaffDto) {
     return this.staffService.updateEmployee(+id, updateStaffDto);
+  }
+
+  @Get(':query')
+  async searchData(@Param("query") query: string) {
+    return this.staffService.searchData(+query);
   }
 
   // @Delete(':id')

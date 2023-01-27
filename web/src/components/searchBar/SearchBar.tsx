@@ -16,7 +16,7 @@ export function SearchBar({ apiPath, setBackData }: SearchBarProps) {
       console.log(query);
 
       const res = await fetch(
-        `http://localhost:5173` + apiPath + `?q=${query}`
+        `http://localhost:3000` + apiPath + `?q=${query}`
       );
 
       const data = await res.json();

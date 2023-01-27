@@ -1,4 +1,4 @@
-import { Button, createStyles, Group, Input } from "@mantine/core";
+import { Badge, Button, createStyles, Group, Input } from "@mantine/core";
 import { IconRowInsertBottom } from "@tabler/icons";
 import React from "react";
 import { useEffect, useState } from "react";
@@ -8,12 +8,13 @@ import { information } from "../../App";
 import SearchBar from "../../components/searchBar/SearchBar";
 import { NewEmployee } from "./newEmployee";
 import { CSVLink, CSVDownload } from "react-csv";
+import { fetchServerData } from "../../../utilis/fetchDataUtilis";
 
 interface Props {
   data: information[];
 }
 
-export const useStyleTable = createStyles((theme) => ({
+const useStyleTable = createStyles((theme) => ({
   body: {
     // height: "95vh",
     marginLeft: 60,
@@ -31,7 +32,7 @@ export const useStyleTable = createStyles((theme) => ({
     }`,
   },
   table: {
-    maxWidth: 1200,
+    maxWidth: 1800,
     width: "100%",
     marginTop: 50,
     // height: 180,
@@ -63,12 +64,12 @@ export function StaffsList(props: Props) {
     },
     {
       name: "Department",
-      selector: (row: any) => row.department,
+      selector: (row: any) => row.department_name,
       sortable: true,
     },
     {
       name: "Title",
-      selector: (row: any) => row.title,
+      selector: (row: any) => row.job_title_type,
       sortable: true,
     },
     {
@@ -83,7 +84,13 @@ export function StaffsList(props: Props) {
     },
     {
       name: "Status",
-      selector: (row: any) => row.status,
+      selector: (row: any) => {
+        if (row.status == "Active") {
+          return <Badge>Active</Badge>;
+        } else {
+          return <Badge color={"red"}>Inactive</Badge>;
+        }
+      },
       sortable: true,
     },
     {
@@ -94,8 +101,8 @@ export function StaffsList(props: Props) {
           variant="light"
           style={{ width: 80 }}
           type="button"
-          id={row.id}
-          onClick={() => navigate(`?q${row.name}`)}
+          id={row.user_id}
+          onClick={() => navigate(`/employees/${row.user_id}`)}
         >
           View
         </Button>
@@ -108,22 +115,41 @@ export function StaffsList(props: Props) {
 
   const [users, setUsers] = useState<any>([
     {
-      name: "",
+      users_name: "",
       email: "",
-      department: "",
+      department_name: "",
       id: "",
-      title: "",
+      job_title_type: "",
       employ_date: "",
       status: "",
     },
   ]);
 
   const fetchUsers = async () => {
-    const res = await fetch(`http://localhost:5173/staffs`, {
+    const res = await fetch(`http://localhost:3000/employees/list`, {
       method: "GET",
     });
     const usersFromDB = await res.json();
-    setUsers(usersFromDB);
+    console.log("usersFromDB:", usersFromDB);
+
+    const usersAddStatus = usersFromDB.map((v: any) => {
+      if (v.termination_date == null) {
+        return {
+          ...v,
+          status: "Active",
+        };
+      } else {
+        return {
+          ...v,
+          status: "Inactive",
+        };
+      }
+    });
+
+    console.log("usersAddStatus:", usersAddStatus);
+
+    // setUsers(usersFromDB);
+    setUsers(usersAddStatus);
   };
 
   useEffect(() => {

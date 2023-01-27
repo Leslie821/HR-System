@@ -3,6 +3,7 @@ import { zodResolver } from "@mantine/form";
 import { TextInput, Button, Group, Col, Grid } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { z } from "zod";
+import { useParams } from "react-router-dom";
 
 const schema = z.object({
   name: z.string().min(2, { message: "Name should have at least 2 letters" }),
@@ -21,73 +22,87 @@ export default function EmployeeInfoForm({
   mode,
   data,
 }: EmployeeInfoFormProps) {
-
   const [fileContract, setFileContract] = useState<File>();
   const [fileMpf, setFileMpf] = useState<File>();
-
 
   const [state, setState] = useState({
     header: mode === "create" ? "Create New Employee" : "Employee Info",
     fetch: mode === "create" ? "register" : "Edit",
-    name: mode === "create" ? "" : data.name,
-    validate: zodResolver(schema),
-    gender: "",
-    email: "",
-    address: "",
-    job_nature: "",
-    user_name: "",
-    password: "",
-    contract: "",
-    mpf: "",
-    birthday: "",
-    employ_date: "",
-    termination_date: "",
-    working_time: "",
-    salary: "",
-    annual_leave_fixed: "",
-    sick_leave_fixed: "",
-    bank_account: "",
-    phone: "",
-    access_level: "",
-    job_title: "",
-    department: "",
+    name: mode === "create" ? "" : data ? data.name : "",
+    gender: mode === "create" ? "" : data ? data.gender : "",
+    email: mode === "create" ? "" : data ? data.email : "",
+    address: mode === "create" ? "" : data ? data.address : "",
+    job_nature: mode === "create" ? "" : data ? data.job_nature : "",
+    password: mode === "create" ? "" : data ? data.password : "",
+    contract: mode === "create" ? "" : data ? data.contract : "",
+    mpf: mode === "create" ? "" : data ? data.mpf : "",
+    birthday: mode === "create" ? "" : data ? new Date(data.birthday) : "",
+    employ_date:
+      mode === "create" ? "" : data ? new Date(data.employ_date) : "",
+    termination_date:
+      mode === "create" ? "" : data ? new Date(data.termination_date) : "",
+    working_time: mode === "create" ? "" : data ? data.working_time : "",
+    salary: mode === "create" ? "" : data ? data.salary : "",
+    annual_leave_fixed:
+      mode === "create" ? "" : data ? data.annual_leave_fixed : "",
+    sick_leave_fixed:
+      mode === "create" ? "" : data ? data.sick_leave_fixed : "",
+    bank_account: mode === "create" ? "" : data ? data.bank_account : "",
+    phone: mode === "create" ? "" : data ? data.phone : "",
+    access_level: mode === "create" ? "" : data ? data.access_level_type : "",
+    job_title: mode === "create" ? "" : data ? data.job_title_type : "",
+    department: mode === "create" ? "" : data ? data.department_name : "",
     button: mode === "create" ? "Create" : "Update Information",
+    validate: zodResolver(schema),
   });
+
+  useEffect(() => {
+    setState({
+      header: mode === "create" ? "Create New Employee" : "Employee Info",
+      fetch: mode === "create" ? "register" : "Edit",
+      name: mode === "create" ? "" : data ? data.name : "",
+
+      gender: mode === "create" ? "" : data ? data.gender : "",
+      email: mode === "create" ? "" : data ? data.email : "",
+      address: mode === "create" ? "" : data ? data.address : "",
+      job_nature: mode === "create" ? "" : data ? data.job_nature : "",
+      password: mode === "create" ? "" : data ? data.password : "",
+      contract: mode === "create" ? "" : data ? data.contract : "",
+      mpf: mode === "create" ? "" : data ? data.mpf : "",
+      birthday: mode === "create" ? "" : data ? new Date(data.birthday) : "",
+      employ_date:
+        mode === "create" ? "" : data ? new Date(data.employ_date) : "",
+      termination_date:
+        mode === "create" ? "" : data ? new Date(data.termination_date) : "",
+      working_time: mode === "create" ? "" : data ? data.working_time : "",
+      salary: mode === "create" ? "" : data ? data.salary : "",
+      annual_leave_fixed:
+        mode === "create" ? "" : data ? data.annual_leave_fixed : "",
+      sick_leave_fixed:
+        mode === "create" ? "" : data ? data.sick_leave_fixed : "",
+      bank_account: mode === "create" ? "" : data ? data.bank_account : "",
+      phone: mode === "create" ? "" : data ? data.phone : "",
+      access_level: mode === "create" ? "" : data ? data.access_level_type : "",
+      job_title: mode === "create" ? "" : data ? data.job_title_type : "",
+      department: mode === "create" ? "" : data ? data.department_name : "",
+      button: mode === "create" ? "Create" : "Update Information",
+      validate: zodResolver(schema),
+    });
+  }, [data]);
 
   type FormState = typeof state;
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>, key: string) => {
     if (e.target.files) {
-
-      if(key === "contract"){
-        setFileContract(e.target.files[0])
+      if (key === "contract") {
+        setFileContract(e.target.files[0]);
       }
 
-      if(key === "mpf"){
-        setFileMpf(e.target.files[0])
+      if (key === "mpf") {
+        setFileMpf(e.target.files[0]);
       }
     }
   };
-
-  // const handleUploadClick = () => {
-  //   if (!file) {
-  //     return;
-  //   }
-
-  //   // 👇 Uploading the file using the fetch API to the server
-  //   fetch("/uploadfile", {
-  //     method: "POST",
-  //     body: file,
-  //     // 👇 Set headers manually for single file upload
-  //     headers: {
-  //       "content-type": file.type,
-  //       "content-length": `${file.size}`, // 👈 Headers need to be a string
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => console.log(data))
-  //     .catch((err) => console.error(err));
-  // };
 
   function inputGroup(
     label: string,
@@ -154,8 +169,8 @@ export default function EmployeeInfoForm({
         </Grid>
         <h3>Job Detail</h3>
         <Grid justify="space-between" align="center">
-          {/* {inputGroup("Department", "department", "text")} */}
-          {/* {inputGroup("Job Title", "job_title", "text")}  */}
+          {inputGroup("Department", "department", "text")}
+          {inputGroup("Job Title", "job_title", "text")}
           {inputGroup("Salary", "salary", "text")}
           {inputGroup("Job Nature", "job_nature", "text")}
           {inputdate("Employ Date", "employ_date")}
@@ -167,9 +182,8 @@ export default function EmployeeInfoForm({
         </Grid>
         <h3>Log-in Access</h3>
         <Grid justify="space-between" align="center">
-          {inputGroup("User Name", "user_name", "text")}
           {inputGroup("Password", "password", "password")}
-          {/* {inputGroup("Access Level", "access_level", "text")} */}
+          {inputGroup("Access Level", "access_level", "text")}
         </Grid>
         <h3>File</h3>
         <Grid>

@@ -29,7 +29,7 @@ export function ApplyDayOff() {
     })
     let result = await rawresult.json()
 
-    // console.log(result);
+    console.log(result);
     setdayofftype(result.filter((v: { short_form: any; }) => !!v.short_form))
   }
 

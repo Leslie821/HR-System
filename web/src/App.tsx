@@ -22,6 +22,7 @@ import { EmployeeInfoEdit } from "./Page/Staff Pages/EmployeeInfoEdit";
 import { store } from './store/store';
 import { Provider } from 'react-redux';
 import { JobTitle } from "./Page/Job Title Page/jobTitlePage";
+import { JobTitlePage } from "./Page/Job Title Page/showJobTitlePage";
 
 // "@types/styled-components": "^5.1.26",
 export interface information {
@@ -66,7 +67,7 @@ function App() {
 
           <Route path="/show_dayoff_application" element={<DayoffPending />} />
           <Route path="/show_dayoff_type" element={<DayoffType />} />
-          <Route path="/job_title" element={<JobTitle />} />
+          <Route path="/job_title" element={<JobTitlePage />} />
 
           <Route
             path="/employee-info"

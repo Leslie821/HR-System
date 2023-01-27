@@ -165,7 +165,7 @@ export function DayoffPending() {
 
       maxWidth: "1px",
       name: "From",
-      selector: (row: any) => row.start_date,
+      selector: (row: any) => row.date_format,
     },
     {
 
@@ -177,7 +177,7 @@ export function DayoffPending() {
 
       maxWidth: "1px",
       name: "Application Date",
-      selector: (row: any) => row.created_at,
+      selector: (row: any) => row.date_format,
     },
     {
 

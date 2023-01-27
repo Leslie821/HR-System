@@ -8,6 +8,8 @@ import { KnexModule } from 'nest-knexjs';
 // import { MulterModule } from '@nestjs/platform-express';
 import { CheckInModule } from './check_in/check_in.module';
 import { StaffModule } from './staff/staff.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -38,6 +40,8 @@ import { StaffModule } from './staff/staff.module';
     LeaveModule,
     CheckInModule,
     StaffModule,
+    AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -45,10 +45,10 @@ function App() {
     },
   ];
   return (
+      <Provider store={store}> 
     <Routes>
 
       <Route path="/login" element={<Login />} />
-      <Provider store={store}> 
       <Route path="/" element={<NavbarNested />}>
         <Route path="/" element={<Dashboard />} />
 
@@ -72,8 +72,8 @@ function App() {
           element={<NewEmployee mode={"create"} />}
         />
       </Route>
-    </Provider>
     </Routes>
+    </Provider>
   );
 }
 

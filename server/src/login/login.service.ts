@@ -2,10 +2,12 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { response } from 'express';
 import { Knex } from 'knex';
 import { InjectModel } from 'nest-knexjs';
+// import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class LoginService {
   constructor(@InjectModel() private knex: Knex) {}
+
   async loginForm(body: { email: string; password: string }) {
     try {
       console.log('emil:', body.email);
@@ -14,7 +16,7 @@ export class LoginService {
         .from('users')
         .where('email', body.email)
         .first();
-      console.log('pw:', user[0].password);
+      console.log('pw:', user.password);
       if (!user) throw new HttpException('Wrong Email', HttpStatus.BAD_REQUEST);
 
       // if (loginEmail === body.email && LoginPassword === body.password)

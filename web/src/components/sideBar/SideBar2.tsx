@@ -35,7 +35,7 @@ const information = [
     label: "Staffs",
     icon: IconCalendarStats,
     // link: "/staff-list",
-    links: [{ label: "Staff List", link: "/staff-list", icon: IconNotes }],
+    links: [{ label: "Staff List", link: "/employees", icon: IconNotes }],
   },
   {
     label: "Request",
@@ -53,7 +53,6 @@ const information = [
     label: "Leave",
     icon: IconLock,
     links: [
-      { label: "Leave Balance", link: "/show_day-off-list", icon: IconNotes },
       { label: "Leave Application", link: "/apply-day-off", icon: IconNotes },
       { label: "Leave Type", link: "/show_dayoff_type", icon: IconNotes },
       { label: "Reports", link: "/", icon: IconNotes },

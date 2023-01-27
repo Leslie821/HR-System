@@ -16,6 +16,7 @@ import { StaffsList } from "./Page/Staff Pages/StaffsList";
 import { NewEmployee } from "./Page/Staff Pages/newEmployee";
 import { Login } from "./Page/loginPages/login";
 import EmployeeInfoForm from "./Page/Staff Pages/EmployeeFunction";
+import { EmployeeInfoEdit } from "./Page/Staff Pages/EmployeeInfoEdit";
 // import { AddLeaveType } from "./Page/ Leave Pages/addLeaveType";
 //redux
 import { store } from './store/store';
@@ -46,22 +47,19 @@ function App() {
     },
   ];
   return (
-    <Routes>
+    <Provider store={store}>
+      <Routes>
 
-      <Route path="/login" element={<Login />} />
-      <Provider store={store}>
+        <Route path="/login" element={<Login />} />
         <Route path="/" element={<NavbarNested />}>
           <Route path="/" element={<Dashboard />} />
 
-          <Route path="/staff-list" element={<StaffsList data={info} />} />
+          <Route path="/employees" element={<StaffsList data={info} />} />
           <Route
-            path="/staff-list/create-new-employee"
+            path="/employees/create-new-employee"
             element={<EmployeeInfoForm mode={"create"} />}
           />
-          <Route
-            path="/staff-list?q="
-            element={<EmployeeInfoForm mode={"edit"} />}
-          />
+          <Route path="/employees/:id" element={<EmployeeInfoEdit />} />
           {/* <Route path="/new-employee" element={<CreateNewEmployee />} /> */}
           <Route path="/apply-day-off" element={<ApplyDayOff />} />
           {/* <Route path="/add-dayoff-type" element={<AddLeaveType />} /> */}
@@ -69,13 +67,14 @@ function App() {
           <Route path="/show_dayoff_application" element={<DayoffPending />} />
           <Route path="/show_dayoff_type" element={<DayoffType />} />
           <Route path="/job_title" element={<JobTitle />} />
+
           <Route
             path="/employee-info"
             element={<NewEmployee mode={"create"} />}
           />
         </Route>
-      </Provider>
-    </Routes>
+      </Routes>
+    </Provider>
   );
 }
 

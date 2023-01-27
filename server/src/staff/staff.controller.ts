@@ -1,20 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { StaffService } from './staff.service';
 import { CreateStaffDto } from './dto/create-staff.dto';
 import { UpdateStaffDto } from './dto/update-staff.dto';
 
 @Controller('employees')
 export class StaffController {
-  constructor(private readonly staffService: StaffService) { }
+  constructor(private readonly staffService: StaffService) {}
 
   @Post()
-  async createNewEmployee(@Body()
-  body: CreateStaffDto
+  async createNewEmployee(
+    @Body()
+    body: CreateStaffDto,
   ) {
-    console.log("hi");
-
     let result = await this.staffService.createNewEmployee(body);
-    return { result }
+    return { result };
   }
 
   @Get("list")

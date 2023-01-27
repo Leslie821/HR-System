@@ -4,13 +4,19 @@ import {
   HttpException,
   HttpStatus,
   Post,
-  Res,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { LoginService } from './login.service';
+import { AuthService } from 'src/auth/auth.service';
+import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 
 @Controller('login')
 export class LoginController {
-  constructor(private readonly loginService: LoginService) {}
+  constructor(
+    private readonly loginService: LoginService,
+    private readonly authService: AuthService,
+  ) {}
 
   @Post('loginInfo')
   async loginForm(
@@ -32,5 +38,11 @@ export class LoginController {
       throw new HttpException('server error', HttpStatus.BAD_REQUEST);
     }
     return result;
+  }
+
+  @UseGuards(LocalAuthGuard)
+  @Post('auth/login')
+  async login(@Request() req) {
+    return this.authService.login(req.user);
   }
 }

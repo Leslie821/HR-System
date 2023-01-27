@@ -85,10 +85,10 @@ export class LeaveService {
   async getapplicationstatuse() {
     try {
       let result = await this.knex
-        .raw(`SELECT leave_request.id,leave_request.created_at, remark,staff_id, name,staff_id,type,start_date,total_date, status FROM leave_request 
+        .raw(`SELECT leave_request.id,leave_request.created_at,TO_CHAR(start_date,'YYYY-MM-DD')AS Date_Format, remark,staff_id, name,staff_id,type,start_date,TO_CHAR(start_date,'YYYY-MM-DD')AS Date_Format, total_date, status FROM leave_request 
       JOIN users ON staff_id=users.id JOIN leave_type ON leave_type_id=leave_type.id`);
 
-      // console.log('service get application status', result);
+      // console.log('service get application status', result.rows);
       return result.rows;
     } catch (error) {
       console.log('get type error', error);
@@ -97,10 +97,10 @@ export class LeaveService {
   async getpendingApplication() {
     try {
       let result = await this.knex
-        .raw(`SELECT leave_request.id,leave_request.created_at, remark,staff_id, name,staff_id,type,start_date,total_date, status FROM leave_request 
+        .raw(`SELECT leave_request.id,leave_request.created_at,TO_CHAR(start_date,'YYYY-MM-DD')AS Date_Format, remark,staff_id, name,staff_id,type,start_date,TO_CHAR(start_date,'YYYY-MM-DD')AS Date_Format,total_date, status FROM leave_request 
       JOIN users ON staff_id=users.id JOIN leave_type ON leave_type_id=leave_type.id WHERE (status='pending')`);
 
-      // console.log('service get application status', result);
+      // console.log('service get application status', result.rows);
       return result.rows;
     } catch (error) {
       console.log('get type error', error);
@@ -109,10 +109,10 @@ export class LeaveService {
   async getApprovedApplication() {
     try {
       let result = await this.knex
-        .raw(`SELECT leave_request.id,leave_request.created_at, remark,staff_id, name,staff_id,type,start_date,total_date, status FROM leave_request 
+        .raw(`SELECT leave_request.id,leave_request.created_at,TO_CHAR(start_date,'YYYY-MM-DD')AS Date_Format, remark,staff_id, name,staff_id,type,start_date,TO_CHAR(start_date,'YYYY-MM-DD')AS Date_Format,total_date, status FROM leave_request 
       JOIN users ON staff_id=users.id JOIN leave_type ON leave_type_id=leave_type.id WHERE (status='approved')`);
 
-      // console.log('service get application status', result);
+      // console.log('service get application status', result.rows);
       return result.rows;
     } catch (error) {
       console.log('get type error', error);

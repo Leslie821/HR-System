@@ -5,15 +5,19 @@ import { UpdateStaffDto } from './dto/update-staff.dto';
 import { InjectModel } from 'nest-knexjs';
 import { Knex } from 'knex';
 import { stringify } from 'querystring';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class StaffService {
   constructor(@InjectModel() private knex: Knex) { }
 
-
   //add
   async createNewEmployee(formInfo: CreateStaffDto) {
     try {
+      const saltOrRounds = 10;
+      const password = formInfo.password;
+      const hash = await bcrypt.hash(password, saltOrRounds);
+      console.log('hash:', hash);
       let insertUsers = await this.knex('users')
         .insert({
           gender: formInfo.gender,
@@ -21,7 +25,7 @@ export class StaffService {
           email: formInfo.email,
           address: formInfo.address,
           job_nature: formInfo.job_nature,
-          password: formInfo.password,
+          password: hash,
           contract: formInfo.contract,
           mpf: formInfo.mpf,
           birthday: formInfo.birthday,

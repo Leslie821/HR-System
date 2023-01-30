@@ -13,18 +13,30 @@ export function SearchBar({ apiPath, setBackData }: SearchBarProps) {
 
   const fetchData = async () => {
     try {
-      console.log(query);
-
-      const res = await fetch(
-        `http://localhost:3000` + apiPath + `?q=${query}`
-      );
+      const res = await fetch(`http://localhost:3000` + apiPath + `${query}`);
+      console.log("query:", query);
 
       const data = await res.json();
       console.log("DATA", data);
 
-      setBackData(data);
+      const usersAddStatus = data.map((v: any) => {
+        if (v.termination_date == null) {
+          return {
+            ...v,
+            status: "Active",
+          };
+        } else {
+          return {
+            ...v,
+            status: "Inactive",
+          };
+        }
+      });
+
+      setBackData(usersAddStatus);
     } catch (error) {
       console.log(error);
+      return error;
     }
   };
 

@@ -13,7 +13,7 @@ import { UpdateStaffDto } from './dto/update-staff.dto';
 
 @Controller('employees')
 export class StaffController {
-  constructor(private readonly staffService: StaffService) {}
+  constructor(private readonly staffService: StaffService) { }
 
   @Post()
   async createNewEmployee(
@@ -34,14 +34,16 @@ export class StaffController {
     return this.staffService.editEmployee(+id);
   }
 
-  @Patch('update/:id')
+  @Post('update/:id')
   async update(@Param('id') id: number, @Body() updateStaffDto: UpdateStaffDto) {
     return this.staffService.updateEmployee(+id, updateStaffDto);
   }
 
-  @Get(':query')
+  @Get('/list/:query')
   async searchData(@Param("query") query: string) {
-    return this.staffService.searchData(+query);
+    console.log("query:", query);
+
+    return this.staffService.searchData(query);
   }
 
   // @Delete(':id')

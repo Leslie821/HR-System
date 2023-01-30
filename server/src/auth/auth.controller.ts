@@ -12,7 +12,7 @@ import { object, email, string } from 'cast.ts';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   @Post('login')
   async login(@Body() body: { email: string; password: string }) {

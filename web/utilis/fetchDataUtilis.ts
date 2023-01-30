@@ -12,30 +12,30 @@ export async function fetchServerDataNonGet(
     data: any
 ) {
 
-    //     const res = await fetch(import.meta.env.VITE_SERVER_API + apiPath, {
-    //         method: method,
-    //         headers: {
-    //             'content-type': 'application/json'
-    //         },
-    //         body: JSON.stringify(data)
-    //     });
+    const res = await fetch(import.meta.env.VITE_SERVER_API + apiPath, {
+        method: method,
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
 
-    //     let resData = await res.json();
+    let resData = await res.json();
 
-    //     return resData
-    // }
+    return resData
+}
 
-    // export async function fetchServerDataForm(
-    //     apiPath: string,
-    //     method: "PUT" | "POST" | "PATCH" | "DELETE",
-    //     data: FormData
-    // ) {
+export async function fetchServerDataForm(
+    apiPath: string,
+    method: "PUT" | "POST" | "PATCH" | "DELETE",
+    data: FormData
+) {
 
-    //     const res = await fetch(import.meta.env.VITE_SERVER_API + apiPath, {
-    //         method: method,
-    //         body: data
-    //     });
+    const res = await fetch(import.meta.env.VITE_SERVER_API + apiPath, {
+        method: method,
+        body: data
+    });
 
-    //     let resData = await res.json();
-    //     return resData
+    let resData = await res.json();
+    return resData
 }

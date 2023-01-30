@@ -15,26 +15,12 @@ export class StaffService {
   //add
   async createNewEmployee(formInfo: CreateStaffDto) {
     try {
-<<<<<<< HEAD
-      // let departmentID = await this.knex('department').select('id')
-      //   .where('department.name', "=", formInfo.department)
-      // console.log("departmentID:", departmentID);
-
-      // let jobTitleID = await this.knex('job_title').select('id')
-      //   .where('job_title.type', "=", formInfo.job_title)
-      // console.log("jobTitleID:", jobTitleID);
-
-      // let accessLevel = await this.knex('department').select('id')
-      //   .where('access_level.level', "=", formInfo.access_level)
-      // console.log("accessLevel:", accessLevel);
-
       let insertUsers = await this.knex('users').insert({
         gender: formInfo.gender,
         name: formInfo.name,
         email: formInfo.email,
         address: formInfo.address,
         job_nature: formInfo.job_nature,
-        username: formInfo.username,
         password: hashPassword(formInfo.password),
         contract: formInfo.contract,
         mpf: formInfo.mpf,
@@ -51,35 +37,6 @@ export class StaffService {
         job_title_id: formInfo.job_title,
         department_id: formInfo.department,
       });
-=======
-      const saltOrRounds = 10;
-      const password = formInfo.password;
-      const hash = await bcrypt.hash(password, saltOrRounds);
-      console.log('hash:', hash);
-      let insertUsers = await this.knex('users')
-        .insert({
-          gender: formInfo.gender,
-          name: formInfo.name,
-          email: formInfo.email,
-          address: formInfo.address,
-          job_nature: formInfo.job_nature,
-          password: hash,
-          contract: formInfo.contract,
-          mpf: formInfo.mpf,
-          birthday: formInfo.birthday,
-          employ_date: formInfo.employ_date,
-          termination_date: formInfo.termination_date,
-          working_time: formInfo.working_time,
-          salary: formInfo.salary,
-          annual_leave_fixed: formInfo.annual_leave_fixed,
-          sick_leave_fixed: formInfo.sick_leave_fixed,
-          bank_account: formInfo.bank_account,
-          phone: formInfo.phone,
-          access_level_id: formInfo.access_level,
-          job_title_id: formInfo.job_title,
-          department_id: formInfo.department,
-        })
->>>>>>> 85bc1ebe5d5ee89e14b6b1cf1e1af270b0f4e23c
 
       console.log("insert employee:", insertUsers);
       return insertUsers

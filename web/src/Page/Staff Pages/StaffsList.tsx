@@ -162,7 +162,10 @@ export function StaffsList(props: Props) {
 
       <div>
         <Group className={classes.table}>
-          <SearchBar apiPath={"/employees/list/"} setBackData={() => {}} />
+          <SearchBar
+            apiPath={"/employees/list/"}
+            setBackData={(data: any) => setUsers(data)}
+          />
           {/* <Input
             placeholder="search"
             type="text"

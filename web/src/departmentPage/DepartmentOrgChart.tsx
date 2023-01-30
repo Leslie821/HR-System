@@ -1,13 +1,9 @@
-type DepartmentOrgChartProps = {
-    data?: string;
+function DepartmentOrgChart() {
+  return (
+    <>
+      <h1>Hello DepartmentOrgChart</h1>
+    </>
+  );
 }
-    
-function DepartmentOrgChart({ data }: DepartmentOrgChartProps){
-    return (
-        <>
-        <h1>Hello DepartmentOrgChart</h1>
-        </>
-    )
-}
-    
-export default DepartmentOrgChart
+
+export default DepartmentOrgChart;

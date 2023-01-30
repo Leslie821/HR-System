@@ -74,9 +74,7 @@ export class StaffService {
 
   //update
   async updateEmployee(id, formInfo) {
-
     console.log(id, formInfo);
-
     try {
       let updatedUser = await this.knex('users')
         .update({
@@ -115,9 +113,7 @@ export class StaffService {
   async getUsers() {
     try {
       let usersList = await this.knex('users')
-        .select(
-          "*"
-        )
+        .select("*", "users.id",)
         .join('department', { 'department.id': 'users.department_id' })
         .join('job_title', { 'job_title.id': 'users.job_title_id' })
         .join('access_level', { 'access_level.id': 'users.access_level_id' })
@@ -130,13 +126,21 @@ export class StaffService {
     }
   }
 
-  async searchData(query) {
+  async searchData(query: string) {
     try {
+      // console.log("query back:", query);
       let searchData = await this.knex("users")
-        .select()
+        .select("*", "users.id")
+        .join('department', { 'department.id': 'users.department_id' })
+        .join('job_title', { 'job_title.id': 'users.job_title_id' })
+        .where('name', 'ilike', `%${query}%`)
+        .orWhere('email', 'ilike', `%${query}%`)
+      console.log(searchData)
+      return searchData
     }
     catch (error) {
-
+      console.log('search Data:', error)
+      return JSON.stringify(error)
     }
   }
 

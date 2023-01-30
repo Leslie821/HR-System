@@ -1,13 +1,11 @@
-type DepartmentPageProps = {
-    data?: string;
+import { useState } from "react";
+
+function DepartmentPage() {
+  return (
+    <>
+      <h1>Hello DepartmentPage</h1>
+    </>
+  );
 }
-    
-function DepartmentPage({ data }: DepartmentPageProps){
-    return (
-        <>
-        <h1>Hello DepartmentPage</h1>
-        </>
-    )
-}
-    
-export default DepartmentPage
+
+export default DepartmentPage;

@@ -10,23 +10,21 @@ export function EmployeeInfoEdit() {
   const fetchUser = async () => {
     const res = await fetch(`http://localhost:3000/employees/${id}`);
     let data = await res.json();
-    console.log("res:", data);
+    // console.log("res:", data);
 
     if (data && Array.isArray(data) && data.length == 1) {
-      console.log("OK");
-
+      // console.log("OK");
       setUserData(data[0]);
     }
   };
 
   useEffect(() => {
-    // fetchUser;
     fetchUser();
   }, []);
 
   return (
     <>
-      <EmployeeInfoForm mode={"edit"} data={userData} />
+      <EmployeeInfoForm mode={"edit"} data={userData} id={id} />
     </>
   );
 }

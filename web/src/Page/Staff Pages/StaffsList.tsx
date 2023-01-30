@@ -102,7 +102,7 @@ export function StaffsList(props: Props) {
           style={{ width: 80 }}
           type="button"
           id={row.user_id}
-          onClick={() => navigate(`/employees/${row.user_id}`)}
+          onClick={() => navigate(`/employees/${row.id}`)}
         >
           View
         </Button>
@@ -145,10 +145,6 @@ export function StaffsList(props: Props) {
         };
       }
     });
-
-    console.log("usersAddStatus:", usersAddStatus);
-
-    // setUsers(usersFromDB);
     setUsers(usersAddStatus);
   };
 
@@ -166,18 +162,18 @@ export function StaffsList(props: Props) {
 
       <div>
         <Group className={classes.table}>
-          <SearchBar apiPath={"/"} setBackData={() => {}} />
-          <Input
+          <SearchBar apiPath={"/employees/list/"} setBackData={() => {}} />
+          {/* <Input
             placeholder="search"
             type="text"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
             className={classes.button}
-          ></Input>
+          ></Input> */}
           <Button
             variant="light"
             className={classes.button}
-            onClick={() => navigate(`/staff-list/create-new-employee`)}
+            onClick={() => navigate(`/employees/create-new-employee`)}
           >
             Create New Employ
           </Button>

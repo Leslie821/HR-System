@@ -13,18 +13,16 @@ export function SearchBar({ apiPath, setBackData }: SearchBarProps) {
 
   const fetchData = async () => {
     try {
-      console.log(query);
-
-      const res = await fetch(
-        `http://localhost:3000` + apiPath + `?q=${query}`
-      );
+      const res = await fetch(`http://localhost:3000` + apiPath + `${query}`);
+      // console.log("query:", query);
 
       const data = await res.json();
-      console.log("DATA", data);
+      // console.log("DATA", data);
 
       setBackData(data);
     } catch (error) {
       console.log(error);
+      return error;
     }
   };
 

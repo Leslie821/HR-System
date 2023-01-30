@@ -1,14 +1,14 @@
-import { Container } from '@mantine/core';
-import EmployeeInfoForm  from './EmployeeFunction';
-import { EmployeeInfoFormProps } from './EmployeeFunction';
+import { Container } from "@mantine/core";
+import { useState } from "react";
+import EmployeeInfoForm from "./EmployeeFunction";
+import { EmployeeInfoFormProps } from "./EmployeeFunction";
 
-export function NewEmployee (props: EmployeeInfoFormProps){
+export function NewEmployee(props: EmployeeInfoFormProps) {
+  const [userData, setUserData] = useState();
 
-    return (
-        
+  return (
     <Container size={800}>
-        <EmployeeInfoForm mode={'create'}/>
+      <EmployeeInfoForm mode={"create"} id={null} data={userData} />
     </Container>
-    )
+  );
 }
-

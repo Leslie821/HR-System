@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { LoginModule } from './login/login.module';
 import { LeaveModule } from './leave/leave.module';
 import { env } from '../env';
 import { KnexModule } from 'nest-knexjs';
@@ -9,7 +8,11 @@ import { KnexModule } from 'nest-knexjs';
 import { CheckInModule } from './check_in/check_in.module';
 import { StaffModule } from './staff/staff.module';
 import { AuthModule } from './auth/auth.module';
+<<<<<<< HEAD
+=======
 import { UsersModule } from './users/users.module';
+import { JobTitleModule } from './job_title/job_title.module';
+>>>>>>> 85bc1ebe5d5ee89e14b6b1cf1e1af270b0f4e23c
 
 @Module({
   imports: [
@@ -36,14 +39,17 @@ import { UsersModule } from './users/users.module';
         },
       },
     }),
-    LoginModule,
     LeaveModule,
     CheckInModule,
     StaffModule,
     AuthModule,
+<<<<<<< HEAD
+=======
     UsersModule,
+    JobTitleModule,
+>>>>>>> 85bc1ebe5d5ee89e14b6b1cf1e1af270b0f4e23c
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

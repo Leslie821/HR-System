@@ -21,6 +21,8 @@ import { EmployeeInfoEdit } from "./Page/Staff Pages/EmployeeInfoEdit";
 //redux
 import { store } from "./store/store";
 import { Provider } from "react-redux";
+import { JobTitle } from "./Page/Job Title Page/jobTitlePage";
+import { JobTitlePage } from "./Page/Job Title Page/showJobTitlePage";
 
 // "@types/styled-components": "^5.1.26",
 export interface information {
@@ -66,7 +68,7 @@ function App() {
           <Route path="/employees" element={<StaffsList data={info} />} />
           <Route
             path="/employees/create-new-employee"
-            element={<NewEmployee mode={"create"} id={id} />}
+            element={<EmployeeInfoForm mode={"create"} id={id} />}
           />
           <Route path="/employees/:id" element={<EmployeeInfoEdit />} />
           {/* <Route path="/new-employee" element={<CreateNewEmployee />} /> */}
@@ -75,10 +77,12 @@ function App() {
 
           <Route path="/show_dayoff_application" element={<DayoffPending />} />
           <Route path="/show_dayoff_type" element={<DayoffType />} />
-          {/* <Route
-          path="/employee-info"
-          element={<NewEmployee mode={"create"} />}
-        />*/}
+          <Route path="/job_title" element={<JobTitlePage />} />
+
+          <Route
+            path="/employee-info"
+            element={<NewEmployee mode={"create"} id={null} />}
+          />
         </Route>
       </Routes>
     </Provider>

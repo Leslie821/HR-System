@@ -54,7 +54,7 @@ export function Login() {
   console.log("password:",password);
   async  function submitLogin(){
 
-    await fetch("http://localhost:3000/login", {
+    await fetch("http://localhost:3000/auth/login", {
       method: "Post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({email, password}),

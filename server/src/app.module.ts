@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { LoginModule } from './login/login.module';
 import { LeaveModule } from './leave/leave.module';
 import { env } from '../env';
 import { KnexModule } from 'nest-knexjs';
@@ -9,7 +8,6 @@ import { KnexModule } from 'nest-knexjs';
 import { CheckInModule } from './check_in/check_in.module';
 import { StaffModule } from './staff/staff.module';
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -36,14 +34,12 @@ import { UsersModule } from './users/users.module';
         },
       },
     }),
-    LoginModule,
     LeaveModule,
     CheckInModule,
     StaffModule,
     AuthModule,
-    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

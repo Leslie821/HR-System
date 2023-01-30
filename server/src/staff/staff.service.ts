@@ -6,6 +6,7 @@ import { InjectModel } from 'nest-knexjs';
 import { Knex } from 'knex';
 import { stringify } from 'querystring';
 import * as bcrypt from 'bcrypt';
+import { hashPassword } from '../../hash';
 
 @Injectable()
 export class StaffService {
@@ -25,10 +26,7 @@ export class StaffService {
       // let accessLevel = await this.knex('department').select('id')
       //   .where('access_level.level', "=", formInfo.access_level)
       // console.log("accessLevel:", accessLevel);
-      const saltOrRounds = 10;
-      const password = formInfo.password;
-      const hash = await bcrypt.hash(password, saltOrRounds);
-      console.log('hash:', hash);
+
       let insertUsers = await this.knex('users').insert({
         gender: formInfo.gender,
         name: formInfo.name,
@@ -36,7 +34,7 @@ export class StaffService {
         address: formInfo.address,
         job_nature: formInfo.job_nature,
         username: formInfo.username,
-        password: hash,
+        password: hashPassword(formInfo.password),
         contract: formInfo.contract,
         mpf: formInfo.mpf,
         birthday: formInfo.birthday,

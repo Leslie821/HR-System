@@ -10,11 +10,12 @@ import { hashPassword } from '../../hash';
 
 @Injectable()
 export class StaffService {
-  constructor(@InjectModel() private knex: Knex) {}
+  constructor(@InjectModel() private knex: Knex) { }
 
   //add
   async createNewEmployee(formInfo: CreateStaffDto) {
     try {
+<<<<<<< HEAD
       // let departmentID = await this.knex('department').select('id')
       //   .where('department.name', "=", formInfo.department)
       // console.log("departmentID:", departmentID);
@@ -50,72 +51,132 @@ export class StaffService {
         job_title_id: formInfo.job_title,
         department_id: formInfo.department,
       });
+=======
+      const saltOrRounds = 10;
+      const password = formInfo.password;
+      const hash = await bcrypt.hash(password, saltOrRounds);
+      console.log('hash:', hash);
+      let insertUsers = await this.knex('users')
+        .insert({
+          gender: formInfo.gender,
+          name: formInfo.name,
+          email: formInfo.email,
+          address: formInfo.address,
+          job_nature: formInfo.job_nature,
+          password: hash,
+          contract: formInfo.contract,
+          mpf: formInfo.mpf,
+          birthday: formInfo.birthday,
+          employ_date: formInfo.employ_date,
+          termination_date: formInfo.termination_date,
+          working_time: formInfo.working_time,
+          salary: formInfo.salary,
+          annual_leave_fixed: formInfo.annual_leave_fixed,
+          sick_leave_fixed: formInfo.sick_leave_fixed,
+          bank_account: formInfo.bank_account,
+          phone: formInfo.phone,
+          access_level_id: formInfo.access_level,
+          job_title_id: formInfo.job_title,
+          department_id: formInfo.department,
+        })
+>>>>>>> 85bc1ebe5d5ee89e14b6b1cf1e1af270b0f4e23c
 
-      console.log('insert employee:', insertUsers);
-      return insertUsers;
-    } catch (error) {
-      console.log('insert employee:', error);
-      return JSON.stringify(error);
+      console.log("insert employee:", insertUsers);
+      return insertUsers
+    }
+
+    catch (error) {
+      console.log('insert employee:', error)
+      return JSON.stringify(error)
     }
   }
 
   //edit
   async editEmployee(id) {
     try {
-      let thatUser = await this.knex('users').select().where('id', id);
-      return thatUser;
-    } catch (error) {
-      console.log('Get employee:', error);
-      return JSON.stringify(error);
+      let thatUser = await this.knex('users')
+        .where('users.id', id)
+        .select(
+          "*",
+        )
+        .join('department', { 'department.id': 'users.department_id' })
+        .join('job_title', { 'job_title.id': 'users.job_title_id' })
+        .join('access_level', { 'access_level.id': 'users.access_level_id' })
+
+      return thatUser
+    }
+    catch (error) {
+      console.log('Get employee:', error)
+      return JSON.stringify(error)
     }
   }
 
   //update
   async updateEmployee(id, formInfo) {
-    // try {
-    let updatedUser = await this.knex('users').update({
-      gender: formInfo.gender,
-      name: formInfo.name,
-      email: formInfo.email,
-      address: formInfo.address,
-      job_nature: formInfo.job_nature,
-      username: formInfo.username,
-      password: formInfo.password,
-      contract: formInfo.contract,
-      mpf: formInfo.mpf,
-      birthday: formInfo.birthday,
-      employ_date: formInfo.employ_date,
-      termination_date: formInfo.termination_date,
-      working_time: formInfo.working_time,
-      salary: formInfo.salary,
-      annual_leave_fixed: formInfo.annual_leave_fixed,
-      sick_leave_fixed: formInfo.sick_leave_fixed,
-      bank_account: formInfo.bank_account,
-      phone: formInfo.phone,
-      access_level_id: formInfo.access_level,
-      job_title_id: formInfo.job_title,
-      department_id: formInfo.department,
-    });
-    // }
-    //   catch {
 
-    //   }
-    // }
+    console.log(id, formInfo);
+
+    try {
+      let updatedUser = await this.knex('users')
+        .update({
+          gender: formInfo.gender,
+          name: formInfo.name,
+          email: formInfo.email,
+          address: formInfo.address,
+          job_nature: formInfo.job_nature,
+          password: formInfo.password,
+          contract: formInfo.contract,
+          mpf: formInfo.mpf,
+          birthday: formInfo.birthday,
+          employ_date: formInfo.employ_date,
+          termination_date: formInfo.termination_date,
+          working_time: formInfo.working_time,
+          salary: formInfo.salary,
+          annual_leave_fixed: formInfo.annual_leave_fixed,
+          sick_leave_fixed: formInfo.sick_leave_fixed,
+          bank_account: formInfo.bank_account,
+          phone: formInfo.phone,
+          access_level_id: formInfo.access_level,
+          job_title_id: formInfo.job_title,
+          department_id: formInfo.department,
+        })
+        .where("users.id", id)
+
+      return updatedUser
+
+    }
+    catch (error) {
+      console.log('Update employee:', error)
+      return JSON.stringify(error)
+    }
   }
 
-  // findAll() {
-  //   return `This action returns all staff`;
-  // }
+  async getUsers() {
+    try {
+      let usersList = await this.knex('users')
+        .select(
+          "*"
+        )
+        .join('department', { 'department.id': 'users.department_id' })
+        .join('job_title', { 'job_title.id': 'users.job_title_id' })
+        .join('access_level', { 'access_level.id': 'users.access_level_id' })
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} staff`;
-  // }
+      return usersList
+    }
+    catch (error) {
+      console.log('Get UserList:', error)
+      return JSON.stringify(error)
+    }
+  }
 
-  // update(id: number, updateStaffDto: UpdateStaffDto) {
-  //   return `This action updates a #${id} staff`;
-  // }
+  async searchData(query) {
+    try {
+      let searchData = await this.knex("users")
+        .select()
+    }
+    catch (error) {
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} staff`;
-  // }
+    }
+  }
+
 }

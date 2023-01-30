@@ -28,14 +28,14 @@ const information = [
     icon: IconNotes,
     links: [
       { label: "Department", link: "/" },
-      { label: "Job Title", link: "/" },
+      { label: "Job Title", link: "/job_title" },
     ],
   },
   {
     label: "Staffs",
     icon: IconCalendarStats,
     // link: "/staff-list",
-    links: [{ label: "Staff List", link: "/staff-list", icon: IconNotes }],
+    links: [{ label: "Staff List", link: "/employees", icon: IconNotes }],
   },
   {
     label: "Request",
@@ -53,7 +53,6 @@ const information = [
     label: "Leave",
     icon: IconLock,
     links: [
-      { label: "Leave Balance", link: "/show_day-off-list", icon: IconNotes },
       { label: "Leave Application", link: "/apply-day-off", icon: IconNotes },
       { label: "Leave Type", link: "/show_dayoff_type", icon: IconNotes },
       { label: "Reports", link: "/", icon: IconNotes },
@@ -85,9 +84,8 @@ const useStyles = createStyles((theme) => ({
     marginLeft: -theme.spacing.md,
     marginRight: -theme.spacing.md,
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
-    borderBottom: `1px solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-    }`,
+    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+      }`,
   },
 
   links: {
@@ -103,9 +101,8 @@ const useStyles = createStyles((theme) => ({
   footer: {
     marginLeft: -theme.spacing.md,
     marginRight: -theme.spacing.md,
-    borderTop: `1px solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-    }`,
+    borderTop: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+      }`,
   },
 }));
 

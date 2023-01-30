@@ -8,6 +8,11 @@ import { KnexModule } from 'nest-knexjs';
 import { CheckInModule } from './check_in/check_in.module';
 import { StaffModule } from './staff/staff.module';
 import { AuthModule } from './auth/auth.module';
+<<<<<<< HEAD
+=======
+import { UsersModule } from './users/users.module';
+import { JobTitleModule } from './job_title/job_title.module';
+>>>>>>> 85bc1ebe5d5ee89e14b6b1cf1e1af270b0f4e23c
 
 @Module({
   imports: [
@@ -38,6 +43,11 @@ import { AuthModule } from './auth/auth.module';
     CheckInModule,
     StaffModule,
     AuthModule,
+<<<<<<< HEAD
+=======
+    UsersModule,
+    JobTitleModule,
+>>>>>>> 85bc1ebe5d5ee89e14b6b1cf1e1af270b0f4e23c
   ],
   controllers: [AppController],
   providers: [AppService],

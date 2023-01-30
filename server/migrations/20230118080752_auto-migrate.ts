@@ -4,7 +4,7 @@ export async function up(knex: Knex): Promise<void> {
   if (!(await knex.schema.hasTable('department'))) {
     await knex.schema.createTable('department', (table) => {
       table.increments('id');
-      table.string('name', 255).notNullable();
+      table.string('department_name', 255).notNullable();
       table.integer('father_department_id').references('department.id');
     });
   }
@@ -12,7 +12,7 @@ export async function up(knex: Knex): Promise<void> {
   if (!(await knex.schema.hasTable('job_title'))) {
     await knex.schema.createTable('job_title', (table) => {
       table.increments('id');
-      table.string('type', 255).notNullable();
+      table.string('job_title_type', 255).notNullable();
       table.integer('department_id').references('department.id');
     });
   }
@@ -20,7 +20,7 @@ export async function up(knex: Knex): Promise<void> {
   if (!(await knex.schema.hasTable('access_level'))) {
     await knex.schema.createTable('access_level', (table) => {
       table.increments('id');
-      table.string('level', 255).notNullable();
+      table.string('access_level_type', 255).notNullable();
     });
   }
 

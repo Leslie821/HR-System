@@ -10,23 +10,23 @@ export async function seed(knex: Knex): Promise<void> {
 
   // Inserts seed entries
   await knex('department').insert([
-    { id: 1, name: 'Boss' },
-    { id: 2, name: 'HR', father_department_id: 1 },
-    { id: 3, name: 'MK', father_department_id: 1 },
-    { id: 4, name: 'IT', father_department_id: 1 },
+    { id: 1, department_name: 'Boss' },
+    { id: 2, department_name: 'HR', father_department_id: 1 },
+    { id: 3, department_name: 'MK', father_department_id: 1 },
+    { id: 4, department_name: 'IT', father_department_id: 1 },
   ]);
 
   await knex('job_title').insert([
-    { id: 1, type: 'Boss', department_id: 1 },
-    { id: 2, type: 'HR Manager', department_id: 2 },
-    { id: 3, type: 'MK Manager', department_id: 3 },
-    { id: 4, type: 'IT Manager', department_id: 4 },
+    { id: 1, job_title_type: 'Boss', department_id: 1 },
+    { id: 2, job_title_type: 'HR Manager', department_id: 2 },
+    { id: 3, job_title_type: 'MK Manager', department_id: 3 },
+    { id: 4, job_title_type: 'IT Manager', department_id: 4 },
   ]);
 
   await knex('access_level').insert([
-    { id: 1, level: 'Admin' },
-    { id: 2, level: 'Manager' },
-    { id: 3, level: 'Staff' },
+    { id: 1, access_level_type: 'Admin' },
+    { id: 2, access_level_type: 'Manager' },
+    { id: 3, access_level_type: 'Staff' },
   ]);
   await knex('users').insert([
     {

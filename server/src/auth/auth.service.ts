@@ -25,7 +25,11 @@ export class AuthService {
     if (!isMatched)
       throw new HttpException('Wrong Password', HttpStatus.BAD_REQUEST);
 
-    const payload: JwtPayload = { id: user.id };
+    const payload: JwtPayload = {
+      id: user.id,
+      emil: user.emil,
+      access_level_id: user.access_level``,
+    };
     let token = this.jwtService.sign(payload);
     return {
       token,

@@ -11,6 +11,8 @@ import { number } from "zod";
 
 export function ApplyDayOff() {
   const [dayofftype, setdayofftype] = useState<any[]>([])
+  console.log("tyep from DB not map", typeof dayofftype);
+
   const [from, setFrom] = useState<any>(new Date())
   const [to, setTo] = useState<any>(new Date())
   const [total, setTotal] = useState<any>(0);

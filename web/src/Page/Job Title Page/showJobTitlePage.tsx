@@ -25,7 +25,7 @@ export function JobTitlePage() {
 
         setdepartmentID(result)
     }
-    console.log("this is id from dB", departmentID);
+    // console.log("this is id from dB", departmentID);
     useEffect(() => {
         loadDepartmentID();
     }, [])
@@ -52,19 +52,19 @@ export function JobTitlePage() {
         {
             maxWidth: "1px",
             name: "Department Name",
-            selector: (row: any) => row.department_name,
+            selector: (row: any) => row.job_title_type,
         },
         {
             maxWidth: "1px",
             name: "Who is the head",
-            selector: (row: any) => row.father_department_id,
+            selector: (row: any) => row.department_id,
         }]
     async function getJobTitle() {
         let res: any = await fetch(
             "http://localhost:3000/job-title/getAllJobTitle"
         );
         let jobTitleFromDB = await res.json();
-        console.log(jobTitleFromDB);
+        // console.log("frontned ", jobTitleFromDB);
 
         setResult(jobTitleFromDB);
     }

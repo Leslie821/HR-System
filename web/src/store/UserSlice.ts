@@ -20,7 +20,7 @@ const initialState: UserState = {
   user: getLocalStorage(),
 };
 
-const todoSlice = createSlice({
+const loginSlice = createSlice({
   name: "user",
   initialState: initialState,
   reducers: {
@@ -40,5 +40,5 @@ const todoSlice = createSlice({
   },
 });
 
-export const { login } = todoSlice.actions;
-export default todoSlice.reducer;
+export const { login } = loginSlice.actions;
+export default loginSlice.reducer;

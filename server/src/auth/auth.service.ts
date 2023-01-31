@@ -28,9 +28,11 @@ export class AuthService {
     const payload: JwtPayload = {
       id: user.id,
       emil: user.emil,
-      access_level_id: user.access_level``,
+      access_level_id: user.access_level_id,
     };
     let token = this.jwtService.sign(payload);
+    console.log('token:', token);
+
     return {
       token,
     };

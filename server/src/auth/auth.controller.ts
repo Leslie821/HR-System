@@ -8,20 +8,16 @@ import {
 } from '@nestjs/common';
 import { LocalAuthGuard } from './local-auth.guard';
 import { AuthService } from './auth.service';
-import { object, email, string } from 'cast.ts';
+// import { object, email, string } from 'cast.ts';
+import { loginInfo } from './auto.dto';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   @Post('login')
-  async login(@Body() body: { email: string; password: string }) {
-    IsString();
-    IsNotEmpty();
-    email = body.email;
-
-    let user = parser.parse(body);
-    return this.authService.login(user);
+  async login(@Body() body: loginInfo) {
+    return this.authService.login(body);
   }
 
   // @Post('login')

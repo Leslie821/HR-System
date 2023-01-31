@@ -9,6 +9,8 @@ import {
 } from '@mantine/core';
 
 import React, { useState } from "react";
+import { showNotification } from '@mantine/notifications';
+
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -51,7 +53,6 @@ export function Login() {
 
   const [password, setPassword] = useState("");
 
-  console.log("password:",password);
   async  function submitLogin(){
 
     let token = await fetch("http://localhost:3000/auth/login", {
@@ -60,9 +61,8 @@ export function Login() {
       body: JSON.stringify({email, password}),
     })
     if (!token){
-      alert(token);
-
-    }
+      showNotification(token)
+    }else{}
   }
   
   return (

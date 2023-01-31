@@ -9,27 +9,26 @@ export async function seed(knex: Knex): Promise<void> {
 
   // Inserts seed entries
   await knex('department').insert([
-    { id: 1, department_name: 'Boss' },
-    { id: 2, department_name: 'HR', father_department_id: 1 },
-    { id: 3, department_name: 'MK', father_department_id: 1 },
-    { id: 4, department_name: 'IT', father_department_id: 1 },
+    { department_name: 'Boss' },
+    { department_name: 'HR', father_department_id: 1 },
+    { department_name: 'MK', father_department_id: 1 },
+    { department_name: 'IT', father_department_id: 1 },
   ]);
 
   await knex('job_title').insert([
-    { id: 1, job_title_type: 'Boss', department_id: 1 },
-    { id: 2, job_title_type: 'HR Manager', department_id: 2 },
-    { id: 3, job_title_type: 'MK Manager', department_id: 3 },
-    { id: 4, job_title_type: 'IT Manager', department_id: 4 },
+    { job_title_type: 'Boss', department_id: 1 },
+    { job_title_type: 'HR Manager', department_id: 2 },
+    { job_title_type: 'MK Manager', department_id: 3 },
+    { job_title_type: 'IT Manager', department_id: 4 },
   ]);
 
   await knex('access_level').insert([
-    { id: 1, access_level_type: 'Admin' },
-    { id: 2, access_level_type: 'Manager' },
-    { id: 3, access_level_type: 'Staff' },
+    { access_level_type: 'Admin' },
+    { access_level_type: 'Manager' },
+    { access_level_type: 'Staff' },
   ]);
   await knex('users').insert([
     {
-      id: 1,
       gender: '女',
       name: '三上悠亞',
       email: 'yua_mikami@gmail.com',

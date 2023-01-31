@@ -17,8 +17,8 @@ export class JobTitleService {
   }
   async getAllJobTitle() {
     try {
-      let result = await this.knex.select().from('department');
-      // console.log('service get dayoff', result);
+      let result = await this.knex.select().from('job_title');
+      // console.log('service Get jbo title ID', result);
       return result;
     } catch (error) {
       console.log('get type error', error);

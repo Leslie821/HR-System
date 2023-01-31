@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { LoginModule } from './login/login.module';
 import { LeaveModule } from './leave/leave.module';
 import { env } from '../env';
 import { KnexModule } from 'nest-knexjs';
@@ -37,7 +36,6 @@ import { JobTitleModule } from './job_title/job_title.module';
         },
       },
     }),
-    LoginModule,
     LeaveModule,
     CheckInModule,
     StaffModule,

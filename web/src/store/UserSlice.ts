@@ -1,22 +1,44 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import jwtDecode from "jwt-decode";
+import {
+  getLocalStorage,
+  clearLocalStorage,
+  JWTPayload,
+} from "../localStorage";
+import { Form } from "react-router-dom";
 
 export interface UserState {
-  data: string[];
+  user: {
+    id: number;
+    email: string;
+    access_level_id: number;
+    token: string;
+  } | null;
 }
 
 const initialState: UserState = {
-  data: [],
+  user: getLocalStorage(),
 };
 
 const todoSlice = createSlice({
   name: "user",
   initialState: initialState,
   reducers: {
-    addItem(state: UserState, action: PayloadAction<string>) {
-      state.data.push(action.payload);
+    login(state: UserState, action: PayloadAction<{ token: string }>) {
+      if (action.payload) {
+        let decode: JWTPayload = jwtDecode(action.payload.token);
+        state.user = {
+          id: decode.id,
+          email: decode.email,
+          access_level_id: decode.access_level_id,
+          token: action.payload.token,
+        };
+      } else {
+        console.log();
+      }
     },
   },
 });
 
-export const { addItem } = todoSlice.actions;
+export const { login } = todoSlice.actions;
 export default todoSlice.reducer;

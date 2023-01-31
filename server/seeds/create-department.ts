@@ -1,11 +1,12 @@
+import { hashPassword } from '../hash';
 import { Knex } from 'knex';
 
 export async function seed(knex: Knex): Promise<void> {
   // Deletes ALL existing entries
-  await knex('department').del();
-  await knex('job_title').del();
-  await knex('access_level').del();
   await knex('users').del();
+  await knex('access_level').del();
+  await knex('job_title').del();
+  await knex('department').del();
 
   // Inserts seed entries
   await knex('department').insert([
@@ -34,7 +35,7 @@ export async function seed(knex: Knex): Promise<void> {
       email: 'yua_mikami@gmail.com',
       address: 'フクオカケン, キタキュウシュウシトバタク, トバタ, 226-1162',
       job_nature: 'av女優',
-      password: '!TEK-067',
+      password: await hashPassword('!TEK-067'),
       birthday: '1993-08-16',
       employ_date: '2009-03-01',
       working_time: '0900-1200',

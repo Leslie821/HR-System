@@ -2,8 +2,12 @@ import React, { useEffect, useState, ChangeEvent } from "react";
 import { zodResolver } from "@mantine/form";
 import { TextInput, Button, Group, Col, Grid } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
-import { z } from "zod";
+import { any, z } from "zod";
 import { useParams } from "react-router-dom";
+import {
+  fetchServerDataForm,
+  fetchServerDataNonGet,
+} from "../../../utilis/fetchDataUtilis";
 
 const schema = z.object({
   name: z.string().min(2, { message: "Name should have at least 2 letters" }),
@@ -16,12 +20,41 @@ const schema = z.object({
 export type EmployeeInfoFormProps = {
   mode: "create" | "edit";
   data?: any;
+  id: any;
 };
 
 export default function EmployeeInfoForm({
   mode,
   data,
+  id,
 }: EmployeeInfoFormProps) {
+  const employeeInfoForm = async function EmployeeInfoForm() {
+    if (mode === "create") {
+      console.log("hi from create");
+      // const dataFromDB = await fetch("http://localhost:3000/employees", {
+      //   method: "Post",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ state }),
+      // });
+      const dataFromDB = await fetchServerDataNonGet("/employees", "POST", {
+        state,
+      });
+      console.log("data", state);
+      return dataFromDB;
+    } else if (mode === "edit") {
+      console.log("hi from edit");
+      const dataFromDB = await fetch(
+        `http://localhost:3000/employees/update/${id}`,
+        {
+          method: "Post",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ state }),
+        }
+      );
+      return dataFromDB;
+    }
+  };
+
   const [fileContract, setFileContract] = useState<File>();
   const [fileMpf, setFileMpf] = useState<File>();
 
@@ -193,7 +226,7 @@ export default function EmployeeInfoForm({
         <div></div>
         <div></div>
         <div>
-          <Button type="submit" onClick={() => {}}>
+          <Button type="submit" onClick={() => employeeInfoForm()}>
             {state.button}
           </Button>
         </div>

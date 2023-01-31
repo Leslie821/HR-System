@@ -19,8 +19,8 @@ import EmployeeInfoForm from "./Page/Staff Pages/EmployeeFunction";
 import { EmployeeInfoEdit } from "./Page/Staff Pages/EmployeeInfoEdit";
 // import { AddLeaveType } from "./Page/ Leave Pages/addLeaveType";
 //redux
-import { store } from './store/store';
-import { Provider } from 'react-redux';
+import { store } from "./store/store";
+import { Provider } from "react-redux";
 import { JobTitle } from "./Page/Job Title Page/jobTitlePage";
 import { JobTitlePage } from "./Page/Job Title Page/showJobTitlePage";
 
@@ -35,6 +35,10 @@ export interface information {
   status: string;
 }
 
+export interface userId {
+  id: string;
+}
+
 function App() {
   const info: information[] = [
     {
@@ -47,10 +51,16 @@ function App() {
       status: "",
     },
   ];
+
+  const id: userId[] = [
+    {
+      id: "",
+    },
+  ];
+
   return (
     <Provider store={store}>
       <Routes>
-
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<NavbarNested />}>
           <Route path="/" element={<Dashboard />} />
@@ -58,7 +68,7 @@ function App() {
           <Route path="/employees" element={<StaffsList data={info} />} />
           <Route
             path="/employees/create-new-employee"
-            element={<EmployeeInfoForm mode={"create"} />}
+            element={<EmployeeInfoForm mode={"create"} id={id} />}
           />
           <Route path="/employees/:id" element={<EmployeeInfoEdit />} />
           {/* <Route path="/new-employee" element={<CreateNewEmployee />} /> */}
@@ -71,7 +81,7 @@ function App() {
 
           <Route
             path="/employee-info"
-            element={<NewEmployee mode={"create"} />}
+            element={<NewEmployee mode={"create"} id={null} />}
           />
         </Route>
       </Routes>

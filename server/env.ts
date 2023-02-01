@@ -10,6 +10,11 @@ export let env = {
     DB_NAME: '',
     DB_USER: '',
     DB_PASSWORD: '',
+    DB_HOST: '',
+    POSTGRES_HOST: '',
+    POSTGRES_DB: '',
+    POSTGRES_USER: '',
+    POSTGRES_PASSWORD: '',
 }
 
 populateENV(env, { mode: 'halt' })

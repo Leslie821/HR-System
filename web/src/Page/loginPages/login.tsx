@@ -10,6 +10,8 @@ import {
 
 import React, { useState } from "react";
 import { showNotification } from '@mantine/notifications';
+import {  useSelector } from "react-redux";
+import { IRootState} from "../../store/store"; // import me
 
 
 const useStyles = createStyles((theme) => ({
@@ -50,19 +52,31 @@ const useStyles = createStyles((theme) => ({
 export function Login() {
   const { classes } = useStyles();
   const [email, setEmail] = useState("");
-
   const [password, setPassword] = useState("");
-
+  const todoList = useSelector((state:IRootState) => state.user.user ); 
+  console.log("user:",todoList);
+  
   async  function submitLogin(){
 
-    let token = await fetch("http://localhost:3000/auth/login", {
+      let result = await fetch("http://localhost:3000/auth/login", {
       method: "Post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({email, password}),
-    })
-    if (!token){
-      showNotification(token)
-    }else{}
+    }) 
+    
+    let ans =await result.json()
+    console.log("ans:",ans);
+
+    if(!ans.status){
+      showNotification({
+        title: 'Login Failed',
+        message: ans.message,
+        color: "red"
+      })
+    }   
+
+
+      localStorage.setItem("token",ans.token)
   }
   
   return (
@@ -94,11 +108,13 @@ export function Login() {
         <Button 
         fullWidth mt="xl" 
         size="md"
-        onClick={()=>{submitLogin()}}
+        onClick={()=>{ 
+          submitLogin();
+        }}
         >
           Login
         </Button>
       </Paper>
     </div>
   );
-}
+  }

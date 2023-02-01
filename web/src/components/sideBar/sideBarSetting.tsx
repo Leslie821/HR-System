@@ -70,6 +70,7 @@ interface LinksGroupProps {
   icon: TablerIcon;
   label: string;
   initiallyOpened?: boolean;
+  Directink: string;
   links?: { label: string; link: string; accessList: number[] }[];
 }
 

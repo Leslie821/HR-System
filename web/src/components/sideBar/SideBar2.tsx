@@ -27,7 +27,7 @@ const information = [
     label: "Company",
     icon: IconNotes,
     links: [
-      { label: "Department", link: "/" },
+      { label: "Department", link: "/departments" },
       { label: "Job Title", link: "/job_title" },
     ],
   },
@@ -84,8 +84,9 @@ const useStyles = createStyles((theme) => ({
     marginLeft: -theme.spacing.md,
     marginRight: -theme.spacing.md,
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
-    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-      }`,
+    borderBottom: `1px solid ${
+      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+    }`,
   },
 
   links: {
@@ -101,8 +102,9 @@ const useStyles = createStyles((theme) => ({
   footer: {
     marginLeft: -theme.spacing.md,
     marginRight: -theme.spacing.md,
-    borderTop: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-      }`,
+    borderTop: `1px solid ${
+      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+    }`,
   },
 }));
 

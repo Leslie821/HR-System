@@ -23,6 +23,7 @@ import { store } from "./store/store";
 import { Provider } from "react-redux";
 import { JobTitle } from "./Page/Job Title Page/jobTitlePage";
 import { JobTitlePage } from "./Page/Job Title Page/showJobTitlePage";
+import DepartmentPage from "./departmentPage/DepartmentPage";
 
 // "@types/styled-components": "^5.1.26",
 export interface information {
@@ -64,6 +65,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<NavbarNested />}>
           <Route path="/" element={<Dashboard />} />
+          <Route path="/departments" element={<DepartmentPage />} />
 
           <Route path="/employees" element={<StaffsList data={info} />} />
           <Route

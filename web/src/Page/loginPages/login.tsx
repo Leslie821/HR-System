@@ -75,9 +75,10 @@ export function Login() {
         message: ans.message,
         color: "red"
       })
-    }   
+    }   else {
       localStorage.setItem("token",ans.token)
       navigate('/dashboard')
+    }
   }
   
   return (

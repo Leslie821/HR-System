@@ -14,26 +14,29 @@ export class AuthService {
 
   async login(input: { email: string; password: string }) {
     let user = await this.knex
-      .select('id', 'email', 'password')
+      .select('id', 'name', 'email', 'password', 'access_level_id')
       .from('users')
       .where('email', input.email)
       .first();
-    if (!user) throw new HttpException('Wrong Email', HttpStatus.BAD_REQUEST);
+    if (!user) return { status: false, message: 'Wrong email' };
 
     let isMatched = await checkPassword(input.password, user.password);
 
-    if (!isMatched)
-      throw new HttpException('Wrong Password', HttpStatus.BAD_REQUEST);
+    if (!isMatched) return { status: false, message: 'Wrong password' };
 
     const payload: JwtPayload = {
       id: user.id,
-      emil: user.emil,
+      email: user.email,
+      name: user.name,
       access_level_id: user.access_level_id,
     };
+    console.log('auth services payload:', payload);
+
     let token = this.jwtService.sign(payload);
     console.log('token:', token);
 
     return {
+      status: true,
       token,
     };
   }

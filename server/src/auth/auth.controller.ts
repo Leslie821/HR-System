@@ -5,6 +5,8 @@ import {
   UseGuards,
   Body,
   Headers,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { LocalAuthGuard } from './local-auth.guard';
 import { AuthService } from './auth.service';
@@ -16,8 +18,16 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('login')
-  async login(@Body() body: loginInfo) {
-    return this.authService.login(body);
+  async login(@Body() body: { email: string; password: string }) {
+    try {
+      if (!body.email) return { status: false, message: 'no email' };
+
+      if (!body.password) return { status: false, message: 'no password' };
+
+      return await this.authService.login(body);
+    } catch (error) {
+      throw new HttpException('400', HttpStatus.BAD_REQUEST);
+    }
   }
 
   // @Post('login')
@@ -37,6 +47,7 @@ export class AuthController {
     return 'todo';
   }
 }
+
 function IsNotEmpty() {
   throw new Error('Function not implemented.');
 }

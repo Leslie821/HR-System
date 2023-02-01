@@ -66,29 +66,34 @@ function App() {
       <Route path="/" element={<Login />} />
       <Route path="/" element={<NavbarNested />}>
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/departments" element={<DepartmentPage />} />
+        {user && user.access_level_id && [1].includes(user.access_level_id) && (
+        <Route path="/departments" element={<DepartmentPage />} /> )}
 
         {user && user.access_level_id && [1].includes(user.access_level_id) && (
-          <Route path="/employees" element={<StaffsList data={info} />} />
-        )}
+          <Route path="/employees" element={<StaffsList data={info} />} />)}
 
+        {user && user.access_level_id && [1].includes(user.access_level_id) && (
+        <Route path="/employees/create-new-employee"
+          element={<EmployeeInfoForm mode={"create"} id={id} />}/>)}
+
+        {user && user.access_level_id && [1].includes(user.access_level_id) && (
+        <Route path="/employees/:id" element={<EmployeeInfoEdit />} />)}
+
+        {user && user.access_level_id && [1,2,3].includes(user.access_level_id) && (
+        <Route path="/apply-day-off" element={<ApplyDayOff />} />)}
+
+        {user && user.access_level_id && [1,2].includes(user.access_level_id) && (
+        <Route path="/show_dayoff_application" element={<DayoffPending />} />)}
+
+        {user && user.access_level_id && [1].includes(user.access_level_id) && (
+        <Route path="/show_dayoff_type" element={<DayoffType />} />)}
+
+        {user && user.access_level_id && [1].includes(user.access_level_id) && (
+        <Route path="/job_title" element={<JobTitlePage />} />)}
+
+        {user && user.access_level_id && [1].includes(user.access_level_id) && (
         <Route
-          path="/employees/create-new-employee"
-          element={<EmployeeInfoForm mode={"create"} id={id} />}
-        />
-        <Route path="/employees/:id" element={<EmployeeInfoEdit />} />
-        {/* <Route path="/new-employee" element={<CreateNewEmployee />} /> */}
-        <Route path="/apply-day-off" element={<ApplyDayOff />} />
-        {/* <Route path="/add-dayoff-type" element={<AddLeaveType />} /> */}
-
-        <Route path="/show_dayoff_application" element={<DayoffPending />} />
-        <Route path="/show_dayoff_type" element={<DayoffType />} />
-        <Route path="/job_title" element={<JobTitlePage />} />
-
-        <Route
-          path="/employee-info"
-          element={<NewEmployee mode={"create"} id={null} />}
-        />
+          path="/employee-info" element={<NewEmployee mode={"create"} id={null} />}/>)}
       </Route>
     </Routes>
   );

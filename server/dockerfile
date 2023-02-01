@@ -1,4 +1,4 @@
-FROM node:lts-alpine
+FROM --platform=linux/amd64 node:lts-alpine
 WORKDIR /usr/src/app
 RUN npm init --yes
 # RUN npm install --save ...
@@ -8,7 +8,6 @@ COPY package.json .
 COPY . .
 EXPOSE 3000
 CMD cd dist && \
-    ls &&  \
     npx knex migrate:latest &&\
     npx knex seed:run &&\
     cd .. && \

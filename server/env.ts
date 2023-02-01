@@ -1,15 +1,19 @@
-import { config } from "dotenv";
-import populateENV from 'populate-env'
+import { config } from 'dotenv';
+import populateENV from 'populate-env';
 
-
-config()
+config();
 
 // eslint-disable-next-line prefer-const
 export let env = {
-    NODE_ENV: '',
-    DB_NAME: '',
-    DB_USER: '',
-    DB_PASSWORD: '',
-}
+  NODE_ENV: '',
+  DB_NAME: '',
+  DB_USER: '',
+  DB_PASSWORD: '',
+  POSTGRES_HOST: '',
+  DB_HOST: '',
+  POSTGRES_DB: '',
+  POSTGRES_USER: '',
+  POSTGRES_PASSWORD: '',
+};
 
-populateENV(env, { mode: 'halt' })
+populateENV(env, { mode: 'halt' });

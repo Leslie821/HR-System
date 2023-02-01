@@ -3,6 +3,7 @@ import jwtDecode from "jwt-decode";
 export type JWTPayload = {
   id: number;
   email: string;
+  name: string;
   access_level_id: number;
 };
 
@@ -12,19 +13,21 @@ export function getLocalStorage() {
 
     if (token) {
       let decode: JWTPayload = jwtDecode(token);
+      console.log("decode:", decode);
+
       let user = {
         id: decode.id,
         email: decode.email,
+        name: decode.name,
         access_level_id: decode.access_level_id,
-        token: token,
       };
       return user;
+    } else {
+      return null;
     }
   } catch (error) {
     return null;
   }
-
-  return null;
 }
 
 export function clearLocalStorage() {

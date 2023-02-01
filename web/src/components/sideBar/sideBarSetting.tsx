@@ -96,7 +96,7 @@ export function LinksGroup({
 
   return (
     <>
-      <span onClick={() => navigate("/")}>
+      <span onClick={() => navigate("/dashboard")}>
         <UnstyledButton
           onClick={() => setOpened((o) => !o)}
           className={classes.control}

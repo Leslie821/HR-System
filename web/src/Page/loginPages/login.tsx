@@ -12,6 +12,7 @@ import React, { useState } from "react";
 import { showNotification } from '@mantine/notifications';
 import {  useSelector } from "react-redux";
 import { IRootState} from "../../store/store"; // import me
+import { Navigate, useNavigate } from 'react-router-dom';
 
 
 const useStyles = createStyles((theme) => ({
@@ -54,6 +55,7 @@ export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const todoList = useSelector((state:IRootState) => state.user.user ); 
+  const navigate = useNavigate();
   console.log("user:",todoList);
   
   async  function submitLogin(){
@@ -74,9 +76,8 @@ export function Login() {
         color: "red"
       })
     }   
-
-
       localStorage.setItem("token",ans.token)
+      navigate('/dashboard')
   }
   
   return (

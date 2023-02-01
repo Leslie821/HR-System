@@ -62,9 +62,9 @@ function App() {
   return (
     <Provider store={store}>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/" element={<NavbarNested />}>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/departments" element={<DepartmentPage />} />
 
           <Route path="/employees" element={<StaffsList data={info} />} />

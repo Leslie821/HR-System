@@ -1,14 +1,8 @@
 /* eslint-disable prettier/prettier */
-<<<<<<< HEAD
 import * as dotenv from 'dotenv';
 import type { Knex } from 'knex';
 dotenv.config();
-=======
-import * as dotenv from 'dotenv'
-import type { Knex } from "knex";
-dotenv.config()
 
->>>>>>> 7801b11e2576f8cf931e6898567392512888a1d4
 // Update with your config settings.
 
 const config: { [key: string]: Knex.Config } = {

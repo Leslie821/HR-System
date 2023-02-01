@@ -55,16 +55,16 @@ const information = [
     links: [
       { label: "Leave Application", link: "/apply-day-off", icon: IconNotes },
       { label: "Leave Type", link: "/show_dayoff_type", icon: IconNotes },
-      { label: "Reports", link: "/", icon: IconNotes },
+      { label: "Reports", link: "/dashboard", icon: IconNotes },
     ],
   },
   {
     label: "Expense Claims",
     icon: IconLock,
     links: [
-      { label: "Claims Balance", link: "/", icon: IconNotes },
-      { label: "Claims Application", link: "/", icon: IconNotes },
-      { label: "Reports", link: "/", icon: IconNotes },
+      { label: "Claims Balance", link: "/dashboard", icon: IconNotes },
+      { label: "Claims Application", link: "/dashboard", icon: IconNotes },
+      { label: "Reports", link: "/dashboard", icon: IconNotes },
     ],
   },
 ];

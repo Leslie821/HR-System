@@ -15,6 +15,8 @@ import {
   IconChevronRight,
 } from "@tabler/icons";
 import { Navigate, useNavigate } from "react-router-dom";
+import { IRootState } from "../../store/store";
+import { useSelector } from "react-redux";
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -68,7 +70,7 @@ interface LinksGroupProps {
   icon: TablerIcon;
   label: string;
   initiallyOpened?: boolean;
-  links?: { label: string; link: string }[];
+  links?: { label: string; link: string; accessList: number[] }[];
 }
 
 export function LinksGroup({
@@ -77,26 +79,40 @@ export function LinksGroup({
   initiallyOpened,
   links,
 }: LinksGroupProps) {
+  const user = useSelector((state: IRootState) => state.user.user); //access_level_id
+
   const { classes, theme } = useStyles();
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
   const ChevronIcon = theme.dir === "ltr" ? IconChevronRight : IconChevronLeft;
   const navigate = useNavigate();
-  const items = (hasLinks ? links : []).map((link) => (
-    <Text<"a">
-      component="a"
-      className={classes.link}
-      key={link.label}
-      // onClick={(event) => event.preventDefault()}
-      onClick={() => navigate(link.link)}
-    >
-      {link.label}
-    </Text>
-  ));
+
+  const items = (hasLinks ? links : []).map((link) => {
+    console.log(user);
+
+    if (
+      link.accessList &&
+      !link.accessList.includes(user?.access_level_id ?? -1)
+    ) {
+      return <></>;
+    }
+
+    return (
+      <Text<"a">
+        component="a"
+        className={classes.link}
+        key={link.label}
+        // onClick={(event) => event.preventDefault()}
+        onClick={() => navigate(link.link)}
+      >
+        {link.label}
+      </Text>
+    );
+  });
 
   return (
     <>
-      <span onClick={() => navigate("/")}>
+      <span onClick={() => navigate("/dashboard")}>
         <UnstyledButton
           onClick={() => setOpened((o) => !o)}
           className={classes.control}

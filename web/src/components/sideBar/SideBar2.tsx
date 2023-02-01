@@ -16,7 +16,9 @@ import {
   IconLock,
   IconAssembly,
 } from "@tabler/icons";
+import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
+import { IRootState } from "../../store/store";
 import { LinksGroup } from "./sideBarSetting";
 import { UserButton } from "./sideBarSetting2";
 // import { Logo } from "./Logo";
@@ -35,7 +37,14 @@ const information = [
     label: "Staffs",
     icon: IconCalendarStats,
     // link: "/staff-list",
-    links: [{ label: "Staff List", link: "/employees", icon: IconNotes }],
+    links: [
+      {
+        label: "Staff List",
+        link: "/employees",
+        icon: IconNotes,
+        accessList: [1],
+      },
+    ],
   },
   {
     label: "Request",
@@ -46,7 +55,7 @@ const information = [
         link: "/show_dayoff_application",
         icon: IconNotes,
       },
-      { label: "Claim Request", link: "/", icon: IconNotes },
+      { label: "Claim Request", link: "/dashboard", icon: IconNotes },
     ],
   },
   {
@@ -55,16 +64,16 @@ const information = [
     links: [
       { label: "Leave Application", link: "/apply-day-off", icon: IconNotes },
       { label: "Leave Type", link: "/show_dayoff_type", icon: IconNotes },
-      { label: "Reports", link: "/", icon: IconNotes },
+      { label: "Reports", link: "/dashboard", icon: IconNotes },
     ],
   },
   {
     label: "Expense Claims",
     icon: IconLock,
     links: [
-      { label: "Claims Balance", link: "/", icon: IconNotes },
-      { label: "Claims Application", link: "/", icon: IconNotes },
-      { label: "Reports", link: "/", icon: IconNotes },
+      { label: "Claims Balance", link: "/dashboard", icon: IconNotes },
+      { label: "Claims Application", link: "/dashboard", icon: IconNotes },
+      { label: "Reports", link: "/dashboard", icon: IconNotes },
     ],
   },
 ];
@@ -109,9 +118,11 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export function NavbarNested() {
+  const user = useSelector((state: IRootState) => state.user.user); //access_level_id
+
   const { classes } = useStyles();
   const links = information.map((item) => (
-    <LinksGroup {...item} key={item.label} />
+    <LinksGroup {...(item as any)} key={item.label} />
   ));
 
   return (

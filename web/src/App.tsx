@@ -19,8 +19,8 @@ import EmployeeInfoForm from "./Page/Staff Pages/EmployeeFunction";
 import { EmployeeInfoEdit } from "./Page/Staff Pages/EmployeeInfoEdit";
 // import { AddLeaveType } from "./Page/ Leave Pages/addLeaveType";
 //redux
-import { store } from "./store/store";
-import { Provider } from "react-redux";
+import { IRootState, store } from "./store/store";
+import { Provider, useSelector } from "react-redux";
 import { JobTitle } from "./Page/Job Title Page/jobTitlePage";
 import { JobTitlePage } from "./Page/Job Title Page/showJobTitlePage";
 import DepartmentPage from "./departmentPage/DepartmentPage";
@@ -41,6 +41,8 @@ export interface userId {
 }
 
 function App() {
+  const user = useSelector((state: IRootState) => state.user.user); //access_level_id
+
   const info: information[] = [
     {
       id: "",
@@ -60,34 +62,35 @@ function App() {
   ];
 
   return (
-    <Provider store={store}>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/" element={<NavbarNested />}>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/departments" element={<DepartmentPage />} />
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/" element={<NavbarNested />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/departments" element={<DepartmentPage />} />
 
+        {user && user.access_level_id && [1].includes(user.access_level_id) && (
           <Route path="/employees" element={<StaffsList data={info} />} />
-          <Route
-            path="/employees/create-new-employee"
-            element={<EmployeeInfoForm mode={"create"} id={id} />}
-          />
-          <Route path="/employees/:id" element={<EmployeeInfoEdit />} />
-          {/* <Route path="/new-employee" element={<CreateNewEmployee />} /> */}
-          <Route path="/apply-day-off" element={<ApplyDayOff />} />
-          {/* <Route path="/add-dayoff-type" element={<AddLeaveType />} /> */}
+        )}
 
-          <Route path="/show_dayoff_application" element={<DayoffPending />} />
-          <Route path="/show_dayoff_type" element={<DayoffType />} />
-          <Route path="/job_title" element={<JobTitlePage />} />
+        <Route
+          path="/employees/create-new-employee"
+          element={<EmployeeInfoForm mode={"create"} id={id} />}
+        />
+        <Route path="/employees/:id" element={<EmployeeInfoEdit />} />
+        {/* <Route path="/new-employee" element={<CreateNewEmployee />} /> */}
+        <Route path="/apply-day-off" element={<ApplyDayOff />} />
+        {/* <Route path="/add-dayoff-type" element={<AddLeaveType />} /> */}
 
-          <Route
-            path="/employee-info"
-            element={<NewEmployee mode={"create"} id={null} />}
-          />
-        </Route>
-      </Routes>
-    </Provider>
+        <Route path="/show_dayoff_application" element={<DayoffPending />} />
+        <Route path="/show_dayoff_type" element={<DayoffType />} />
+        <Route path="/job_title" element={<JobTitlePage />} />
+
+        <Route
+          path="/employee-info"
+          element={<NewEmployee mode={"create"} id={null} />}
+        />
+      </Route>
+    </Routes>
   );
 }
 

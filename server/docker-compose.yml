@@ -14,7 +14,7 @@ services:
     build:
       context: ./
       dockerfile: ./Dockerfile
-    image: 'hr-system:latest'
+    image: 'leslie821/hr-system:latest'
     ports:
       - '3000:3000'
   hr-db:

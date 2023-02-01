@@ -2,6 +2,7 @@ import { Knex } from 'knex';
 
 export async function up(knex: Knex): Promise<void> {
   if (!(await knex.schema.hasTable('department'))) {
+
     await knex.schema.createTable('department', (table) => {
       table.increments('id');
       table.string('department_name', 255).notNullable();

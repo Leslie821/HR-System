@@ -8,6 +8,7 @@ import { KnexModule } from 'nest-knexjs';
 import { CheckInModule } from './check_in/check_in.module';
 import { StaffModule } from './staff/staff.module';
 import { AuthModule } from './auth/auth.module';
+import { JobTitleModule } from './job_title/job_title.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { AuthModule } from './auth/auth.module';
     LeaveModule,
     CheckInModule,
     StaffModule,
+    JobTitleModule,
     AuthModule,
   ],
   controllers: [AppController],

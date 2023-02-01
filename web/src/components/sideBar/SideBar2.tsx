@@ -29,8 +29,8 @@ const information = [
     label: "Company",
     icon: IconNotes,
     links: [
-      { label: "Department", link: "/departments" },
-      { label: "Job Title", link: "/job_title" },
+      { label: "Department", link: "/departments" ,accessList: [1]},
+      { label: "Job Title", link: "/job_title" ,accessList: [1]},
     ],
   },
   {
@@ -57,13 +57,14 @@ const information = [
       },
       { label: "Claim Request", link: "/dashboard", icon: IconNotes },
     ],
+    accessList: [1,2]
   },
   {
     label: "Leave",
     icon: IconLock,
     links: [
-      { label: "Leave Application", link: "/apply-day-off", icon: IconNotes },
-      { label: "Leave Type", link: "/show_dayoff_type", icon: IconNotes },
+      { label: "Leave Application", link: "/apply-day-off", icon: IconNotes ,accessList: [1,2,3]},
+      { label: "Leave Type", link: "/show_dayoff_type", icon: IconNotes ,accessList: [1,2]},
       { label: "Reports", link: "/dashboard", icon: IconNotes },
     ],
   },
@@ -71,8 +72,8 @@ const information = [
     label: "Expense Claims",
     icon: IconLock,
     links: [
-      { label: "Claims Balance", link: "/dashboard", icon: IconNotes },
-      { label: "Claims Application", link: "/dashboard", icon: IconNotes },
+      { label: "Claims Balance", link: "/dashboard", icon: IconNotes ,accessList: [1,2,3]},
+      { label: "Claims Application", link: "/dashboard", icon: IconNotes ,accessList: [1,2]},
       { label: "Reports", link: "/dashboard", icon: IconNotes },
     ],
   },

@@ -1,8 +1,14 @@
 /* eslint-disable prettier/prettier */
+<<<<<<< HEAD
+import * as dotenv from 'dotenv';
+import type { Knex } from 'knex';
+dotenv.config();
+=======
 import * as dotenv from 'dotenv'
 import type { Knex } from "knex";
 dotenv.config()
 
+>>>>>>> 7801b11e2576f8cf931e6898567392512888a1d4
 // Update with your config settings.
 
 const config: { [key: string]: Knex.Config } = {
@@ -25,7 +31,7 @@ const config: { [key: string]: Knex.Config } = {
   },
 
   staging: {
-    client: "postgresql",
+    client: 'postgresql',
     connection: {
       database: process.env.DB_NAME,
       user: process.env.DB_USER,
@@ -33,15 +39,15 @@ const config: { [key: string]: Knex.Config } = {
     },
     pool: {
       min: 2,
-      max: 10
+      max: 10,
     },
     migrations: {
-      tableName: "knex_migrations"
-    }
+      tableName: 'knex_migrations',
+    },
   },
 
   production: {
-    client: "postgresql",
+    client: 'postgresql',
     connection: {
       host: process.env.POSTGRES_HOST,
       database: process.env.POSTGRES_DB,
@@ -50,13 +56,12 @@ const config: { [key: string]: Knex.Config } = {
     },
     pool: {
       min: 2,
-      max: 10
+      max: 10,
     },
     migrations: {
-      tableName: "knex_migrations"
-    }
-  }
-
+      tableName: 'knex_migrations',
+    },
+  },
 };
 
 module.exports = config;

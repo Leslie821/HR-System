@@ -35,4 +35,8 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 .env
+<<<<<<< HEAD
+pgdata
+=======
 pgdata/
+>>>>>>> 7801b11e2576f8cf931e6898567392512888a1d4

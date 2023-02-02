@@ -1,4 +1,3 @@
-import { knex } from './../../db';
 import { Injectable } from '@nestjs/common';
 import { CreateStaffDto } from './dto/create-staff.dto';
 import { UpdateStaffDto } from './dto/update-staff.dto';

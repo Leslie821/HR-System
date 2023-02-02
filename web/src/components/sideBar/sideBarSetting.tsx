@@ -70,6 +70,7 @@ interface LinksGroupProps {
   icon: TablerIcon;
   label: string;
   initiallyOpened?: boolean;
+  Directink: string;
   links?: { label: string; link: string; accessList: number[] }[];
 }
 
@@ -88,8 +89,6 @@ export function LinksGroup({
   const navigate = useNavigate();
 
   const items = (hasLinks ? links : []).map((link) => {
-    console.log(user);
-
     if (
       link.accessList &&
       !link.accessList.includes(user?.access_level_id ?? -1)

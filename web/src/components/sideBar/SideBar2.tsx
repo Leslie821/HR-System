@@ -24,7 +24,7 @@ import { UserButton } from "./sideBarSetting2";
 // import { Logo } from "./Logo";
 
 const information = [
-  { label: "Dashboard", icon: IconGauge },
+  { label: "Dashboard", icon: IconGauge, link: "dashboard" },
   {
     label: "Company",
     icon: IconNotes,

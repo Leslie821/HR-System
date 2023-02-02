@@ -1,7 +1,7 @@
 import { Box, Button, Select, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useEffect, useState } from "react";
-import { fetchServerData } from "../../utilis/fetchDataUtilis";
+import { fetchServerData } from "../../../utilis/fetchDataUtilis";
 // import Selector from "../components/selector/Selector";
 
 function DepartmentAddNew() {

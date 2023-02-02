@@ -89,8 +89,6 @@ export function LinksGroup({
   const navigate = useNavigate();
 
   const items = (hasLinks ? links : []).map((link) => {
-    console.log(user);
-
     if (
       link.accessList &&
       !link.accessList.includes(user?.access_level_id ?? -1)

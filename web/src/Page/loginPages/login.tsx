@@ -6,47 +6,47 @@ import {
   Checkbox,
   Button,
   Title,
-} from '@mantine/core';
+} from "@mantine/core";
 
 import React, { useState } from "react";
-import { showNotification } from '@mantine/notifications';
-import {  useSelector } from "react-redux";
-import { IRootState} from "../../store/store"; // import me
-import { Navigate, useNavigate } from 'react-router-dom';
-
+import { showNotification } from "@mantine/notifications";
+import { useSelector } from "react-redux";
+import { IRootState } from "../../store/store"; // import me
+import { Navigate, useNavigate } from "react-router-dom";
+import { fetchServerDataNonGet } from "../../../utilis/fetchDataUtilis";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
     minHeight: 900,
-    backgroundSize: 'cover',
+    backgroundSize: "cover",
     backgroundImage:
-      'url(https://images.unsplash.com/photo-1484242857719-4b9144542727?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1280&q=80)',
+      "url(https://images.unsplash.com/photo-1484242857719-4b9144542727?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1280&q=80)",
   },
 
   form: {
     borderRight: `1px solid ${
-      theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[3]
+      theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[3]
     }`,
     minHeight: 900,
     maxWidth: 450,
     paddingTop: 80,
 
     [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
-      maxWidth: '100%',
+      maxWidth: "100%",
     },
   },
 
   title: {
-    color: theme.colorScheme === 'dark' ? theme.white : theme.black,
+    color: theme.colorScheme === "dark" ? theme.white : theme.black,
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
   },
 
   logo: {
-    color: theme.colorScheme === 'dark' ? theme.white : theme.black,
+    color: theme.colorScheme === "dark" ? theme.white : theme.black,
     width: 120,
-    display: 'block',
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    display: "block",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
 }));
 
@@ -54,69 +54,76 @@ export function Login() {
   const { classes } = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const todoList = useSelector((state:IRootState) => state.user.user ); 
+  const todoList = useSelector((state: IRootState) => state.user.user);
   const navigate = useNavigate();
-  console.log("user:",todoList);
-  
-  async  function submitLogin(){
+  console.log("user:", todoList);
 
-      let result = await fetch("http://localhost:3000/auth/login", {
-      method: "Post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({email, password}),
-    }) 
-    
-    let ans =await result.json()
-    console.log("ans:",ans);
+  async function submitLogin() {
+    let ans = await fetchServerDataNonGet("/auth/login", "POST", {
+      email,
+      password,
+    });
+    // let result = await fetch("http://localhost:3000/auth/login", {
+    // method: "Post",
+    // headers: { "Content-Type": "application/json" },
+    // body: JSON.stringify({email, password}),
+    // })
 
-    if(!ans.status){
+    console.log("ans:", ans);
+
+    if (!ans.status) {
       showNotification({
-        title: 'Login Failed',
+        title: "Login Failed",
         message: ans.message,
-        color: "red"
-      })
-    }   else {
-      localStorage.setItem("token",ans.token)
-      navigate('/dashboard')
+        color: "red",
+      });
+    } else {
+      localStorage.setItem("token", ans.token);
+      navigate("/dashboard");
     }
   }
-  
+
   return (
     <div className={classes.wrapper}>
-      <Paper 
-      className={classes.form} 
-      radius={0} 
-      p={30}>
-        <Title order={2} className={classes.title} align="center" mt="md" mb={50}>
+      <Paper className={classes.form} radius={0} p={30}>
+        <Title
+          order={2}
+          className={classes.title}
+          align="center"
+          mt="md"
+          mb={50}
+        >
           Welcome back to {}!
         </Title>
 
-        <TextInput 
-          label="Email Address" 
-          placeholder="your@gmail.com" 
-          size="md" 
-          type= 'text'
-          value={email} 
-          onChange={(e) => setEmail(e.target.value)}/>
-        <PasswordInput 
-          label="Password" 
-          placeholder="Your password" 
-          mt="md" 
-          size="md" 
+        <TextInput
+          label="Email Address"
+          placeholder="your@gmail.com"
+          size="md"
+          type="text"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <PasswordInput
+          label="Password"
+          placeholder="Your password"
+          mt="md"
+          size="md"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <Checkbox label="Keep me logged in" mt="xl" size="md" />
-        <Button 
-        fullWidth mt="xl" 
-        size="md"
-        onClick={()=>{ 
-          submitLogin();
-        }}
+        <Button
+          fullWidth
+          mt="xl"
+          size="md"
+          onClick={() => {
+            submitLogin();
+          }}
         >
           Login
         </Button>
       </Paper>
     </div>
   );
-  }
+}

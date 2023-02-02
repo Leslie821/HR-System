@@ -24,6 +24,7 @@ import { Provider, useSelector } from "react-redux";
 import { JobTitle } from "./Page/Job Title Page/jobTitlePage";
 import { JobTitlePage } from "./Page/Job Title Page/showJobTitlePage";
 import DepartmentPage from "./departmentPage/DepartmentPage";
+import { ApplyClaimFormPage } from "./Page/Claims Page/applyClaimFormPage";
 
 // "@types/styled-components": "^5.1.26",
 export interface information {
@@ -113,6 +114,10 @@ function App() {
             path="/employee-info"
             element={<NewEmployee mode={"create"} id={null} />}
           />
+        )}
+
+        {user && user.access_level_id && [1,2,3].includes(user.access_level_id) && (
+          <Route path="/apply-claim-form" element={<ApplyClaimFormPage />} />
         )}
       </Route>
     </Routes>

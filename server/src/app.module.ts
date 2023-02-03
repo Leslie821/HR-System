@@ -10,6 +10,7 @@ import { StaffModule } from './staff/staff.module';
 import { AuthModule } from './auth/auth.module';
 import { DepartmentModule } from './department/department.module';
 import { JobTitleModule } from './job_title/job_title.module';
+import { ClaimFormModule } from './claim-form/claim-form.module';
 
 @Module({
   imports: [
@@ -42,8 +43,9 @@ import { JobTitleModule } from './job_title/job_title.module';
     JobTitleModule,
     AuthModule,
     DepartmentModule,
+    ClaimFormModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

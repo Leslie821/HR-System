@@ -7,6 +7,6 @@ import { env } from './env'
 const profiles = require('./knexfile')
 // console.log(profiles)
 
-const config = profiles[env.NODE_ENV]
+export const knexConfig = profiles[env.NODE_ENV]
 
-export const knex = Knex(config)
+export const knex = Knex(knexConfig)

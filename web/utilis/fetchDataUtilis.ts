@@ -1,5 +1,6 @@
+
 export async function fetchServerData(apiPath: string) { // GET
-    let res = await fetch(`http://localhost:3000` + apiPath);
+    let res = await fetch(import.meta.env.VITE_SERVER_API + apiPath);
 
     let data = await res.json();
     return data

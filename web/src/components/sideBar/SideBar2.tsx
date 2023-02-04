@@ -16,26 +16,35 @@ import {
   IconLock,
   IconAssembly,
 } from "@tabler/icons";
+import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
+import { IRootState } from "../../store/store";
 import { LinksGroup } from "./sideBarSetting";
 import { UserButton } from "./sideBarSetting2";
 // import { Logo } from "./Logo";
 
 const information = [
-  { label: "Dashboard", icon: IconGauge },
+  { label: "Dashboard", icon: IconGauge, link: "dashboard" },
   {
     label: "Company",
     icon: IconNotes,
     links: [
-      { label: "Department", link: "/" },
-      { label: "Job Title", link: "/job_title" },
+      { label: "Department", link: "/departments" ,accessList: [1]},
+      { label: "Job Title", link: "/job_title" ,accessList: [1]},
     ],
   },
   {
     label: "Staffs",
     icon: IconCalendarStats,
     // link: "/staff-list",
-    links: [{ label: "Staff List", link: "/employees", icon: IconNotes }],
+    links: [
+      {
+        label: "Staff List",
+        link: "/employees",
+        icon: IconNotes,
+        accessList: [1],
+      },
+    ],
   },
   {
     label: "Request",
@@ -46,25 +55,26 @@ const information = [
         link: "/show_dayoff_application",
         icon: IconNotes,
       },
-      { label: "Claim Request", link: "/", icon: IconNotes },
+      { label: "Claim Request", link: "/apply-claim-form", icon: IconNotes },
     ],
+    accessList: [1,2]
   },
   {
     label: "Leave",
     icon: IconLock,
     links: [
-      { label: "Leave Application", link: "/apply-day-off", icon: IconNotes },
-      { label: "Leave Type", link: "/show_dayoff_type", icon: IconNotes },
-      { label: "Reports", link: "/", icon: IconNotes },
+      { label: "Leave Application", link: "/apply-day-off", icon: IconNotes ,accessList: [1,2,3]},
+      { label: "Leave Type", link: "/show_dayoff_type", icon: IconNotes ,accessList: [1,2]},
+      { label: "Reports", link: "/dashboard", icon: IconNotes },
     ],
   },
   {
     label: "Expense Claims",
     icon: IconLock,
     links: [
-      { label: "Claims Balance", link: "/", icon: IconNotes },
-      { label: "Claims Application", link: "/", icon: IconNotes },
-      { label: "Reports", link: "/", icon: IconNotes },
+      { label: "Claims Balance", link: "/dashboard", icon: IconNotes ,accessList: [1,2,3]},
+      { label: "Claims Application", link: "/dashboard", icon: IconNotes ,accessList: [1,2]},
+      { label: "Reports", link: "/dashboard", icon: IconNotes },
     ],
   },
 ];
@@ -84,8 +94,9 @@ const useStyles = createStyles((theme) => ({
     marginLeft: -theme.spacing.md,
     marginRight: -theme.spacing.md,
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
-    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-      }`,
+    borderBottom: `1px solid ${
+      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+    }`,
   },
 
   links: {
@@ -101,15 +112,18 @@ const useStyles = createStyles((theme) => ({
   footer: {
     marginLeft: -theme.spacing.md,
     marginRight: -theme.spacing.md,
-    borderTop: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-      }`,
+    borderTop: `1px solid ${
+      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+    }`,
   },
 }));
 
 export function NavbarNested() {
+  const user = useSelector((state: IRootState) => state.user.user); //access_level_id
+
   const { classes } = useStyles();
   const links = information.map((item) => (
-    <LinksGroup {...item} key={item.label} />
+    <LinksGroup {...(item as any)} key={item.label} />
   ));
 
   return (

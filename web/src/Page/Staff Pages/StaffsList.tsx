@@ -111,8 +111,6 @@ export function StaffsList(props: Props) {
   ];
 
   const { classes } = useStyleTable();
-  const [searchValue, setSearchValue] = useState("");
-
   const [users, setUsers] = useState<any>([
     {
       users_name: "",

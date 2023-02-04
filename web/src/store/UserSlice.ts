@@ -5,14 +5,13 @@ import {
   clearLocalStorage,
   JWTPayload,
 } from "../localStorage";
-import { Form } from "react-router-dom";
 
 export interface UserState {
   user: {
     id: number;
     email: string;
+    name: string;
     access_level_id: number;
-    token: string;
   } | null;
 }
 
@@ -24,21 +23,12 @@ const loginSlice = createSlice({
   name: "user",
   initialState: initialState,
   reducers: {
-    login(state: UserState, action: PayloadAction<{ token: string }>) {
-      if (action.payload) {
-        let decode: JWTPayload = jwtDecode(action.payload.token);
-        state.user = {
-          id: decode.id,
-          email: decode.email,
-          access_level_id: decode.access_level_id,
-          token: action.payload.token,
-        };
-      } else {
-        console.log();
-      }
+    loginOut() {
+      clearLocalStorage();
     },
   },
 });
 
-export const { login } = loginSlice.actions;
+export const { loginOut } = loginSlice.actions;
+
 export default loginSlice.reducer;

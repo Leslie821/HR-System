@@ -1,0 +1,6 @@
+node_modules/
+pgdata/
+Dockerfile
+package-lock.json
+yarn.lock
+

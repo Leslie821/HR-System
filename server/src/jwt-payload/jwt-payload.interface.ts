@@ -1,5 +1,6 @@
 export interface JwtPayload {
   id: number;
-  emil: string;
+  email: string;
+  name: string;
   access_level_id: number;
 }

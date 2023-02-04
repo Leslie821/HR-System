@@ -11,7 +11,7 @@ import { number } from "zod";
 
 export function ApplyDayOff() {
   const [dayofftype, setdayofftype] = useState<any[]>([])
-  console.log("tyep from DB not map", typeof dayofftype);
+
 
   const [from, setFrom] = useState<any>(new Date())
   const [to, setTo] = useState<any>(new Date())
@@ -31,7 +31,7 @@ export function ApplyDayOff() {
     })
     let result = await rawresult.json()
 
-    console.log(result);
+    // console.log(result);
     setdayofftype(result.filter((v: { short_form: any; }) => !!v.short_form))
   }
 
@@ -95,10 +95,12 @@ export function ApplyDayOff() {
       reason: "",
     })
     setTotal("")
+  }
 
+  function checkInOut(inputValue: string) {
+    console.log(inputValue);
 
-
-
+    fetch(`http://localhost:3000/checkin/${inputValue}`)
   }
   return (
     <>
@@ -227,8 +229,14 @@ export function ApplyDayOff() {
 
       <div style={{ paddingLeft: "600px" }}>
         <button onClick={() => {
-          Checkin()
-        }}>check ip</button>
+          checkInOut("in")
+        }}>check in</button>
+      </div>
+
+      <div style={{ paddingLeft: "600px" }}>
+        <button onClick={() => {
+          checkInOut("out")
+        }}>check out</button>
       </div>
 
     </>

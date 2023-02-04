@@ -23,7 +23,7 @@ export function JobTitle() {
 
         setdepartmentID(result)
     }
-    console.log("this is id from dB", departmentID);
+    // console.log("this is id from dB", departmentID);
     useEffect(() => {
         loadDepartmentID();
     }, [])

@@ -5,7 +5,7 @@ import { InjectModel } from 'nest-knexjs';
 
 @Injectable()
 export class LeaveService {
-  constructor(@InjectModel() private knex: Knex) { }
+  constructor(@InjectModel() private knex: Knex) {}
   async createNewDayoffType(formInfo: {
     dayoff_name: string;
     short_form: string;
@@ -128,7 +128,7 @@ export class LeaveService {
           .where('id', formInfo[i].id)
           .andWhere('status', 'pending');
       }
-      console.log('service update status', formInfo);
+      // console.log('service update status', formInfo);
     } catch (error) {
       console.log('get type error', error);
     }

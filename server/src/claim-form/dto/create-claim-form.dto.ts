@@ -1,6 +1,7 @@
 export class CreateClaimFormDto {
-  submitTo: number;
-  data: string;
+  staff_id: string;
+  submitTo: string;
+  date: string;
   remark: string;
   type: string;
   amount: string;

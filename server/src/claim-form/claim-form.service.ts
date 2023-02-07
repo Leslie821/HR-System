@@ -9,14 +9,28 @@ export class ClaimFormService {
   constructor(@InjectModel() private knex: Knex) {}
 
   create(createClaimFormDto: CreateClaimFormDto) {
-    return 'This action adds a new claimForm';
+    console.log('HIHI:', createClaimFormDto);
+
+    let insertInfo = this.knex
+      .insert({
+        staff_id: +createClaimFormDto.staff_id,
+        approved_staff_id: +createClaimFormDto.submitTo,
+        date: createClaimFormDto.date,
+        type: createClaimFormDto.type,
+        amount: +createClaimFormDto.amount,
+        remark: createClaimFormDto.remark,
+        status: 'pending',
+      })
+      .into('claim_request')
+      .returning('id');
+    return insertInfo;
   }
 
-  async findAll() {
+  async findManagerList() {
     let managerList = await this.knex('users')
       .select(
         'users.name as users_name',
-        'department.name as department_name',
+        'department.department_name as department_name',
         'users.id as users_id',
       )
       .join('department', 'users.department_id', 'department.id')
@@ -24,8 +38,24 @@ export class ClaimFormService {
     return managerList;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} claimForm`;
+  async findOne(id: number) {
+    let myClaimForm = await this.knex('claim_request')
+      .select('type', 'date', 'amount', 'remark', 'status')
+      .where('staff_id', '=', id);
+    return myClaimForm;
+  }
+
+  // async findApplication(id: number) {
+  //   let Application = await this.knex('claim_request')
+  //     .select('*')
+  //     // .join('users', 'users.id',)
+  //     .where('approved_staff_id', '=', id);
+  //   return Application;
+  // }
+
+  async findAllClaimForms() {
+    let AllApplications = await this.knex.select().from('claim_request');
+    return AllApplications;
   }
 
   update(id: number, updateClaimFormDto: UpdateClaimFormDto) {

@@ -1,12 +1,10 @@
-import React from "react"
-export async function Checkin() {
-    console.log("check ip");
+import React from "react";
+export async function CheckInOut() {
+  console.log("check ip");
 
-    let result = await fetch("http://localhost:3000/checkin", {
-        method: "Get",
-    })
+  let result = await fetch("http://localhost:3000/checkin", {
+    method: "Get",
+  });
 
-    console.log(result);
-
-
+  console.log(result);
 }

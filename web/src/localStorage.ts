@@ -1,3 +1,5 @@
+
+
 import jwtDecode from "jwt-decode";
 
 export type JWTPayload = {
@@ -8,26 +10,26 @@ export type JWTPayload = {
 };
 
 export function getLocalStorage() {
-  try {
-    let token = localStorage.getItem("token");
 
-    if (token) {
-      let decode: JWTPayload = jwtDecode(token);
-      console.log("decode:", decode);
+  let token = localStorage.getItem("token") ? localStorage.getItem("token") : null;
 
-      let user = {
-        id: decode.id,
-        email: decode.email,
-        name: decode.name,
-        access_level_id: decode.access_level_id,
-      };
-      return user;
-    } else {
-      return null;
-    }
-  } catch (error) {
+  if (token) {
+    let decode: JWTPayload = jwtDecode(token);
+    console.log("decode:", decode);
+
+    let user = {
+      id: decode.id,
+      email: decode.email,
+      name: decode.name,
+      access_level_id: decode.access_level_id,
+    };
+    return user;
+  } else {
+    console.log("token can't get");
+
     return null;
   }
+
 }
 
 export function clearLocalStorage() {

@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { ClaimFormService } from './claim-form.service';
 import { CreateClaimFormDto } from './dto/create-claim-form.dto';
@@ -18,24 +20,37 @@ export class ClaimFormController {
   @Post('apply')
   create(@Body() createClaimFormDto: CreateClaimFormDto) {
     if (!CreateClaimFormDto) {
-      return { status: false, message: 'Missing Information' };
+      throw new HttpException('Missing Info', HttpStatus.BAD_REQUEST);
     } else {
-      return console.log(createClaimFormDto);
-
-      // this.claimFormService.create(createClaimFormDto);
+      return this.claimFormService.create(createClaimFormDto);
     }
   }
 
-  @Get('list')
-  findAll() {
-    return this.claimFormService.findAll();
-  }
+  // @Get('list')
+  // findManagerList() {
+  //   return this.claimFormService.findManagerList();
+  // }
 
-  @Get(':id')
+  @Get('showPersonalClaimForm:id') //睇自己
   findOne(@Param('id') id: string) {
     return this.claimFormService.findOne(+id);
   }
 
+  // @Get('approved :id')
+  // findApplication(@Param('id') id: string) {
+  //   return this.claimFormService.findApplication(+id);
+  // }
+
+  // @Get('allApplications')
+  // findAllApplications() {
+  //   console.log('*********');
+
+  //   return this.claimFormService.findAllApplications();
+  // }
+  @Get('allClaimForms')
+  findAllClaimForms() {
+    return this.claimFormService.findAllClaimForms();
+  }
   @Patch(':id')
   update(
     @Param('id') id: string,

@@ -19,8 +19,8 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() body: { email: string; password: string }) {
-    if (!body.email) throw new HttpException('missing email', HttpStatus.BAD_REQUEST)
-    if (!body.password) throw new HttpException('missing password', HttpStatus.BAD_REQUEST)
+    if (!body.email) throw new HttpException('Missing email', HttpStatus.BAD_REQUEST)
+    if (!body.password) throw new HttpException('Missing password', HttpStatus.BAD_REQUEST)
 
     return await this.authService.login(body);
   }

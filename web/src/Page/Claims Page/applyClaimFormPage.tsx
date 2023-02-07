@@ -3,10 +3,12 @@ import { useForm } from '@mantine/form';
 import moment from 'moment';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { fetchServerData, fetchServerDataNonGet } from '../../../utilis/fetchDataUtilis';
-import { useSelector } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
+import { AppDispatch, IRootState } from '../../store/store';
 
 export  function ApplyClaimFormPage() {
-
+  const dispatch = useDispatch<AppDispatch>()
+  let user = useSelector((state: IRootState) => state.user.user); //access_level_id
   const form = useForm({
     initialValues: {
       submitTo:'',
@@ -34,8 +36,10 @@ export  function ApplyClaimFormPage() {
 //--------------------------------submit form----------------------------------------------------------------
   async function submitForm(v:any){
     console.log(v);
-    
+    console.log(user?.id)
+
     const formData = new FormData();
+        formData.append("staff_id",user!.id.toString());
         formData.append("submitTo",v.submitTo);
         formData.append("data",v.data);
         formData.append("remark",v.remark);

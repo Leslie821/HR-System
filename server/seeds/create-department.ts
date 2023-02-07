@@ -75,4 +75,16 @@ export async function seed(knex: Knex): Promise<void> {
       department_id: 1,
     },
   ]);
+
+  await knex('claim_request').insert([
+    {
+      staff_id: 2,
+      approved_staff_id: 1,
+      type: 'food',
+      date: '2023',
+      amount: 100,
+      remark: 'dinner',
+      status: 'pending',
+    },
+  ]);
 }

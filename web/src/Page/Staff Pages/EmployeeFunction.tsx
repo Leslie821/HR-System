@@ -31,11 +31,6 @@ export default function EmployeeInfoForm({
   const employeeInfoForm = async function EmployeeInfoForm() {
     if (mode === "create") {
       console.log("hi from create");
-      // const dataFromDB = await fetch("http://localhost:3000/employees", {
-      //   method: "Post",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ state }),
-      // });
       const dataFromDB = await fetchServerDataNonGet("/employees", "POST", {
         state,
       });
@@ -43,13 +38,10 @@ export default function EmployeeInfoForm({
       return dataFromDB;
     } else if (mode === "edit") {
       console.log("hi from edit");
-      const dataFromDB = await fetch(
-        `http://localhost:3000/employees/update/${id}`,
-        {
-          method: "Post",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ state }),
-        }
+      const dataFromDB = await fetchServerDataNonGet(
+        `/employees/update/${id}`,
+        "POST",
+        { state }
       );
       return dataFromDB;
     }
@@ -103,10 +95,9 @@ export default function EmployeeInfoForm({
       contract: mode === "create" ? "" : data ? data.contract : "",
       mpf: mode === "create" ? "" : data ? data.mpf : "",
       birthday: mode === "create" ? "" : data ? new Date(data.birthday) : "",
-      employ_date:
-        mode === "create" ? "" : data ? new Date(data.employ_date) : "",
+      employ_date: mode === "create" ? "" : data ? data.employ_date2 : "",
       termination_date:
-        mode === "create" ? "" : data ? new Date(data.termination_date) : "",
+        mode === "create" ? "" : data ? data.termination_date2 : "",
       working_time: mode === "create" ? "" : data ? data.working_time : "",
       salary: mode === "create" ? "" : data ? data.salary : "",
       annual_leave_fixed:

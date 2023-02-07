@@ -23,12 +23,15 @@ const loginSlice = createSlice({
   name: "user",
   initialState: initialState,
   reducers: {
+    login() {
+      initialState.user = getLocalStorage()
+    },
     loginOut() {
       clearLocalStorage();
     },
   },
 });
 
-export const { loginOut } = loginSlice.actions;
+export const { login, loginOut } = loginSlice.actions;
 
 export default loginSlice.reducer;

@@ -25,6 +25,7 @@ import { JobTitle } from "./Page/Job Title Page/jobTitlePage";
 import { JobTitlePage } from "./Page/Job Title Page/showJobTitlePage";
 import { ApplyClaimFormPage } from "./Page/Claims Page/applyClaimFormPage";
 import DepartmentPage from "./Page/departmentPage/DepartmentPage";
+import { ShowClaimFormPending } from "./Page/Claims Page/showAllClaimFormApplicationPage";
 
 // "@types/styled-components": "^5.1.26",
 export interface information {
@@ -115,9 +116,14 @@ function App() {
             element={<NewEmployee mode={"create"} id={null} />}
           />
         )}
-
         {user && user.access_level_id && [1,2,3].includes(user.access_level_id) && (
           <Route path="/apply-claim-form" element={<ApplyClaimFormPage />} />
+        )}
+                {user && user.access_level_id && [1,2].includes(user.access_level_id) && (
+          <Route
+            path="/ShowClaimFormPending"
+            element={<ShowClaimFormPending />}
+          />
         )}
       </Route>
     </Routes>

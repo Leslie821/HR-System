@@ -1,63 +1,105 @@
-import { TextInput, Checkbox, Button, Group, Box, Select } from '@mantine/core';
+import { TextInput, Checkbox, Button, Group, Box, Select, FileInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { fetchServerData, fetchServerDataNonGet } from '../../../utilis/fetchDataUtilis';
+import { useDispatch,useSelector } from "react-redux";
+import { AppDispatch, IRootState } from '../../store/store';
 
 export  function ApplyClaimFormPage() {
+  const dispatch = useDispatch<AppDispatch>()
+  let user = useSelector((state: IRootState) => state.user.user); //access_level_id
   const form = useForm({
     initialValues: {
       submitTo:'',
       data: '',
-      description:'',
-      category:'',
-      expenseCategory:'',
+      remark:'',
+      type:'',
       amount:'',
-      termsOfService: false,
+      reference:''
     },
 
     validate: {
       submitTo: (value) => ((value) ? null : 'no submit target'),
       data: (value) => ((value) ? null : 'no Data'),
-      description: (value) => ((value) ? null : 'no Description'),
-      category: (value) => ((value) ? null : 'no Category'),
-      expenseCategory: (value) => ((value) ? null : 'no Expense Category'),
+      remark: (value) => ((value) ? null : 'no Description'),
+      type: (value) => ((value) ? null : 'no Expense Category'),
       amount: (value) => ((value) ? null : 'no Amount'),
+      reference: (value) => ((value) ? null : 'no reference'),
+
     },
   });
-  const [managerValues, setManagerValue] = useState<string[]>([]);
 
+  const [managerValues, setManagerValue] = useState<string[]>([]);
+  const [file, setFile] = useState<File>();
+
+//--------------------------------submit form----------------------------------------------------------------
+  async function submitForm(v:any){
+    console.log(v);
+    console.log(user?.id)
+
+    const formData = new FormData();
+        formData.append("staff_id",user!.id.toString());
+        formData.append("submitTo",v.submitTo);
+        formData.append("data",v.data);
+        formData.append("remark",v.remark);
+        formData.append("type",v.type);
+        formData.append("amount",v.amount);
+        formData.append("reference",v.reference);
+    await fetchServerDataNonGet("/claimForm/submission","POST",formData)
+    console.log(formData)
+  }
+ 
+// -------------------loop manager name list----------------------------------------------------
   const managerName = async () => {
-    const res = await fetchServerData("/claimForm/list");
+    const res = await fetchServerData("/claim-form/list");
     console.log("res: ", res);
-    // const departmentData = await res.json();
-    // console.log("departmentData: ", departmentData);
+
     const departmentEdited = res.map((v: any) => ({
-      label: v.department_name,
-      value: v.id,
+      label: v.users_name,
+      value: v.users_id,
+      group: v.department_name
     }));
-    console.log(departmentEdited);
     setManagerValue(departmentEdited);
   };
 
   useEffect(() => {
     managerName();
   }, []);
+// ----------------------------uploadFile-----------------------------------------------------
+//   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+//     if (e.target.files) {
+//       setFile(e.target.files[0]);
+//     }
+//   };
 
-  async function SubmitClaimForm(){
-    if(!form){
+//   const handleUploadClick = () => {
+//     if (!file) {
+//       return;
+//     }
 
-    }else{
-      await fetchServerDataNonGet("/claimForm/submission","POST",form);}
-        
-  }
+//     // 👇 Uploading the file using the fetch API to the server
+//     fetch('https://httpbin.org/post', {
+//       method: 'POST',
+//       body: file,
+//       // 👇 Set headers manually for single file upload
+//       headers: {
+//         'content-type': file.type,
+//         'content-length': `${file.size}`, // 👈 Headers need to be a string
+//       },
+//     })
+//       .then((res) => res.json())
+//       .then((data) => console.log(data))
+//       .catch((err) => console.error(err));
+//   };
 
   return (
+    <div>
     <Box sx={{ maxWidth: 300 }} mx="auto">
-      <form onSubmit={form.onSubmit((values) => console.log(values))}>
+      <form onSubmit={form.onSubmit((values) => submitForm(values),)}>
 
         <Select
-          data={[]} searchable
+          data={managerValues} searchable
           withAsterisk
           label="Submit to"
           {...form.getInputProps('submitTo')}        
@@ -76,26 +118,17 @@ export  function ApplyClaimFormPage() {
           withAsterisk
           name="description"
           type="text"
-          label="Description"
-          {...form.getInputProps('description')}
+          label="Remark"
+          {...form.getInputProps('remark')}
         />
 
         <TextInput
           withAsterisk
-          name="category"
+          name="type"
           type="text"
-          label="Category"
-          {...form.getInputProps('category')}
+          label="Type"
+          {...form.getInputProps('type')}
         />
-
-        <TextInput
-          withAsterisk
-          name="expenseCategory"
-          type="text"
-          label="Expense Category"
-          {...form.getInputProps('expenseCategory')}
-        />
-
 
         <TextInput
           withAsterisk
@@ -106,22 +139,23 @@ export  function ApplyClaimFormPage() {
           {...form.getInputProps('amount')}
         />
 
-        {/* <input type="file" onChange={handleFileChange} />
-
-        <div>{file && `${file.name} - ${file.type}`}</div> */}
-
-        <Checkbox
-          mt="md"
-          label="I agree to apply the form"
-          {...form.getInputProps('termsOfService', { type: 'checkbox' })}
+        <FileInput
+          placeholder="Pick file"
+          label="Reference"
+          multiple
+          accept="image/png,image/jpeg"
+          {...form.getInputProps('reference')}
         />
 
         <Group position="right" mt="md">
           <Button 
           type="submit" 
-          onClick={() => {SubmitClaimForm()}}>Submit</Button>
+          >Submit</Button>
         </Group>
       </form>
     </Box>
+      </div>
   );
 }
+
+

@@ -59,7 +59,7 @@ const information = [
         link: "/show_dayoff_application",
         icon: IconNotes,
       },
-      { label: "Claim Request", link: "/dashboard", icon: IconNotes },
+      { label: "Claim Request", link: "/apply-claim-form", icon: IconNotes },
     ],
     accessList: [1, 2],
   },

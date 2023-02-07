@@ -2,7 +2,6 @@ import { Knex } from 'knex';
 
 export async function up(knex: Knex): Promise<void> {
   if (!(await knex.schema.hasTable('department'))) {
-
     await knex.schema.createTable('department', (table) => {
       table.increments('id');
       table.string('department_name', 255).notNullable();
@@ -132,13 +131,13 @@ export async function up(knex: Knex): Promise<void> {
     });
   }
 
-  if (!(await knex.schema.hasTable('claim_type'))) {
-    await knex.schema.createTable('claim_type', (table) => {
-      table.increments('id');
-      table.string('type', 255).notNullable();
-      table.timestamps(false, true);
-    });
-  }
+  // if (!(await knex.schema.hasTable('claim_type'))) {
+  //   await knex.schema.createTable('claim_type', (table) => {
+  //     table.increments('id');
+  //     table.string('type', 255).notNullable();
+  //     table.timestamps(false, true);
+  //   });
+  // }
 
   if (!(await knex.schema.hasTable('claim_request'))) {
     await knex.schema.createTable('claim_request', (table) => {
@@ -149,11 +148,12 @@ export async function up(knex: Knex): Promise<void> {
         .unsigned()
         .notNullable()
         .references('users.id');
-      table
-        .integer('claim_type')
-        .unsigned()
-        .notNullable()
-        .references('claim_type.id');
+      table.string('type');
+      table.string('date');
+      // .integer('claim_type')
+      // .unsigned()
+      // .notNullable()
+      // .references('claim_type.id');
       table.integer('amount').notNullable();
       table.string('remark', 1000).notNullable();
       table.enum('status', ['pending', 'approved ', 'rejected']).notNullable();

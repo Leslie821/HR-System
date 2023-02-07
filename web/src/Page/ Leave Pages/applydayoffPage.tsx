@@ -3,12 +3,13 @@ import { DatePicker } from "@mantine/dates";
 import { IconAlertCircle, IconWindowMaximize } from "@tabler/icons";
 
 import { ChangeEvent, useEffect, useState } from "react";
-import { CheckInOut } from "../Check in Page/check_in";
+
+import { fetchServerData, fetchServerDataForm, fetchServerDataNonGet } from "../../../utilis/fetchDataUtilis";
 // import { Loaddayoff } from "./loaddayofftype";
 
 export function ApplyDayOff() {
-  const [dayofftype, setdayofftype] = useState<any[]>([]);
-  console.log("tyep from DB not map", typeof dayofftype);
+  const [dayofftype, setdayofftype] = useState<any[]>([])
+
 
   const [from, setFrom] = useState<any>(new Date());
   const [to, setTo] = useState<any>(new Date());
@@ -19,17 +20,16 @@ export function ApplyDayOff() {
     reason: "",
   });
 
+
   const [file, setFile] = useState<any>();
 
   //----------------------------------------------------------------
   async function getdayofftype() {
-    let rawresult: any = await fetch("http://localhost:3000/leave/gettype", {
-      method: "Get",
-    });
-    let result = await rawresult.json();
+    let result: any = await fetchServerData("/leave/gettype")
+    // let result = await rawresult.json()
 
-    console.log(result);
-    setdayofftype(result.filter((v: { short_form: any }) => !!v.short_form));
+    // console.log(result);
+    setdayofftype(result.filter((v: { short_form: any; }) => !!v.short_form))
   }
 
   ////////////////submit file///////////////////////////////
@@ -62,6 +62,10 @@ export function ApplyDayOff() {
 
     // Serialize the Form afterwards
     // const form = event.target;
+
+
+
+
     const formData = new FormData();
     formData.append("name", info.name);
     formData.append("type", info.type);
@@ -71,10 +75,8 @@ export function ApplyDayOff() {
     formData.append("reason", info.reason);
     formData.append("file", file);
 
-    const res = await fetch("http://localhost:3000/leave/application", {
-      method: "POST",
-      body: formData,
-    });
+
+    const res = await fetchServerDataForm("/leave/application", "POST", formData);
 
     setFrom("");
     setTo("");
@@ -183,7 +185,7 @@ export function ApplyDayOff() {
         </div>
         {/* submit file /////////////////////////////////////// */}
         <div>
-          {info.type == 2 && (
+          {info.type == 5 && (
             <div style={{ margin: "40px 40px" }}>
               <input type="file" onChange={handleFileChange} />
 

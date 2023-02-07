@@ -4,6 +4,7 @@ import { Button, Group, Input, Modal, Table, TextInput, Textarea } from "@mantin
 import { IconArrowNarrowLeft } from "@tabler/icons";
 import DataTable from "react-data-table-component";
 import React from "react";
+import { fetchServerData, fetchServerDataForm, fetchServerDataNonGet } from "../../../utilis/fetchDataUtilis";
 
 // TRUNCATE dayoff_type  RESTART IDENTITY;/////  ****************
 
@@ -66,43 +67,34 @@ export function DayoffPending() {
   const rowDisabledCriteria = (row: any) => row.status == "approved" || row.status == "rejected";
 
   async function getAll() {
-    let res: any = await fetch(
-      "http://localhost:3000/leave/getapplicationstatus"
-    );
-    let resultfromdb = await res.json();
+    let resultfromdb: any = await fetchServerData("/leave/getapplicationstatus");
+    // let  = await res.json();
     // console.log(resultfromdb);
 
     setResult(resultfromdb);
   }
   async function getPending() {
-    let res: any = await fetch("http://localhost:3000/leave/getpendingApplication"),
-      info = await res.json();
+    let info: any = await fetchServerData("/leave/getpendingApplication");
+    // info = await res.json();
 
     setResult(info);
 
   }
   async function getApproved() {
-    let res: any = await fetch("http://localhost:3000/leave/getApprovedApplication"),
-      info = await res.json();
+    let info: any = await fetchServerData("/leave/getApprovedApplication");
+    // info = await res.json();
     setResult(info);
   }
   async function approveItems() {
-    await fetch("http://localhost:3000/leave/updateapplication", {
-      method: "Post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(selectedRows),
-    });
+    await fetchServerDataNonGet("/leave/updateapplication", "POST", selectedRows);
     location.reload()
   }
 
   async function rejectitems() {
 
 
-    await fetch("http://localhost:3000/leave/reject", {
-      method: "Post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ rejectItem, reject }),
-    })
+    await fetchServerDataNonGet("/leave/reject", "POST", { rejectItem, reject });
+
     location.reload()
   }
   /////////////////below is toggle search/////////////////
@@ -118,13 +110,11 @@ export function DayoffPending() {
 
   const fetchdata = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/leave/getstaffalsl` + `?qq=${query}`, {
-
-      })
+      const data = await fetchServerData(`/leave/getstaffalsl` + `?qq=${query}`)
       // console.log("result from db about staff", res);
 
-      const data = await res.json()
-      console.log("data from DB ", data);
+      // const data = await res.json()
+      // console.log("data from DB ", data);
 
       setSearchresult(data)
 

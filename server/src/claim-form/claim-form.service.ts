@@ -9,11 +9,13 @@ export class ClaimFormService {
   constructor(@InjectModel() private knex: Knex) {}
 
   create(createClaimFormDto: CreateClaimFormDto) {
+    console.log('HIHI:', createClaimFormDto);
+
     let insertInfo = this.knex
       .insert({
         staff_id: +createClaimFormDto.staff_id,
         approved_staff_id: +createClaimFormDto.submitTo,
-        Date: createClaimFormDto.date,
+        date: createClaimFormDto.date,
         type: createClaimFormDto.type,
         amount: +createClaimFormDto.amount,
         remark: createClaimFormDto.remark,

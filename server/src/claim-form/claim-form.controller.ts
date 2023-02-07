@@ -19,14 +19,10 @@ export class ClaimFormController {
 
   @Post('apply')
   create(@Body() createClaimFormDto: CreateClaimFormDto) {
-    console.log('*******:', createClaimFormDto);
-
     if (!CreateClaimFormDto) {
       throw new HttpException('Missing Info', HttpStatus.BAD_REQUEST);
     } else {
-      return createClaimFormDto;
-
-      // this.claimFormService.create(createClaimFormDto);
+      return this.claimFormService.create(createClaimFormDto);
     }
   }
 

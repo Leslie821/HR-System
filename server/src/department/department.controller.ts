@@ -12,11 +12,15 @@ export class DepartmentController {
     return result
   }
 
-  @Post()
+  @Post("/create")
   async createNewEmployee(
     @Body()
     body: CreateDepartmentDto,
   ) {
+    console.log();
+
+    console.log("BBBBBBB", body);
+
     let result = await this.departmentService.createNewDeportment(body);
     return { result };
   }

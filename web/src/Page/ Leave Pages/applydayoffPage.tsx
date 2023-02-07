@@ -3,18 +3,15 @@ import { DatePicker } from "@mantine/dates";
 import { IconAlertCircle, IconWindowMaximize } from "@tabler/icons";
 
 import { ChangeEvent, useEffect, useState } from "react";
-import { Checkin } from "../Check in Page/check_in";
-import { number } from "zod";
+import { CheckInOut } from "../Check in Page/check_in";
 // import { Loaddayoff } from "./loaddayofftype";
 
-
-
 export function ApplyDayOff() {
-  const [dayofftype, setdayofftype] = useState<any[]>([])
+  const [dayofftype, setdayofftype] = useState<any[]>([]);
   console.log("tyep from DB not map", typeof dayofftype);
 
-  const [from, setFrom] = useState<any>(new Date())
-  const [to, setTo] = useState<any>(new Date())
+  const [from, setFrom] = useState<any>(new Date());
+  const [to, setTo] = useState<any>(new Date());
   const [total, setTotal] = useState<any>(0);
   const [info, setInfo] = useState<any>({
     name: "",
@@ -22,17 +19,17 @@ export function ApplyDayOff() {
     reason: "",
   });
 
-  const [file, setFile] = useState<any>()
+  const [file, setFile] = useState<any>();
 
   //----------------------------------------------------------------
   async function getdayofftype() {
     let rawresult: any = await fetch("http://localhost:3000/leave/gettype", {
-      method: "Get"
-    })
-    let result = await rawresult.json()
+      method: "Get",
+    });
+    let result = await rawresult.json();
 
     console.log(result);
-    setdayofftype(result.filter((v: { short_form: any; }) => !!v.short_form))
+    setdayofftype(result.filter((v: { short_form: any }) => !!v.short_form));
   }
 
   ////////////////submit file///////////////////////////////
@@ -42,18 +39,12 @@ export function ApplyDayOff() {
     }
   };
 
-
-
-
-
   ///////load the dayoff type for selection///////////
   useEffect(() => {
-    getdayofftype()
-  }, [])
+    getdayofftype();
+  }, []);
 
   // console.log(dayofftype);
-
-
 
   //----------------------------------------------------------------
   useEffect(() => {
@@ -62,11 +53,9 @@ export function ApplyDayOff() {
     let result = d2 - d1;
     let one_day = 1000 * 60 * 60 * 24;
     let totalday = result / one_day;
-    let newtotal = Math.ceil(totalday)
+    let newtotal = Math.ceil(totalday);
     setTotal(newtotal);
   }, [from, to]);
-
-
 
   async function submitfile() {
     // event.preventDefault();
@@ -74,35 +63,30 @@ export function ApplyDayOff() {
     // Serialize the Form afterwards
     // const form = event.target;
     const formData = new FormData();
-    formData.append("name", info.name)
-    formData.append("type", info.type)
-    formData.append("from", from)
-    formData.append("to", to)
-    formData.append("total", total)
-    formData.append("reason", info.reason)
-    formData.append("file", file)
+    formData.append("name", info.name);
+    formData.append("type", info.type);
+    formData.append("from", from);
+    formData.append("to", to);
+    formData.append("total", total);
+    formData.append("reason", info.reason);
+    formData.append("file", file);
 
     const res = await fetch("http://localhost:3000/leave/application", {
       method: "POST",
       body: formData,
     });
 
-    setFrom("")
-    setTo("")
+    setFrom("");
+    setTo("");
     setInfo({
       name: "",
       type: "",
       reason: "",
-    })
-    setTotal("")
-
-
-
-
+    });
+    setTotal("");
   }
   return (
     <>
-
       <br></br>
       <br></br>
 
@@ -123,7 +107,6 @@ export function ApplyDayOff() {
               id="employee"
               type="text"
               placeholder="name"
-
               style={{ margin: "0px 30px" }}
             ></input>
           </div>
@@ -133,17 +116,34 @@ export function ApplyDayOff() {
             <div style={{ margin: "0px 60px" }}>Dayoff Type</div>
             <br />
 
-            <select required value={info.type} onChange={(e) => setInfo({ ...info, type: e.currentTarget.value })} style={{ margin: "0px 60px" }}>
-              <option value="" selected disabled hidden > Select a type </option>
-              {dayofftype.map(v => <option value={v.id}> {v.short_form} </option>)}
-
+            <select
+              required
+              value={info.type}
+              onChange={(e) =>
+                setInfo({ ...info, type: e.currentTarget.value })
+              }
+              style={{ margin: "0px 60px" }}
+            >
+              <option value="" selected disabled hidden>
+                {" "}
+                Select a type{" "}
+              </option>
+              {dayofftype.map((v) => (
+                <option value={v.id}> {v.short_form} </option>
+              ))}
             </select>
-
           </div>
-          {info.type == "" ? <Alert icon={<IconAlertCircle size={16} />} title="Bummer!" color="red">
-            Please Select a type
-          </Alert> : ""}
-
+          {info.type == "" ? (
+            <Alert
+              icon={<IconAlertCircle size={16} />}
+              title="Bummer!"
+              color="red"
+            >
+              Please Select a type
+            </Alert>
+          ) : (
+            ""
+          )}
         </div>
         <hr />
         <br></br>
@@ -168,7 +168,8 @@ export function ApplyDayOff() {
         {/************** Show  Number of dayoff day (total)  ***********/}
         <div style={{ display: "flex", margin: "20px" }}>
           <div style={{ margin: "0px 30px" }}>{"Total"}</div>
-          <input disabled
+          <input
+            disabled
             value={total}
             onChange={() => {
               setTotal(total);
@@ -179,58 +180,48 @@ export function ApplyDayOff() {
             type="number"
           ></input>
           <div style={{ paddingLeft: "10px" }}> Day</div>
-
-
         </div>
         {/* submit file /////////////////////////////////////// */}
         <div>
-          {info.type == 2 && <div style={{ margin: "40px 40px" }}>
-            <input type="file" onChange={handleFileChange} />
+          {info.type == 2 && (
+            <div style={{ margin: "40px 40px" }}>
+              <input type="file" onChange={handleFileChange} />
 
-            <div>{file && `${file.name} - ${file.type}`}</div>
-
-          </div>}
-
+              <div>{file && `${file.name} - ${file.type}`}</div>
+            </div>
+          )}
         </div>
 
         <hr />
 
-
-
-
-
-
-
-
-
         {/****8*********************  Logic to hide Submit button when totoal day is zero or negative  ************/}
-        {total <= 0 || info.type == "" ? <Alert icon={<IconAlertCircle size={16} />} title="Bummer!" color="red">
-          Something terrible happened! Bro!  Total should not be 0 or a negative number!
-        </Alert> : <Container>
-          <div style={{ paddingLeft: "700px" }}>
-            <div>
-              <Button type="submit" onClick={() => {
-                submitfile();
-              }}>
-                Submit
-              </Button>
-
+        {total <= 0 || info.type == "" ? (
+          <Alert
+            icon={<IconAlertCircle size={16} />}
+            title="Bummer!"
+            color="red"
+          >
+            Something terrible happened! Bro! Total should not be 0 or a
+            negative number!
+          </Alert>
+        ) : (
+          <Container>
+            <div style={{ paddingLeft: "700px" }}>
+              <div>
+                <Button
+                  type="submit"
+                  onClick={() => {
+                    submitfile();
+                  }}
+                >
+                  Submit
+                </Button>
+              </div>
             </div>
-          </div>
-        </Container>}
+          </Container>
+        )}
         {/* total should not be ZERO!!!!!!!!!!!!!!! */}
-
-
-
-
       </Container>
-
-      <div style={{ paddingLeft: "600px" }}>
-        <button onClick={() => {
-          Checkin()
-        }}>check ip</button>
-      </div>
-
     </>
   );
 }

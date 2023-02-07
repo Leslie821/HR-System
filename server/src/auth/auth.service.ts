@@ -10,7 +10,7 @@ export class AuthService {
   constructor(
     @InjectModel() private knex: Knex,
     private jwtService: JwtService,
-  ) {}
+  ) { }
 
   async login(input: { email: string; password: string }) {
     let user = await this.knex

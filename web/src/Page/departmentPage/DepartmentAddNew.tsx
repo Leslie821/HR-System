@@ -1,8 +1,10 @@
 import { Box, Button, Select, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useEffect, useState } from "react";
-import { fetchServerData } from "../../../utilis/fetchDataUtilis";
-// import Selector from "../components/selector/Selector";
+import {
+  fetchServerData,
+  fetchServerDataNonGet,
+} from "../../../utilis/fetchDataUtilis";
 
 function DepartmentAddNew() {
   const [formValues, setFormValues] = useState("");
@@ -11,16 +13,26 @@ function DepartmentAddNew() {
 
   const departmentName = async () => {
     const res = await fetchServerData("/department/list");
-    console.log("res: ", res);
-    // const departmentData = await res.json();
-    // console.log("departmentData: ", departmentData);
+
     const departmentEdited = res.map((v: any) => ({
       label: v.department_name,
       value: v.id,
     }));
-    console.log(departmentEdited);
+    // console.log(departmentEdited);
     setDepartmentValue(departmentEdited);
   };
+
+  async function sendData() {
+    console.log("hi");
+    // const res = await fetch("http://localhost:3000/department/create", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(form),
+    // });
+
+    const res = await fetchServerDataNonGet("/department", "POST", { form });
+    return res;
+  }
 
   useEffect(() => {
     departmentName();
@@ -54,9 +66,7 @@ function DepartmentAddNew() {
           data={departmentValues}
           {...form.getInputProps("parentDepartment")}
         />
-
-        <Button mt="md">Cancel</Button>
-        <Button type="submit" mt="md">
+        <Button type="submit" mt="md" onClick={() => sendData()}>
           Create
         </Button>
       </form>

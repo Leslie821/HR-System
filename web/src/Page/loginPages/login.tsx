@@ -10,10 +10,11 @@ import {
 
 import React, { useState } from "react";
 import { showNotification } from "@mantine/notifications";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../store/store"; // import me
 import { Navigate, useNavigate } from "react-router-dom";
 import { fetchServerDataNonGet } from "../../../utilis/fetchDataUtilis";
+import { login } from "../../store/UserSlice";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -54,9 +55,10 @@ export function Login() {
   const { classes } = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const todoList = useSelector((state: IRootState) => state.user.user);
+  const user = useSelector((state: IRootState) => state.user.user);
   const navigate = useNavigate();
-  console.log("user:", todoList);
+  const dispatch = useDispatch();
+  console.log("user:", user);
 
   async function submitLogin() {
     let ans = await fetchServerDataNonGet("/auth/login", "POST", {
@@ -80,6 +82,7 @@ export function Login() {
     } else {
       localStorage.setItem("token", ans.token);
       navigate("/dashboard");
+      dispatch(login());
     }
   }
 

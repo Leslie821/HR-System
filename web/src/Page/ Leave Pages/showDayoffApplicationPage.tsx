@@ -67,22 +67,22 @@ export function DayoffPending() {
   const rowDisabledCriteria = (row: any) => row.status == "approved" || row.status == "rejected";
 
   async function getAll() {
-    let res: any = await fetchServerData("/leave/getapplicationstatus");
-    let resultfromdb = await res.json();
+    let resultfromdb: any = await fetchServerData("/leave/getapplicationstatus");
+    // let  = await res.json();
     // console.log(resultfromdb);
 
     setResult(resultfromdb);
   }
   async function getPending() {
-    let res: any = await fetchServerData("/leave/getpendingApplication"),
-      info = await res.json();
+    let info: any = await fetchServerData("/leave/getpendingApplication");
+    // info = await res.json();
 
     setResult(info);
 
   }
   async function getApproved() {
-    let res: any = await fetchServerData("/leave/getApprovedApplication"),
-      info = await res.json();
+    let info: any = await fetchServerData("/leave/getApprovedApplication");
+    // info = await res.json();
     setResult(info);
   }
   async function approveItems() {
@@ -93,9 +93,9 @@ export function DayoffPending() {
   async function rejectitems() {
 
 
-    await fetchServerDataNonGet("/leave/reject", "POST", { rejectItem, reject }),
+    await fetchServerDataNonGet("/leave/reject", "POST", { rejectItem, reject });
 
-      location.reload()
+    location.reload()
   }
   /////////////////below is toggle search/////////////////
 
@@ -110,10 +110,10 @@ export function DayoffPending() {
 
   const fetchdata = async () => {
     try {
-      const res = await fetchServerData(`/leave/getstaffalsl` + `?qq=${query}`)
+      const data = await fetchServerData(`/leave/getstaffalsl` + `?qq=${query}`)
       // console.log("result from db about staff", res);
 
-      const data = await res.json()
+      // const data = await res.json()
       // console.log("data from DB ", data);
 
       setSearchresult(data)

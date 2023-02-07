@@ -20,12 +20,13 @@ export function ApplyDayOff() {
     reason: "",
   });
 
+
   const [file, setFile] = useState<any>();
 
   //----------------------------------------------------------------
   async function getdayofftype() {
-    let rawresult: any = await fetchServerData("leave/gettype")
-    let result = await rawresult.json()
+    let result: any = await fetchServerData("/leave/gettype")
+    // let result = await rawresult.json()
 
     // console.log(result);
     setdayofftype(result.filter((v: { short_form: any; }) => !!v.short_form))
@@ -61,6 +62,10 @@ export function ApplyDayOff() {
 
     // Serialize the Form afterwards
     // const form = event.target;
+
+
+
+
     const formData = new FormData();
     formData.append("name", info.name);
     formData.append("type", info.type);
@@ -70,7 +75,8 @@ export function ApplyDayOff() {
     formData.append("reason", info.reason);
     formData.append("file", file);
 
-    const res = await fetchServerDataNonGet("/leave/application", "POST", { formData });
+
+    const res = await fetchServerDataForm("/leave/application", "POST", formData);
 
     setFrom("");
     setTo("");
@@ -179,7 +185,7 @@ export function ApplyDayOff() {
         </div>
         {/* submit file /////////////////////////////////////// */}
         <div>
-          {info.type == 2 && (
+          {info.type == 5 && (
             <div style={{ margin: "40px 40px" }}>
               <input type="file" onChange={handleFileChange} />
 

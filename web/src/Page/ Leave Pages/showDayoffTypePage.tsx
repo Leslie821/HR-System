@@ -79,17 +79,11 @@ export function DayoffType() {
 
   async function deleteSelectedType() {
     await fetchServerDataNonGet("/leave/deletedayofftype", "POST", selectedRows)
-
-
   }
 
   async function getType() {
     let res = await fetchServerData("/leave/getdayofftype")
-
-    const result = await res.json();
-    // console.log(result);
-
-    setInfo(result);
+    setInfo(res);
   }
 
   //////////////////get the type when the page is loaded /////////

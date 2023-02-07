@@ -128,7 +128,7 @@ export function StaffsList(props: Props) {
       method: "GET",
     });
     const usersFromDB = await res.json();
-    console.log("usersFromDB:", usersFromDB);
+    // console.log("usersFromDB:", usersFromDB);
 
     const usersAddStatus = usersFromDB.map((v: any) => {
       if (v.termination_date == null) {
@@ -164,13 +164,6 @@ export function StaffsList(props: Props) {
             apiPath={"/employees/list/"}
             setBackData={(data: any) => setUsers(data)}
           />
-          {/* <Input
-            placeholder="search"
-            type="text"
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            className={classes.button}
-          ></Input> */}
           <Button
             variant="light"
             className={classes.button}

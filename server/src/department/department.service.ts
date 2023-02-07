@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Knex } from 'knex';
 import { InjectModel } from 'nest-knexjs';
 import { CreateDepartmentDto } from './dto/create-department.dto';
-import { UpdateDepartmentDto } from './dto/update-department.dto';
+
 
 @Injectable()
 export class DepartmentService {
@@ -23,6 +23,8 @@ export class DepartmentService {
 
   async createNewDeportment(formInfo: CreateDepartmentDto) {
     try {
+      console.log('HIHI');
+
       let departmentValue = await this.knex('department')
         .insert({
           department_name: formInfo.department,
@@ -35,5 +37,4 @@ export class DepartmentService {
       return JSON.stringify(e)
     }
   }
-
 }

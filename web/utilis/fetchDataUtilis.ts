@@ -7,7 +7,7 @@ export async function fetchServerData(apiPath: string) { // GET
 }
 
 // "/api/todo/postItem"
-export async function fetchServerDataNonGet(
+export async function fetchServerDataNonGet( // fetch with file 
     apiPath: string,
     method: "PUT" | "POST" | "PATCH" | "DELETE",
     data: any
@@ -26,7 +26,7 @@ export async function fetchServerDataNonGet(
     return resData
 }
 
-export async function fetchServerDataForm(
+export async function fetchServerDataForm( // fetch without file
     apiPath: string,
     method: "PUT" | "POST" | "PATCH" | "DELETE",
     data: FormData

@@ -10,11 +10,27 @@ export function EmployeeInfoEdit() {
   const fetchUser = async () => {
     const res = await fetch(`http://localhost:3000/employees/${id}`);
     let data = await res.json();
+
+    let dataWithDate = data.map((v: any) => {
+      if (v.employ_date && v.termination_date == true) {
+        return {
+          ...v,
+          employ_date2: new Date(v.employ_date),
+          termination_date2: new Date(v.termination_date),
+        };
+      } else {
+        return {
+          ...v,
+          employ_date2: new Date(v.employ_date),
+          termination_date2: "",
+        };
+      }
+    });
     // console.log("res:", data);
 
     if (data && Array.isArray(data) && data.length == 1) {
       // console.log("OK");
-      setUserData(data[0]);
+      setUserData(dataWithDate[0]);
     }
   };
 

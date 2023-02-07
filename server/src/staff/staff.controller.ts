@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { StaffService } from './staff.service';
 import { CreateStaffDto } from './dto/create-staff.dto';
@@ -20,6 +21,7 @@ export class StaffController {
     @Body()
     body: CreateStaffDto,
   ) {
+    console.log("body:", body)
     let result = await this.staffService.createNewEmployee(body);
     return { result };
   }

@@ -5,6 +5,7 @@ import { IconAlertCircle, IconWindowMaximize } from "@tabler/icons";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Checkin } from "../Check in Page/check_in";
 import { number } from "zod";
+import { fetchServerData, fetchServerDataForm, fetchServerDataNonGet } from "../../../utilis/fetchDataUtilis";
 // import { Loaddayoff } from "./loaddayofftype";
 
 
@@ -26,9 +27,7 @@ export function ApplyDayOff() {
 
   //----------------------------------------------------------------
   async function getdayofftype() {
-    let rawresult: any = await fetch("http://localhost:3000/leave/gettype", {
-      method: "Get"
-    })
+    let rawresult: any = await fetchServerData("leave/gettype")
     let result = await rawresult.json()
 
     // console.log(result);
@@ -82,10 +81,7 @@ export function ApplyDayOff() {
     formData.append("reason", info.reason)
     formData.append("file", file)
 
-    const res = await fetch("http://localhost:3000/leave/application", {
-      method: "POST",
-      body: formData,
-    });
+    const res = await fetchServerDataNonGet("/leave/application", "POST", { formData });
 
     setFrom("")
     setTo("")
@@ -100,7 +96,7 @@ export function ApplyDayOff() {
   function checkInOut(inputValue: string) {
     console.log(inputValue);
 
-    fetch(`http://localhost:3000/checkin/${inputValue}`)
+    fetchServerData(`/checkin/${inputValue}`)
   }
   return (
     <>

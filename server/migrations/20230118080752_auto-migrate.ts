@@ -156,7 +156,7 @@ export async function up(knex: Knex): Promise<void> {
       // .references('claim_type.id');
       table.integer('amount').notNullable();
       table.string('remark', 1000).notNullable();
-      table.enum('status', ['pending', 'approved ', 'rejected']).notNullable();
+      table.string('status');
       table.timestamps(false, true);
     });
   }
@@ -169,7 +169,7 @@ export async function up(knex: Knex): Promise<void> {
         .unsigned()
         .notNullable()
         .references('claim_request.id');
-      table.integer('pic').notNullable();
+      table.string('pic').notNullable();
       table.timestamps(false, true);
     });
   }

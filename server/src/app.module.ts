@@ -12,6 +12,8 @@ import { AuthModule } from './auth/auth.module';
 import { DepartmentModule } from './department/department.module';
 import { JobTitleModule } from './job_title/job_title.module';
 import { ClaimFormModule } from './claim-form/claim-form.module';
+// import { ServeStaticModule } from '@nestjs/serve-static';
+// import path from 'path';
 
 @Module({
   imports: [
@@ -19,10 +21,13 @@ import { ClaimFormModule } from './claim-form/claim-form.module';
     // MulterModule.register({
     //   dest: './upload',
     // }),
+    // ServeStaticModule.forRoot({
+    //   rootPath: path.join(__dirname, '..', 'uploads'),
+    // }),
 
     /////upload file  end///
     KnexModule.forRoot({
-      config: knexConfig
+      config: knexConfig,
     }),
     LeaveModule,
     CheckInModule,

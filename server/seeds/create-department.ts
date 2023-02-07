@@ -3,17 +3,17 @@ import { Knex } from 'knex';
 
 export async function seed(knex: Knex): Promise<void> {
   // Deletes ALL existing entries
+  await knex('leave_request').del();
   await knex('users').del();
   await knex('access_level').del();
   await knex('job_title').del();
   await knex('department').del();
 
   await knex.raw('ALTER SEQUENCE users_id_seq RESTART WITH 1');
-  await knex.raw('ALTER SEQUENCE access_level_id_seq RESTART WITH 1')
+  await knex.raw('ALTER SEQUENCE access_level_id_seq RESTART WITH 1');
 
-  await knex.raw('ALTER SEQUENCE job_title_id_seq RESTART WITH 1')
-  await knex.raw('ALTER SEQUENCE department_id_seq RESTART WITH 1')
-
+  await knex.raw('ALTER SEQUENCE job_title_id_seq RESTART WITH 1');
+  await knex.raw('ALTER SEQUENCE department_id_seq RESTART WITH 1');
 
   // Inserts seed entries
   await knex('department').insert([
@@ -54,7 +54,8 @@ export async function seed(knex: Knex): Promise<void> {
       access_level_id: 1,
       job_title_id: 1,
       department_id: 1,
-    }, {
+    },
+    {
       gender: '女',
       name: '4上悠亞',
       email: 'yua_mikami4@gmail.com',

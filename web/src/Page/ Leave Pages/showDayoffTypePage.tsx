@@ -4,6 +4,7 @@ import DataTable from "react-data-table-component";
 import { useEffect, useState } from "react";
 import { boolean } from "zod";
 import React from "react";
+import { fetchServerDataNonGet, fetchServerData } from "../../../utilis/fetchDataUtilis";
 
 const customStyles = {
   rows: {
@@ -77,17 +78,14 @@ export function DayoffType() {
   //////   all const ends  here!!!  ///////////
 
   async function deleteSelectedType() {
-    await fetch("http://localhost:3000/leave/deletedayofftype", {
-      method: "Post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(selectedRows),
-    });
+    await fetchServerDataNonGet("/leave/deletedayofftype", "POST", selectedRows)
+
+
   }
 
   async function getType() {
-    let res = await fetch("http://localhost:3000/leave/getdayofftype", {
-      method: "Get",
-    });
+    let res = await fetchServerData("/leave/getdayofftype")
+
     const result = await res.json();
     // console.log(result);
 
@@ -111,12 +109,7 @@ export function DayoffType() {
             // const formData = new FormData(form);
             // console.log(formData);
 
-            await fetch("http://localhost:3000/leave/addDayofftype", {
-              method: "Post",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(inpputtye),
-            });
-
+            await fetchServerDataNonGet("/leave/addDayofftype", "POST", inpputtye)
             setOpened(false);
             window.location.reload();
           }}

@@ -5,6 +5,8 @@ import { IconArrowNarrowLeft } from "@tabler/icons";
 import DataTable from "react-data-table-component";
 import React from "react";
 import { fetchServerData, fetchServerDataForm, fetchServerDataNonGet } from "../../../utilis/fetchDataUtilis";
+import { useSelector } from "react-redux";
+import { IRootState } from "../../store/store";
 
 // TRUNCATE dayoff_type  RESTART IDENTITY;/////  ****************
 
@@ -14,6 +16,7 @@ type Dayoff = {
 
 
 export function DayoffPending() {
+  let user = useSelector((state: IRootState) => state.user.user); //access_level_id
   const [selectedRows, setSelectedRows] = React.useState<Dayoff[]>([]);
   const [toggleCleared, setToggleCleared] = React.useState(false);
   const [result, setResult] = useState<any>();
@@ -54,7 +57,9 @@ export function DayoffPending() {
 
 
   useEffect(() => {
-    getAll();
+
+
+    getAll(user!.id);
   }, []);
   ////// table check box   select items ///////////////////////////
   const handleRowSelected = React.useCallback(
@@ -66,22 +71,22 @@ export function DayoffPending() {
   // /////// if status  == approved  || rejected  , item cannot be selected ///////
   const rowDisabledCriteria = (row: any) => row.status == "approved" || row.status == "rejected";
 
-  async function getAll() {
-    let resultfromdb: any = await fetchServerData("/leave/getapplicationstatus");
+  async function getAll(userID: number) {
+    let resultfromdb: any = await fetchServerDataNonGet("/leave/getapplicationstatus", "POST", { id: userID });
     // let  = await res.json();
     // console.log(resultfromdb);
 
     setResult(resultfromdb);
   }
-  async function getPending() {
-    let info: any = await fetchServerData("/leave/getpendingApplication");
+  async function getPending(userID: number) {
+    let info: any = await fetchServerDataNonGet("/leave/getpendingApplication", "POST", { id: userID });
     // info = await res.json();
 
     setResult(info);
 
   }
-  async function getApproved() {
-    let info: any = await fetchServerData("/leave/getApprovedApplication");
+  async function getApproved(userID: number) {
+    let info: any = await fetchServerDataNonGet("/leave/getApprovedApplication", "POST", { id: userID });
     // info = await res.json();
     setResult(info);
   }
@@ -91,10 +96,7 @@ export function DayoffPending() {
   }
 
   async function rejectitems() {
-
-
-    await fetchServerDataNonGet("/leave/reject", "POST", { rejectItem, reject });
-
+    await fetchServerDataNonGet("/leave/reject", "POST", { rejectItem: rejectItem, reject: reject });
     location.reload()
   }
   /////////////////below is toggle search/////////////////
@@ -192,7 +194,7 @@ export function DayoffPending() {
       maxWidth: "1px",
       name: "",
 
-      selector: (row: any) => (row.status == "pending" && <Button color="red" onClick={() => {
+      selector: (row: any) => (row.status == "pending" && user!.access_level_id >= 2 && <Button color="red" onClick={() => {
         setOpenedSecondModal(true); setRejectItem(row.id);
       }}>Reject</Button>),
     }
@@ -238,7 +240,7 @@ export function DayoffPending() {
                 <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
                   <Button
                     onClick={() => {
-                      getPending();
+                      getPending(user!.id);
                     }}
                   >
                     Show Pending Application
@@ -249,7 +251,7 @@ export function DayoffPending() {
                 <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
                   <Button
                     onClick={() => {
-                      getAll()
+                      getAll(user!.id)
                     }}
                   >
                     Show All Application
@@ -260,7 +262,7 @@ export function DayoffPending() {
                 <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
                   <Button
                     onClick={() => {
-                      getApproved();
+                      getApproved(user!.id);
                     }}
                   >
                     Show Approved Application
@@ -268,8 +270,7 @@ export function DayoffPending() {
                 </div>
 
                 {/* ********Button To Approve application ************* */}
-
-                <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
+                {user!.access_level_id >= 2 ? <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
                   <Button
                     onClick={() => {
                       approveItems();
@@ -277,7 +278,8 @@ export function DayoffPending() {
                   >
                     Approve Selected Case
                   </Button>
-                </div>
+                </div> : ""}
+
 
                 {/* ********Button Show Staff Dayoff Remain ************* */}
                 <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
@@ -312,23 +314,33 @@ export function DayoffPending() {
       >
         <div>
           {/* <div>{[searchresult]}</div> */}
-          {searchresult ? (
+          {Array.isArray(searchresult) && searchresult.length >= 1 ? (
             <>
-              <div>Fixed Annual Leave: {searchresult[0].annual_leave_fixed}</div>
+              <div>Fixed Annual Leave: {searchresult[0].annual_leave_fixed ? searchresult[0].annual_leave_fixe : "N/A"}</div>
               <br></br>
               <div>Fixed Sick Leave: {searchresult[0].sick_leave_fixed}</div>
             </>
           ) : ""}
           <br></br>
         </div>
-        <Input
+        {user!.access_level_id >= 2 ? <Input
           placeholder="Search me"
           type="text"
           value={query}
           onChange={(e: any) => {
-            setQuery(e.target.value);
+            setQuery(e.target.value)
           }}
-        ></Input>
+        ></Input> : <Input
+          placeholder="Search me"
+          type="text"
+          value={user?.name}
+          onKeyDown={(e: any) => {
+            setQuery(e.target.value)
+          }}
+          tabIndex={0}
+
+        ></Input>}
+
         <DataTable columns={al_sl_columns} data={searchresult} customStyles={customStyles} />
       </Modal>
 

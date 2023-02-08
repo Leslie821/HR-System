@@ -18,7 +18,7 @@ import { fileOptions } from 'src/multerOptions';
 
 @Controller('leave')
 export class LeaveController {
-  constructor(private leaveService: LeaveService) { }
+  constructor(private leaveService: LeaveService) {}
 
   @Post('addDayofftype')
   async createNewDayoffType(
@@ -98,10 +98,15 @@ export class LeaveController {
     }
   }
 
-  @Get('getapplicationstatus')
-  async getapplicationstatus() {
+  @Post('getapplicationstatus')
+  async getapplicationstatus(
+    @Body()
+    body,
+  ) {
+    console.log('controller id', body);
+
     try {
-      let result = await this.leaveService.getapplicationstatuse();
+      let result = await this.leaveService.getapplicationstatuse(body);
       // console.log('controller application list from db', result);
 
       return result;
@@ -118,10 +123,13 @@ export class LeaveController {
       );
     }
   }
-  @Get('getpendingApplication')
-  async getpendingApplication() {
+  @Post('getpendingApplication')
+  async getpendingApplication(
+    @Body()
+    body,
+  ) {
     try {
-      let result = await this.leaveService.getpendingApplication();
+      let result = await this.leaveService.getpendingApplication(body);
       // console.log('controller application list from db', result);
 
       return result;
@@ -138,10 +146,13 @@ export class LeaveController {
       );
     }
   }
-  @Get('getApprovedApplication')
-  async getApprovedApplication() {
+  @Post('getApprovedApplication')
+  async getApprovedApplication(
+    @Body()
+    body,
+  ) {
     try {
-      let result = await this.leaveService.getApprovedApplication();
+      let result = await this.leaveService.getApprovedApplication(body);
       // console.log('controller application list from db', result);
 
       return result;
@@ -231,6 +242,7 @@ export class LeaveController {
       // console.log(body);
 
       await this.leaveService.deleteDayOffType(body);
+      return { status: true };
     } catch (error) {
       throw new HttpException(
         {
@@ -253,6 +265,8 @@ export class LeaveController {
       console.log('Reject', body);
 
       await this.leaveService.rejectApplication(body);
+
+      return { status: true };
     } catch (error) {
       throw new HttpException(
         {

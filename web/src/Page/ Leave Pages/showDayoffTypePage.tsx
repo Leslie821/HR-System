@@ -66,7 +66,7 @@ export function DayoffType() {
     one_time_day_off: "",
     pay_leave: "",
   });
-  const [refresh, setRefresh] = useState(true);
+  // const [refresh, setRefresh] = useState(true);
   /////// select items /////////////////////////
   const [toggleCleared, setToggleCleared] = React.useState(false);
   const [selectedRows, setSelectedRows] = React.useState<any[]>([]);
@@ -170,7 +170,7 @@ export function DayoffType() {
                   });
                 }}
               >
-                <option value=""  disabled hidden>
+                <option value="" disabled hidden>
                   Choose here
                 </option>
                 <option value="Yes">Yes</option>
@@ -244,7 +244,7 @@ export function DayoffType() {
             <IconArrowNarrowLeft size={50} stroke={1.5} />
           </Button>
           <h2>Leave Type</h2>
-          {user!.access_level_id >= 2 ?
+          {user!.access_level_id <= 2 ?
             <Group position="center">
               <Button onClick={() => setOpened(true)}>Add New Leave Type</Button>
             </Group> : ""}

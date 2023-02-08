@@ -1,10 +1,14 @@
 import React from "react";
-export async function CheckInOut() {
-  console.log("check ip");
+import { fetchServerData, fetchServerDataForm, fetchServerDataNonGet } from "../../../utilis/fetchDataUtilis";
+import { Alert } from "@mantine/core";
+import { IconAlertCircle } from "@tabler/icons";
+export async function CheckInOut(InOrOut: any, userID: any) {
 
-  let result = await fetch(import.meta.env.VITE_SERVER_API + "/checkin", {
-    method: "Get",
-  });
+  console.log("controller  userID", userID);
 
-  console.log(result);
+  let result = await fetchServerDataNonGet("/checkin" + `/${InOrOut}`, "POST", { userID })
+  console.log("resuslt", result);
+
+
+
 }

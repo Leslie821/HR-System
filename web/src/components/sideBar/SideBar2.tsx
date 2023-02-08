@@ -35,6 +35,7 @@ const information = [
     links: [
       { label: "Department", link: "/departments", accessList: [1] },
       { label: "Job Title", link: "/job_title", accessList: [1] },
+      { label: "Leave Type", link: "/show_dayoff_type", accessList: [1] },
     ],
   },
   {
@@ -87,12 +88,12 @@ const information = [
     ],
   },
   {
-    label: "Settings",
+    label: "Records",
     icon: IconCalendarStats,
     links: [
       {
-        label: "Leave Type",
-        link: "/show_dayoff_type",
+        label: "Check-In",
+        link: "/ShowInOutRecord",
         icon: IconNotes,
         accessList: [1, 2],
       },
@@ -114,9 +115,8 @@ const useStyles = createStyles((theme) => ({
     marginLeft: -theme.spacing.md,
     marginRight: -theme.spacing.md,
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
-    borderBottom: `1px solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-    }`,
+    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+      }`,
   },
 
   links: {
@@ -132,9 +132,8 @@ const useStyles = createStyles((theme) => ({
   footer: {
     marginLeft: -theme.spacing.md,
     marginRight: -theme.spacing.md,
-    borderTop: `1px solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-    }`,
+    borderTop: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+      }`,
   },
 }));
 

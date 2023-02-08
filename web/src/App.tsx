@@ -19,6 +19,7 @@ import { ApplyClaimFormPage } from "./Page/Claims Page/applyClaimFormPage";
 import { DepartmentPage } from "./Page/departmentPage/DepartmentPage";
 import { ShowClaimFormPending } from "./Page/Claims Page/showClaimFormApplicationPage";
 import { ShowClaimFormStatus } from "./Page/Claims Page/showClaimFormStatus";
+import { GetCheckInOutRecord } from "./Page/Check in Page/showCheckInOutRecord";
 
 // "@types/styled-components": "^5.1.26",
 export interface information {
@@ -64,7 +65,10 @@ function App() {
         {user && user.access_level_id && [1].includes(user.access_level_id) && (
           <Route path="/departments" element={<DepartmentPage />} />
         )}
-
+        {user &&
+          user.access_level_id && [1, 2, 3].includes(user.access_level_id) && (
+            <Route path="/ShowInOutRecord" element={<GetCheckInOutRecord />} />
+          )}
         {user && user.access_level_id && [1].includes(user.access_level_id) && (
           <Route path="/employees" element={<StaffsList data={info} />} />
         )}
@@ -131,7 +135,7 @@ function App() {
             />
           )}
       </Route>
-    </Routes>
+    </Routes >
   );
 }
 

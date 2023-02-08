@@ -51,54 +51,39 @@ const information = [
     ],
   },
   {
-    label: "Request",
-    icon: IconLock,
-    links: [
-      {
-        label: "Leave Request",
-        link: "/show_dayoff_application",
-        icon: IconNotes,
-      },
-      { label: "Claim Request", link: "/apply-claim-form", icon: IconNotes },
-    ],
-    accessList: [1, 2],
-  },
-  {
-    label: "Leave",
+    label: "Application",
     icon: IconLock,
     links: [
       {
         label: "Leave Application",
         link: "/apply-day-off",
         icon: IconNotes,
-        accessList: [1, 2, 3],
       },
       {
-        label: "Leave Type",
-        link: "/show_dayoff_type",
+        label: "Claim Application",
+        link: "/apply-claim-form",
         icon: IconNotes,
-        accessList: [1, 2],
       },
-      { label: "Reports", link: "/dashboard", icon: IconNotes },
     ],
+    accessList: [1, 2],
   },
   {
-    label: "Expense Claims",
+    label: "Request",
     icon: IconLock,
     links: [
       {
-        label: "Claims Balance",
-        link: "/dashboard",
+        label: "Leave Request",
+        link: "/show_dayoff_application ",
         icon: IconNotes,
         accessList: [1, 2, 3],
       },
       {
-        label: "Claims Application",
-        link: "/dashboard",
+        label: "Claim Request",
+        link: "/ShowClaimFormPending",
         icon: IconNotes,
         accessList: [1, 2],
       },
-      { label: "Reports", link: "/dashboard", icon: IconNotes },
+      { label: "Claim Records", link: "/ShowClaimFormStatus", icon: IconNotes },
     ],
   },
 ];
@@ -199,12 +184,10 @@ export function NavbarNested() {
       </Grid.Col>
 
       <Grid.Col span={10}>
-        <div style={{ marginLeft: "55px"}}>
-        <Outlet />
+        <div style={{ marginLeft: "55px" }}>
+          <Outlet />
         </div>
       </Grid.Col>
-
     </Grid>
   );
 }
-

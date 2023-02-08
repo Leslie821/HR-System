@@ -15,7 +15,7 @@ import DepartmentOrgChart from "./DepartmentOrgChart";
 
 const useStyleTable = createStyles((theme) => ({
   body: {
-    marginLeft: 60,
+    marginLeft: 40,
     display: "block",
   },
   header: {
@@ -59,7 +59,6 @@ export function DepartmentPage() {
 
   const fetchDepartment = async () => {
     const res = await fetchServerData("/department/list");
-    // console.log("res: ", res);
 
     let fatherName = res.map((v: any) => {
       let father = res.find(

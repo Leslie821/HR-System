@@ -1,5 +1,3 @@
-import { useRef } from "react";
-import { dateArr } from "./data";
 import "./dash.css";
 import DashboardScheduler from "../../components/DashboardCalendar/DashboardScheduler";
 import { CheckInOut } from "../Check in Page/check_in";

@@ -16,15 +16,13 @@ interface Props {
 
 const useStyleTable = createStyles((theme) => ({
   body: {
-    // height: "95vh",
-    marginLeft: 60,
+    marginLeft: 40,
     display: "block",
   },
   header: {
     height: 50,
     maxHeight: 50,
     width: "100%",
-    // backgroundColor: theme.colors.blue[6],
     marginTop: 25,
     paddingBottom: 75,
     borderBottom: `1px solid ${
@@ -35,12 +33,9 @@ const useStyleTable = createStyles((theme) => ({
     maxWidth: 1800,
     width: "100%",
     marginTop: 25,
-    // height: 180,
     display: "flex",
     alignItems: "top",
     justifyContent: "end",
-    // marginLeft: "auto",
-    // marginRight: "auto",
     borderRadius: theme.radius.sm,
     boxShadow: theme.shadows.md,
   },
@@ -124,11 +119,13 @@ export function StaffsList(props: Props) {
   ]);
 
   const fetchUsers = async () => {
-    const res = await fetch(import.meta.env.VITE_SERVER_API + `/employees/list`, {
-      method: "GET",
-    });
+    const res = await fetch(
+      import.meta.env.VITE_SERVER_API + `/employees/list`,
+      {
+        method: "GET",
+      }
+    );
     const usersFromDB = await res.json();
-    // console.log("usersFromDB:", usersFromDB);
 
     const usersAddStatus = usersFromDB.map((v: any) => {
       if (v.termination_date == null) {

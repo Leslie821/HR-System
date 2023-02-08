@@ -23,7 +23,6 @@ function DepartmentAddNew() {
     const res = await fetchServerDataNonGet("/department/create", "POST", {
       data,
     });
-    console.log("sendData:", res);
     return res;
   }
 

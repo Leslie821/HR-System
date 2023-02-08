@@ -2,7 +2,6 @@ import "./App.css";
 import { NavbarNested } from "./components/sideBar/SideBar2";
 import Dashboard from "./Page/Dashboard Page/dashboard";
 import { Route, Routes } from "react-router-dom";
-import { CreateNewEmployee } from "./Page/Staff Pages/createNewEmployeePage";
 import { ApplyDayOff } from "./Page/ Leave Pages/applydayoffPage";
 import { DayoffPending } from "./Page/ Leave Pages/showDayoffApplicationPage";
 import { DayoffType } from "./Page/ Leave Pages/showDayoffTypePage";
@@ -125,7 +124,7 @@ function App() {
           )}
         {user &&
           user.access_level_id &&
-          [1, 2 ,3].includes(user.access_level_id) && (
+          [1, 2, 3].includes(user.access_level_id) && (
             <Route
               path="/ShowClaimFormStatus"
               element={<ShowClaimFormStatus />}

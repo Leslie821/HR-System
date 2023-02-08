@@ -8,7 +8,9 @@ export function EmployeeInfoEdit() {
   let { id } = useParams();
 
   const fetchUser = async () => {
-    const res = await fetch(import.meta.env.VITE_SERVER_API + `/employees/${id}`);
+    const res = await fetch(
+      import.meta.env.VITE_SERVER_API + `/employees/${id}`
+    );
     let data = await res.json();
     console.log("data", data);
 
@@ -27,7 +29,6 @@ export function EmployeeInfoEdit() {
         };
       }
     });
-    // console.log("res:", data);
 
     if (data && Array.isArray(data) && data.length == 1) {
       console.log("dataWithDate", dataWithDate);

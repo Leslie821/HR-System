@@ -86,6 +86,18 @@ const information = [
       { label: "Claim Records", link: "/ShowClaimFormStatus", icon: IconNotes },
     ],
   },
+  {
+    label: "Settings",
+    icon: IconCalendarStats,
+    links: [
+      {
+        label: "Leave Type",
+        link: "/show_dayoff_type",
+        icon: IconNotes,
+        accessList: [1, 2],
+      },
+    ],
+  },
 ];
 
 const useStyles = createStyles((theme) => ({

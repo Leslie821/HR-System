@@ -9,7 +9,7 @@ import { hashPassword } from '../../hash';
 
 @Injectable()
 export class StaffService {
-  constructor(@InjectModel() private knex: Knex) {}
+  constructor(@InjectModel() private knex: Knex) { }
 
   //add
   async createNewEmployee(formInfo: CreateStaffDto) {

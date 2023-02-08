@@ -18,7 +18,8 @@ import { JobTitle } from "./Page/Job Title Page/jobTitlePage";
 import { JobTitlePage } from "./Page/Job Title Page/showJobTitlePage";
 import { ApplyClaimFormPage } from "./Page/Claims Page/applyClaimFormPage";
 import { DepartmentPage } from "./Page/departmentPage/DepartmentPage";
-import { ShowClaimFormPending } from "./Page/Claims Page/showAllClaimFormApplicationPage";
+import { ShowClaimFormPending } from "./Page/Claims Page/showClaimFormApplicationPage";
+import { ShowClaimFormStatus } from "./Page/Claims Page/showClaimFormStatus";
 
 // "@types/styled-components": "^5.1.26",
 export interface information {
@@ -120,6 +121,14 @@ function App() {
             <Route
               path="/ShowClaimFormPending"
               element={<ShowClaimFormPending />}
+            />
+          )}
+        {user &&
+          user.access_level_id &&
+          [1, 2 ,3].includes(user.access_level_id) && (
+            <Route
+              path="/ShowClaimFormStatus"
+              element={<ShowClaimFormStatus />}
             />
           )}
       </Route>

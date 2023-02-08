@@ -119,7 +119,6 @@ export class StaffService {
 
   async searchData(query: string) {
     try {
-      // console.log("query back:", query);
       let searchData = await this.knex('users')
         .select('*', 'users.id')
         .join('department', { 'department.id': 'users.department_id' })

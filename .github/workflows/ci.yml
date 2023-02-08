@@ -3,7 +3,7 @@ name: ci-flow-react
 on:
   push:
     branches:
-      - 'main'
+      - "main"
   workflow_dispatch:
 
 env:
@@ -43,7 +43,7 @@ jobs:
           docker push leslie821/hr-system:latest
 
   ssh-ec2-and-compose-up:
-    needs: deploy-server-to-docker
+    needs: test-and-build-server
     runs-on: ubuntu-latest
     steps:
       - name: Executing remote ssh

@@ -3,7 +3,7 @@ name: ci-flow-react
 on:
   push:
     branches:
-      - "main"
+      - "productions"
   workflow_dispatch:
 
 env:
@@ -23,10 +23,6 @@ jobs:
       DB_PORT: 5432
     steps:
       - uses: actions/checkout@v3
-      # - name: Install npm deps
-      #   working-directory: server
-      #   run: |
-      #     yarn
       - name: Build docker image for server
         working-directory: server
         run: |
@@ -39,7 +35,7 @@ jobs:
       - name: Do Docker tag and push
         working-directory: server
         run: |
-          docker tag hr-system:latest leslie821/hr-system:latest
+          docker tag 'hr-system:latest' leslie821/hr-system:latest
           docker push leslie821/hr-system:latest
 
   ssh-ec2-and-compose-up:
@@ -58,4 +54,5 @@ jobs:
             sudo service docker restart
             docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
             sudo docker-compose pull
-            sudo docker-compose up -d && sudo docker ps
+            sudo docker-compose up
+            sudo docker ps

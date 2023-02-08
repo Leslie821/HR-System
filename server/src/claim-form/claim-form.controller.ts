@@ -15,7 +15,7 @@ import { UpdateClaimFormDto } from './dto/update-claim-form.dto';
 
 @Controller('claim-form')
 export class ClaimFormController {
-  constructor(private readonly claimFormService: ClaimFormService) {}
+  constructor(private readonly claimFormService: ClaimFormService) { }
 
   @Post('apply')
   create(@Body() createClaimFormDto: CreateClaimFormDto) {

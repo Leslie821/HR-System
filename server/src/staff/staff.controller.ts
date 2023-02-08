@@ -16,7 +16,7 @@ import { UpdateStaffDto } from './dto/update-staff.dto';
 export class StaffController {
   constructor(private readonly staffService: StaffService) { }
 
-  @Post()
+  @Post("create")
   async createNewEmployee(
     @Body()
     body: CreateStaffDto,

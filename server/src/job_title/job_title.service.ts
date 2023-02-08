@@ -4,11 +4,11 @@ import { InjectModel } from 'nest-knexjs';
 
 @Injectable()
 export class JobTitleService {
-  constructor(@InjectModel() private knex: Knex) {}
+  constructor(@InjectModel() private knex: Knex) { }
 
   async getDepartmentid() {
     try {
-      let result = await this.knex.select().from('department');
+      let result = await this.knex.select().from('department')
       console.log('service get dayoff', result);
       return result;
     } catch (error) {
@@ -17,7 +17,8 @@ export class JobTitleService {
   }
   async getAllJobTitle() {
     try {
-      let result = await this.knex.select().from('job_title');
+      let result = await this.knex.select("*").from('job_title')
+        .join('department', { 'department.id': 'job_title.department_id' });
       console.log('service Get jbo title ID', result);
       return result;
     } catch (error) {

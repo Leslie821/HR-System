@@ -19,48 +19,54 @@ const useStyleTable = createStyles((theme) => ({
     maxHeight: 50,
     width: "100%",
     marginTop: 25,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     paddingBottom: 75,
-    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-      }`,
+    borderBottom: `1px solid ${
+      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+    }`,
   },
   table: {
-    width: 1800,
-    marginTop: 20,
+    width: "100%",
+    margin: 20,
     display: "flex",
-    alignItems: "top",
+    // alignItems: "top",
     justifyContent: "center",
   },
   button: {
     marginBottom: 8,
-    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-      }`,
+    borderBottom: `1px solid ${
+      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+    }`,
   },
 }));
 
 export async function CheckInOut(InOrOut: any, userID: any) {
-
   console.log("controller  userID", userID);
 
-  let result = await fetchServerDataNonGet("/checkin" + `/${InOrOut}`, "POST", { userID })
+  let result = await fetchServerDataNonGet("/checkin" + `/${InOrOut}`, "POST", {
+    userID,
+  });
   console.log(result);
 
-  { result == "Success" ? setCheckInResult("success") : setCheckInResult("fail") }
-
-
-
+  {
+    result == "Success"
+      ? setCheckInResult("success")
+      : setCheckInResult("fail");
+  }
 }
 
 export default function Dashboard() {
-  const [checkInResult, setCheckInResult] = useState<any>("")
+  const [checkInResult, setCheckInResult] = useState<any>("");
   const user = useSelector((state: IRootState) => state.user.user); // redux
   const { classes } = useStyleTable();
   return (
     <Group className={classes.body}>
       <Group className={classes.header}>
-        <div >
+        <div>
           <h1>Hello {user!.name} </h1>
         </div>
+      </Group>
+      <Group className={classes.table}>
         <Button
           size="lg"
           leftIcon={<IconDatabase size={14} />}
@@ -68,14 +74,14 @@ export default function Dashboard() {
           onClick={() => {
             CheckInOut("in", user!.id);
             {
-              checkInResult == "success" ?
-                showNotification({
-                  message: 'Success',
-                }) : showNotification({
-                  message: 'Fail',
-                })
+              checkInResult == "success"
+                ? showNotification({
+                    message: "Success",
+                  })
+                : showNotification({
+                    message: "Fail",
+                  });
             }
-
           }}
         >
           Check In
@@ -87,12 +93,13 @@ export default function Dashboard() {
           onClick={() => {
             CheckInOut("out", user!.id);
             {
-              checkInResult == "success" ?
-                showNotification({
-                  message: 'Success',
-                }) : showNotification({
-                  message: 'Fail',
-                })
+              checkInResult == "success"
+                ? showNotification({
+                    message: "Success",
+                  })
+                : showNotification({
+                    message: "Fail",
+                  });
             }
           }}
         >
@@ -100,11 +107,7 @@ export default function Dashboard() {
         </Button>
       </Group>
 
-      {/* <Group className={classes.table}>
-
-      </Group> */}
       <DashboardScheduler />
-
     </Group>
   );
 }

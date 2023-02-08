@@ -2,7 +2,7 @@ import { TextInput, Checkbox, Button, Group, Box, Select, FileInput } from '@man
 import { useForm } from '@mantine/form';
 import moment from 'moment';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { fetchServerData, fetchServerDataNonGet } from '../../../utilis/fetchDataUtilis';
+import { fetchServerData, fetchServerDataForm, fetchServerDataNonGet } from '../../../utilis/fetchDataUtilis';
 import { useDispatch,useSelector } from "react-redux";
 import { AppDispatch, IRootState } from '../../store/store';
 
@@ -12,7 +12,7 @@ export  function ApplyClaimFormPage() {
   const form = useForm({
     initialValues: {
       submitTo:'',
-      data: '',
+      date: '',
       remark:'',
       type:'',
       amount:'',
@@ -21,7 +21,7 @@ export  function ApplyClaimFormPage() {
 
     validate: {
       submitTo: (value) => ((value) ? null : 'no submit target'),
-      data: (value) => ((value) ? null : 'no Data'),
+      date: (value) => ((value) ? null : 'no Date'),
       remark: (value) => ((value) ? null : 'no Description'),
       type: (value) => ((value) ? null : 'no Expense Category'),
       amount: (value) => ((value) ? null : 'no Amount'),
@@ -41,13 +41,17 @@ export  function ApplyClaimFormPage() {
     const formData = new FormData();
         formData.append("staff_id",user!.id.toString());
         formData.append("submitTo",v.submitTo);
-        formData.append("data",v.data);
+        formData.append("date",v.date);
         formData.append("remark",v.remark);
         formData.append("type",v.type);
         formData.append("amount",v.amount);
-        formData.append("reference",v.reference);
-    await fetchServerDataNonGet("/claimForm/submission","POST",formData)
-    console.log(formData)
+        formData.append("file",v.reference[0]);
+    let res = await fetchServerDataForm("/claim-form/apply","POST",formData)
+    console.log("res",res);
+    
+    if (res.result.status){
+      form.reset()
+    }
   }
  
 // -------------------loop manager name list----------------------------------------------------
@@ -109,9 +113,9 @@ export  function ApplyClaimFormPage() {
           withAsterisk
           name="date"
           type="date"
-          label="Data"
+          label="Date"
           max={moment().format("YYYY-MM-DD")}
-          {...form.getInputProps('data')}
+          {...form.getInputProps('date')}
         />
 
         <TextInput

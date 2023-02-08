@@ -8,10 +8,10 @@ import { Knex } from 'knex';
 export class ClaimFormService {
   constructor(@InjectModel() private knex: Knex) {}
 
-  create(createClaimFormDto: CreateClaimFormDto) {
+  async create(createClaimFormDto: CreateClaimFormDto, file?: any) {
     console.log('HIHI:', createClaimFormDto);
 
-    let insertInfo = this.knex
+    let insertInfo = await this.knex
       .insert({
         staff_id: +createClaimFormDto.staff_id,
         approved_staff_id: +createClaimFormDto.submitTo,
@@ -23,7 +23,20 @@ export class ClaimFormService {
       })
       .into('claim_request')
       .returning('id');
-    return insertInfo;
+
+    if (file) {
+      await this.knex
+        .insert({
+          req_id: insertInfo[0].id,
+          pic: file,
+        })
+        .into('pic_request_claim')
+        .returning('id');
+    }
+    return {
+      insertInfo,
+      status: true,
+    };
   }
 
   async findManagerList() {
@@ -54,15 +67,38 @@ export class ClaimFormService {
   // }
 
   async findAllClaimForms() {
-    let AllApplications = await this.knex.select().from('claim_request');
+    let AllApplications = await this.knex
+      .select(
+        'claim_request.id as id',
+        'pic_request_claim.id as claim_pic_id',
+        'approved_staff_id as submit_staff_id',
+        'amount as amount',
+        'remark as remark',
+        'status as status',
+        'type as type',
+        'date as date',
+        'pic',
+        'users.name as user_name',
+      )
+      .from('claim_request')
+      .join('pic_request_claim', 'pic_request_claim.req_id', 'claim_request.id')
+      .join('users', 'users.id', 'claim_request.staff_id');
     return AllApplications;
   }
 
-  update(id: number, updateClaimFormDto: UpdateClaimFormDto) {
-    return `This action updates a #${id} claimForm`;
+  async accept(id: number) {
+    console.log(id);
+
+    let acceptClaimForm = await this.knex('claim_request')
+      .update({ status: 'approved' })
+      .where('id', '=', id);
+    return acceptClaimForm;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} claimForm`;
+  async reject(id: number) {
+    let rejectClaimForm = await this.knex('claim_request')
+      .update({ status: 'reject' })
+      .where('id', '=', id);
+    return rejectClaimForm;
   }
 }

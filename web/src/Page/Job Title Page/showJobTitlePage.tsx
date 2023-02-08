@@ -16,7 +16,7 @@ export function JobTitlePage() {
 
 
     async function loadDepartmentID() {
-        let rawresult: any = await fetch("http://localhost:3000/job-title/getDepartmentid", {
+        let rawresult: any = await fetch(import.meta.env.VITE_SERVER_API + "/job-title/getDepartmentid", {
             method: "Get",
         })
         let result = await rawresult.json()
@@ -89,7 +89,7 @@ export function JobTitlePage() {
         }]
     async function getJobTitle() {
         let res: any = await fetch(
-            "http://localhost:3000/job-title/getAllJobTitle"
+            import.meta.env.VITE_SERVER_API + "/job-title/getAllJobTitle"
         );
         let jobTitleFromDB = await res.json();
         // console.log("frontned ", jobTitleFromDB);
@@ -117,7 +117,7 @@ export function JobTitlePage() {
                         // console.log(formData);
 
 
-                        await fetch("http://localhost:3000/job-title/createNewJobTitle", {
+                        await fetch(import.meta.env.VITE_SERVER_API + "/job-title/createNewJobTitle", {
                             method: "Post",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify(inpputtye),

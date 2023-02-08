@@ -58,7 +58,7 @@ export function Login() {
   const user = useSelector((state: IRootState) => state.user.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  console.log("user:", user);
+  // console.log("user:", user);
 
   async function submitLogin() {
     let ans = await fetchServerDataNonGet("/auth/login", "POST", {
@@ -80,6 +80,7 @@ export function Login() {
         color: "red",
       });
     } else {
+
       localStorage.setItem("token", ans.token);
       navigate("/dashboard");
       dispatch(login());

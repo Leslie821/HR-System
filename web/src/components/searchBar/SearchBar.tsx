@@ -13,7 +13,7 @@ export function SearchBar({ apiPath, setBackData }: SearchBarProps) {
 
   const fetchData = async () => {
     try {
-      const res = await fetch(`http://localhost:3000` + apiPath + `${query}`);
+      const res = await fetch(import.meta.env.VITE_SERVER_API + apiPath + `${query}`);
       console.log("query:", query);
 
       const data = await res.json();

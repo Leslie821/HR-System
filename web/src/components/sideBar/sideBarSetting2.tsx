@@ -56,7 +56,7 @@ export function UserButton({
           </Text>
         </div>
 
-        {icon || <IconChevronRight size={14} stroke={1.5} />}
+        {/* {icon || <IconChevronRight size={14} stroke={1.5} />} */}
       </Group>
     </UnstyledButton>
   );

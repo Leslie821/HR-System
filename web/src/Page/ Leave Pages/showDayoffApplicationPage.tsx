@@ -227,7 +227,7 @@ export function DayoffPending() {
           <Group>
             <Group>
               <Button variant="light">
-                <IconArrowNarrowLeft size={50} stroke={1.5} />
+                <IconArrowNarrowLeft size={30} stroke={1.5} />
               </Button>
 
               <h2>Leave Type</h2>

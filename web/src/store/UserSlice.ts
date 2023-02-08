@@ -23,8 +23,8 @@ const loginSlice = createSlice({
   name: "user",
   initialState: initialState,
   reducers: {
-    login() {
-      initialState.user = getLocalStorage()
+    login(state) {
+      state.user = getLocalStorage();
     },
     loginOut() {
       clearLocalStorage();

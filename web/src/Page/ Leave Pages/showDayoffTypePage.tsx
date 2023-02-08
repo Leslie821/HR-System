@@ -170,7 +170,7 @@ export function DayoffType() {
                   });
                 }}
               >
-                <option value="" selected disabled hidden>
+                <option value=""  disabled hidden>
                   Choose here
                 </option>
                 <option value="Yes">Yes</option>
@@ -193,7 +193,7 @@ export function DayoffType() {
                   });
                 }}
               >
-                <option value="" selected disabled hidden>
+                <option value="" disabled hidden>
                   Choose here
                 </option>
                 <option value="Yes">Yes</option>

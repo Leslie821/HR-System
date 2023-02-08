@@ -12,7 +12,7 @@ export function JobTitle() {
 
   async function loadDepartmentID() {
     let rawresult: any = await fetch(
-      "http://localhost:3000/job-title/getDepartmentid",
+      import.meta.env.VITE_SERVER_API + "/job-title/getDepartmentid",
       {
         method: "Get",
       }
@@ -35,7 +35,7 @@ export function JobTitle() {
           // const formData = new FormData(form);
           // console.log(formData);
 
-          await fetch("http://localhost:3000/leave/addDayofftype", {
+          await fetch(import.meta.env.VITE_SERVER_API + "/leave/addDayofftype", {
             method: "Post",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(inpputtye),

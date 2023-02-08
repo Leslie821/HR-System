@@ -124,7 +124,7 @@ export function StaffsList(props: Props) {
   ]);
 
   const fetchUsers = async () => {
-    const res = await fetch(`http://localhost:3000/employees/list`, {
+    const res = await fetch(import.meta.env.VITE_SERVER_API + `/employees/list`, {
       method: "GET",
     });
     const usersFromDB = await res.json();

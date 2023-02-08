@@ -8,7 +8,7 @@ export function EmployeeInfoEdit() {
   let { id } = useParams();
 
   const fetchUser = async () => {
-    const res = await fetch(`http://localhost:3000/employees/${id}`);
+    const res = await fetch(import.meta.env.VITE_SERVER_API + `/employees/${id}`);
     let data = await res.json();
 
     let dataWithDate = data.map((v: any) => {

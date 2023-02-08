@@ -158,7 +158,7 @@ export function NavbarNested() {
   return (
     <Grid gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}>
       <Grid.Col span={2}>
-        <Navbar width={{ sm: 260 }} p="md" className={classes.navbar}>
+        <Navbar width={{ base: 250 }} p="md" className={classes.navbar}>
           <Navbar.Section className={classes.header}>
             <Group position="left">
               <IconAssembly size="45px"></IconAssembly>
@@ -197,12 +197,14 @@ export function NavbarNested() {
           </Popover>
         </Navbar>
       </Grid.Col>
+
       <Grid.Col span={10}>
+        <div style={{ marginLeft: "55px"}}>
         <Outlet />
+        </div>
       </Grid.Col>
+
     </Grid>
   );
 }
-function dispatch(arg0: any) {
-  throw new Error("Function not implemented.");
-}
+

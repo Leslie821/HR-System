@@ -9,12 +9,11 @@ import { hashPassword } from '../../hash';
 
 @Injectable()
 export class StaffService {
-  constructor(@InjectModel() private knex: Knex) { }
+  constructor(@InjectModel() private knex: Knex) {}
 
   //add
   async createNewEmployee(formInfo: CreateStaffDto) {
     try {
-
       console.log(formInfo);
 
       let insertUsers = await this.knex('users').insert({
@@ -40,13 +39,11 @@ export class StaffService {
         department_id: formInfo.department,
       });
 
-      console.log("insert employee:", insertUsers);
-      return insertUsers
-    }
-
-    catch (error) {
-      console.log('insert employee:', error)
-      return JSON.stringify(error)
+      console.log('insert employee:', insertUsers);
+      return insertUsers;
+    } catch (error) {
+      console.log('insert employee:', error);
+      return JSON.stringify(error);
     }
   }
 
@@ -55,18 +52,15 @@ export class StaffService {
     try {
       let thatUser = await this.knex('users')
         .where('users.id', id)
-        .select(
-          "*",
-        )
+        .select('*')
         .join('department', { 'department.id': 'users.department_id' })
         .join('job_title', { 'job_title.id': 'users.job_title_id' })
-        .join('access_level', { 'access_level.id': 'users.access_level_id' })
+        .join('access_level', { 'access_level.id': 'users.access_level_id' });
 
-      return thatUser
-    }
-    catch (error) {
-      console.log('Get employee:', error)
-      return JSON.stringify(error)
+      return thatUser;
+    } catch (error) {
+      console.log('Get employee:', error);
+      return JSON.stringify(error);
     }
   }
 
@@ -81,7 +75,7 @@ export class StaffService {
         email: formInfo.email,
         address: formInfo.address,
         job_nature: formInfo.job_nature,
-        password: formInfo.password,
+        password: await hashPassword(formInfo.password),
         contract: formInfo.contract,
         mpf: formInfo.mpf,
         birthday: formInfo.birthday,
@@ -97,9 +91,9 @@ export class StaffService {
         job_title_id: formInfo.job_title,
         department_id: formInfo.department,
       })
-      .where("users.id", id)
+      .where('users.id', id);
 
-    return updatedUser
+    return updatedUser;
 
     // }
     // catch (error) {
@@ -111,35 +105,32 @@ export class StaffService {
   async getUsers() {
     try {
       let usersList = await this.knex('users')
-        .select("*", "users.id",)
+        .select('*', 'users.id')
         .join('department', { 'department.id': 'users.department_id' })
         .join('job_title', { 'job_title.id': 'users.job_title_id' })
-        .join('access_level', { 'access_level.id': 'users.access_level_id' })
+        .join('access_level', { 'access_level.id': 'users.access_level_id' });
 
-      return usersList
-    }
-    catch (error) {
-      console.log('Get UserList:', error)
-      return JSON.stringify(error)
+      return usersList;
+    } catch (error) {
+      console.log('Get UserList:', error);
+      return JSON.stringify(error);
     }
   }
 
   async searchData(query: string) {
     try {
       // console.log("query back:", query);
-      let searchData = await this.knex("users")
-        .select("*", "users.id")
+      let searchData = await this.knex('users')
+        .select('*', 'users.id')
         .join('department', { 'department.id': 'users.department_id' })
         .join('job_title', { 'job_title.id': 'users.job_title_id' })
         .where('name', 'ilike', `%${query}%`)
-        .orWhere('email', 'ilike', `%${query}%`)
-      console.log(searchData)
-      return searchData
-    }
-    catch (error) {
-      console.log('search Data:', error)
-      return JSON.stringify(error)
+        .orWhere('email', 'ilike', `%${query}%`);
+      console.log(searchData);
+      return searchData;
+    } catch (error) {
+      console.log('search Data:', error);
+      return JSON.stringify(error);
     }
   }
-
 }

@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { boolean } from "zod";
 import React from "react";
 import { fetchServerDataNonGet, fetchServerData } from "../../../utilis/fetchDataUtilis";
+import { useSelector } from "react-redux";
+import { IRootState } from "../../store/store";
 
 const customStyles = {
   rows: {
@@ -45,6 +47,7 @@ const columns = [
 ];
 
 export function DayoffType() {
+  let user = useSelector((state: IRootState) => state.user.user); //access_level_id
   //////   alll const starts here!!!  ///////////
   const [inpputtye, setinputtype] = useState({
     dayoff_name: "",
@@ -240,11 +243,12 @@ export function DayoffType() {
           <Button variant="light">
             <IconArrowNarrowLeft size={50} stroke={1.5} />
           </Button>
-
           <h2>Leave Type</h2>
-          <Group position="center">
-            <Button onClick={() => setOpened(true)}>Add New Leave Type</Button>
-          </Group>
+          {user!.access_level_id >= 2 ?
+            <Group position="center">
+              <Button onClick={() => setOpened(true)}>Add New Leave Type</Button>
+            </Group> : ""}
+
           {/* 
           <Group position="center">
             <Button onClick={() => setOpenSecondModal(true)}>Delete Leave Type</Button>

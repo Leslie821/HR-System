@@ -5,23 +5,27 @@ import { IconAlertCircle, IconWindowMaximize } from "@tabler/icons";
 import { ChangeEvent, useEffect, useState } from "react";
 
 import { fetchServerData, fetchServerDataForm, fetchServerDataNonGet } from "../../../utilis/fetchDataUtilis";
+import { useSelector } from "react-redux";
+import { IRootState } from "../../store/store";
 // import { Loaddayoff } from "./loaddayofftype";
 
 export function ApplyDayOff() {
+  let user = useSelector((state: IRootState) => state.user.user); //access_level_id
   const [dayofftype, setdayofftype] = useState<any[]>([])
-
-
   const [from, setFrom] = useState<any>(new Date());
   const [to, setTo] = useState<any>(new Date());
   const [total, setTotal] = useState<any>(0);
   const [info, setInfo] = useState<any>({
-    name: "",
+    name: user?.name,
     type: "",
-    reason: "",
+    userID: user?.id,
   });
 
-
   const [file, setFile] = useState<any>();
+
+  console.log("user access ", user);
+
+
 
   //----------------------------------------------------------------
   async function getdayofftype() {
@@ -72,7 +76,7 @@ export function ApplyDayOff() {
     formData.append("from", from);
     formData.append("to", to);
     formData.append("total", total);
-    formData.append("reason", info.reason);
+    formData.append("userID", info.userID);
     formData.append("file", file);
 
 
@@ -87,6 +91,10 @@ export function ApplyDayOff() {
     });
     setTotal("");
   }
+
+  useEffect(() => {
+    console.log(dayofftype);
+  }, [dayofftype])
   return (
     <>
       <br></br>

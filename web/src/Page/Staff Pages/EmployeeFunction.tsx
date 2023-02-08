@@ -123,7 +123,7 @@ export default function EmployeeInfoForm({
         "POST",
         state,
       );
-      console.log("data", state);
+      window.location.reload()
       return dataFromDB;
     } else if (mode === "edit") {
       console.log("hi from edit");
@@ -132,6 +132,8 @@ export default function EmployeeInfoForm({
         "POST",
         state
       );
+      window.location.href="#/employees"
+
       return dataFromDB;
     }
   };

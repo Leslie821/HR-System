@@ -15,6 +15,7 @@ import { IRootState } from "../../store/store"; // import me
 import { Navigate, useNavigate } from "react-router-dom";
 import { fetchServerDataNonGet } from "../../../utilis/fetchDataUtilis";
 import { login } from "../../store/UserSlice";
+import { IconDoorEnter } from "@tabler/icons";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -60,6 +61,12 @@ export function Login() {
   const dispatch = useDispatch();
   // console.log("user:", user);
 
+  const handleKeyDown = (event:any) => {
+    if (event.key === 'Enter') {
+      console.log('do validate')
+    }
+  }
+
   async function submitLogin() {
     let ans = await fetchServerDataNonGet("/auth/login", "POST", {
       email,
@@ -71,7 +78,6 @@ export function Login() {
     // body: JSON.stringify({email, password}),
     // })
 
-    console.log("ans:", ans);
 
     if (!ans.status) {
       showNotification({
@@ -121,6 +127,9 @@ export function Login() {
           fullWidth
           mt="xl"
           size="md"
+          // onKeyPress={handleKeyDown}
+          // // tabIndex={0}
+
           onClick={() => {
             submitLogin();
           }}

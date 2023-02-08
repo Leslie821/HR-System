@@ -77,7 +77,7 @@ const information = [
         label: "Leave Type",
         link: "/show_dayoff_type",
         icon: IconNotes,
-        accessList: [1, 2],
+        accessList: [1],
       },
       { label: "Reports", link: "/dashboard", icon: IconNotes },
     ],

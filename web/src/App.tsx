@@ -88,7 +88,7 @@ function App() {
 
         {user &&
           user.access_level_id &&
-          [1, 2].includes(user.access_level_id) && (
+          [1, 2, 3].includes(user.access_level_id) && (
             <Route
               path="/show_dayoff_application"
               element={<DayoffPending />}

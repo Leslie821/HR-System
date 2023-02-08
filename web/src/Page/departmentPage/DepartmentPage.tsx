@@ -74,7 +74,7 @@ export function DepartmentPage() {
 
   useEffect(() => {
     fetchDepartment();
-  }, []);
+  }, [department]);
 
   useEffect(() => {
     // console.log("department:", department);

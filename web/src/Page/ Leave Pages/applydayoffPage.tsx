@@ -1,4 +1,4 @@
-import { Alert, Button, Container, List } from "@mantine/core";
+import { Alert, Button, Container, Group, List, createStyles } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { IconAlertCircle, IconWindowMaximize } from "@tabler/icons";
 
@@ -8,6 +8,35 @@ import { fetchServerData, fetchServerDataForm, fetchServerDataNonGet } from "../
 import { useSelector } from "react-redux";
 import { IRootState } from "../../store/store";
 // import { Loaddayoff } from "./loaddayofftype";
+const useStyleTable = createStyles((theme) => ({
+  body: {
+    marginLeft: 40,
+    display: "block",
+  },
+  header: {
+    height: 50,
+    maxHeight: 50,
+    width: "100%",
+    marginTop: 25,
+    paddingBottom: 75,
+    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+      }`,
+  },
+  table: {
+    maxWidth: 1800,
+    width: "100%",
+    marginTop: 25,
+    display: "flex",
+    alignItems: "top",
+    justifyContent: "end",
+    borderRadius: theme.radius.sm,
+    boxShadow: theme.shadows.md,
+  },
+  button: {
+    marginBottom: 8,
+  },
+}));
+
 
 export function ApplyDayOff() {
   let user = useSelector((state: IRootState) => state.user.user); //access_level_id
@@ -92,146 +121,154 @@ export function ApplyDayOff() {
     setTotal("");
   }
 
+  const { classes } = useStyleTable();
   useEffect(() => {
     console.log(dayofftype);
   }, [dayofftype])
   return (
-    <>
-      <br></br>
-      <br></br>
+    <Group className={classes.body}>
+      <div className={classes.header}>
+        <Group>
+          <h2>Dayoff Application</h2>
+        </Group>
+      </div>
 
-      <Container>
-        {/*************************    Employee Name Input   *************************/}
-        <h1>Dayoff Application</h1>
-        <h3>For sick leave, please attach doctor'note</h3>
-        <div style={{ display: "flex", margin: "20px" }}>
-          <div>
-            <div style={{ margin: "0px 30px" }}>Employee</div>
-            <br />
+      <Group className={classes.table}>
+        <Container>
+          {/*************************    Employee Name Input   *************************/}
+          {/* <h1>Dayoff Application</h1> */}
+          <h3>For sick leave, please attach doctor'note</h3>
+          <div style={{ display: "flex", margin: "20px" }}>
+            <div>
+              <div style={{ margin: "0px 30px" }}>Employee</div>
+              <br />
+              <input
+                value={info.name}
+                onChange={(e) => {
+                  setInfo({ ...info, name: e.currentTarget.value });
+                }}
+                name="employee"
+                id="employee"
+                type="text"
+                placeholder="name"
+                style={{ margin: "0px 30px" }}
+              ></input>
+            </div>
+
+            {/*************************     DayOff Type Input  (dropdown menu) *************************/}
+            <div>
+              <div style={{ margin: "0px 60px" }}>Dayoff Type</div>
+              <br />
+
+              <select
+                required
+                value={info.type}
+                onChange={(e) =>
+                  setInfo({ ...info, type: e.currentTarget.value })
+                }
+                style={{ margin: "0px 60px" }}
+              >
+                <option value="" selected disabled hidden>
+                  {" "}
+                  Select a type{" "}
+                </option>
+                {dayofftype.map((v) => (
+                  <option value={v.id}> {v.short_form} </option>
+                ))}
+              </select>
+            </div>
+            {info.type == "" ? (
+              <Alert
+                icon={<IconAlertCircle size={16} />}
+                title="Bummer!"
+                color="red"
+              >
+                Please Select a type
+              </Alert>
+            ) : (
+              ""
+            )}
+          </div>
+          <hr />
+          <br></br>
+
+          {/**************      From   To   Input  ***********/}
+          <div style={{ display: "flex", margin: "5px" }}>
+            <div style={{ margin: "0px 40px" }}>
+              <div>From</div>
+              <br />
+              <DatePicker value={from} onChange={setFrom} />
+            </div>
+            <div>
+              <div>To</div>
+              <br />
+              <DatePicker value={to} onChange={setTo} />
+            </div>
+          </div>
+
+          <br></br>
+          <hr />
+
+          {/************** Show  Number of dayoff day (total)  ***********/}
+          <div style={{ display: "flex", margin: "20px" }}>
+            <div style={{ margin: "0px 30px" }}>{"Total"}</div>
             <input
-              value={info.name}
-              onChange={(e) => {
-                setInfo({ ...info, name: e.currentTarget.value });
+              disabled
+              value={total}
+              onChange={() => {
+                setTotal(total);
               }}
-              name="employee"
-              id="employee"
-              type="text"
-              placeholder="name"
-              style={{ margin: "0px 30px" }}
+              name="total"
+              id="total"
+              placeholder="number of days"
+              type="number"
             ></input>
+            <div style={{ paddingLeft: "10px" }}> Day</div>
           </div>
-
-          {/*************************     DayOff Type Input  (dropdown menu) *************************/}
+          {/* submit file /////////////////////////////////////// */}
           <div>
-            <div style={{ margin: "0px 60px" }}>Dayoff Type</div>
-            <br />
+            {info.type == 5 && (
+              <div style={{ margin: "40px 40px" }}>
+                <input type="file" onChange={handleFileChange} />
 
-            <select
-              required
-              value={info.type}
-              onChange={(e) =>
-                setInfo({ ...info, type: e.currentTarget.value })
-              }
-              style={{ margin: "0px 60px" }}
-            >
-              <option value="" selected disabled hidden>
-                {" "}
-                Select a type{" "}
-              </option>
-              {dayofftype.map((v) => (
-                <option value={v.id}> {v.short_form} </option>
-              ))}
-            </select>
+                <div>{file && `${file.name} - ${file.type}`}</div>
+              </div>
+            )}
           </div>
-          {info.type == "" ? (
+
+          <hr />
+
+          {/****8*********************  Logic to hide Submit button when totoal day is zero or negative  ************/}
+          {total <= 0 || info.type == "" ? (
             <Alert
               icon={<IconAlertCircle size={16} />}
               title="Bummer!"
               color="red"
             >
-              Please Select a type
+              Something terrible happened! Bro! Total should not be 0 or a
+              negative number!
             </Alert>
           ) : (
-            ""
-          )}
-        </div>
-        <hr />
-        <br></br>
-
-        {/**************      From   To   Input  ***********/}
-        <div style={{ display: "flex", margin: "5px" }}>
-          <div style={{ margin: "0px 40px" }}>
-            <div>From</div>
-            <br />
-            <DatePicker value={from} onChange={setFrom} />
-          </div>
-          <div>
-            <div>To</div>
-            <br />
-            <DatePicker value={to} onChange={setTo} />
-          </div>
-        </div>
-
-        <br></br>
-        <hr />
-
-        {/************** Show  Number of dayoff day (total)  ***********/}
-        <div style={{ display: "flex", margin: "20px" }}>
-          <div style={{ margin: "0px 30px" }}>{"Total"}</div>
-          <input
-            disabled
-            value={total}
-            onChange={() => {
-              setTotal(total);
-            }}
-            name="total"
-            id="total"
-            placeholder="number of days"
-            type="number"
-          ></input>
-          <div style={{ paddingLeft: "10px" }}> Day</div>
-        </div>
-        {/* submit file /////////////////////////////////////// */}
-        <div>
-          {info.type == 5 && (
-            <div style={{ margin: "40px 40px" }}>
-              <input type="file" onChange={handleFileChange} />
-
-              <div>{file && `${file.name} - ${file.type}`}</div>
-            </div>
-          )}
-        </div>
-
-        <hr />
-
-        {/****8*********************  Logic to hide Submit button when totoal day is zero or negative  ************/}
-        {total <= 0 || info.type == "" ? (
-          <Alert
-            icon={<IconAlertCircle size={16} />}
-            title="Bummer!"
-            color="red"
-          >
-            Something terrible happened! Bro! Total should not be 0 or a
-            negative number!
-          </Alert>
-        ) : (
-          <Container>
-            <div style={{ paddingLeft: "700px" }}>
-              <div>
-                <Button
-                  type="submit"
-                  onClick={() => {
-                    submitfile();
-                  }}
-                >
-                  Submit
-                </Button>
+            <Container>
+              <div style={{ paddingLeft: "700px" }}>
+                <div>
+                  <Button
+                    type="submit"
+                    onClick={() => {
+                      submitfile();
+                    }}
+                  >
+                    Submit
+                  </Button>
+                </div>
               </div>
-            </div>
-          </Container>
-        )}
-        {/* total should not be ZERO!!!!!!!!!!!!!!! */}
-      </Container>
-    </>
+            </Container>
+          )}
+          {/* total should not be ZERO!!!!!!!!!!!!!!! */}
+        </Container>
+      </Group>
+    </Group>
   );
 }
+
+

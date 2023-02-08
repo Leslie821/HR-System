@@ -28,8 +28,31 @@ const schema = z.object({
 const useStyleTable = createStyles((theme) => ({
   body: {
     // height: "95vh",
-    marginLeft: 60,
+    marginLeft: 40,
     display: "block",
+  },
+  header: {
+    height: 50,
+    maxHeight: 50,
+    width: "100%",
+    marginTop: 25,
+    paddingBottom: 75,
+    borderBottom: `1px solid ${
+      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+    }`,
+  },
+  table: {
+    maxWidth: 1800,
+    width: "100%",
+    marginTop: 25,
+    display: "flex",
+    alignItems: "top",
+    justifyContent: "end",
+    borderRadius: theme.radius.sm,
+    boxShadow: theme.shadows.md,
+  },
+  button: {
+    marginBottom: 8,
   },
 }));
 
@@ -99,7 +122,6 @@ export default function EmployeeInfoForm({
         "/employees/create",
         "POST",
         state,
-        true
       );
       console.log("data", state);
       return dataFromDB;
@@ -288,8 +310,10 @@ export default function EmployeeInfoForm({
           e.preventDefault();
         }}
       >
-        <h1>{state.header}</h1>
-        <h2>Employee Information</h2>
+        <Group className={classes.header}>
+        <h2>{state.header}</h2>
+        </Group>
+        <h3>Employee Information</h3>
         <Grid justify="space-between" align="center">
           {inputGroup("Name", "name", "text")}
           {inputdate("Birthday", "birthday")}

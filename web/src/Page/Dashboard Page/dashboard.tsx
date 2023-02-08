@@ -2,6 +2,9 @@ import "./dash.css";
 import DashboardScheduler from "../../components/DashboardCalendar/DashboardScheduler";
 import { CheckInOut } from "../Check in Page/check_in";
 import { Button, createStyles, Group } from "@mantine/core";
+import { useSelector } from "react-redux";
+import { IRootState } from "../../store/store";
+import { IconDatabase } from "@tabler/icons";
 
 const useStyleTable = createStyles((theme) => ({
   body: {
@@ -13,12 +16,14 @@ const useStyleTable = createStyles((theme) => ({
     maxHeight: 50,
     width: "100%",
     marginTop: 25,
+    justifyContent: 'space-between',
     paddingBottom: 75,
     borderBottom: `1px solid ${
       theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
     }`,
   },
   table: {
+    width:1800,
     marginTop: 20,
     display: "flex",
     alignItems: "top",
@@ -26,19 +31,24 @@ const useStyleTable = createStyles((theme) => ({
   },
   button: {
     marginBottom: 8,
+    borderBottom: `1px solid ${
+      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+    }`,
   },
 }));
 
 export default function Dashboard() {
+  const user = useSelector((state: IRootState) => state.user.user); // redux
   const { classes } = useStyleTable();
   return (
     <Group className={classes.body}>
-      <div className={classes.header}>
-        <h1>Hello Donny</h1>
+      <Group className={classes.header}>
+      <div >
+        <h1>Hello {user!.name} </h1>
       </div>
-
-      <div className={classes.table}>
-        <Button
+      <Button
+          size="lg"
+          leftIcon={<IconDatabase size={14} />}
           className={classes.button}
           onClick={() => {
             CheckInOut();
@@ -46,10 +56,13 @@ export default function Dashboard() {
         >
           Check In
         </Button>
-      </div>
+      </Group>
 
-      {/* <DashboardScheduler /> */}
+      {/* <Group className={classes.table}>
+
+      </Group> */}
+      <DashboardScheduler />
+
     </Group>
   );
 }
-// hi

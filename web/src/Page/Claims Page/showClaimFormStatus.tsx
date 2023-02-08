@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { fetchServerData, fetchServerDataNonGet } from '../../../utilis/fetchDataUtilis';
-import { Button, Group, Input, Modal, Table, TextInput, Textarea } from "@mantine/core";
+import { Button, Group, Input, Modal, Table, TextInput, Textarea, createStyles } from "@mantine/core";
 import { IconArrowNarrowLeft } from "@tabler/icons";
 import DataTable from "react-data-table-component";
 import React from "react";
@@ -10,9 +10,38 @@ import React from "react";
 type Dayoff = {
   id?: string;
 };
-
+const useStyleTable = createStyles((theme) => ({
+  body: {
+    marginLeft: 40,
+    display: "block",
+  },
+  header: {
+    height: 50,
+    maxHeight: 50,
+    width: "100%",
+    marginTop: 25,
+    paddingBottom: 75,
+    borderBottom: `1px solid ${
+      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+    }`,
+  },
+  table: {
+    maxWidth: 1800,
+    width: "100%",
+    marginTop: 25,
+    display: "flex",
+    alignItems: "top",
+    justifyContent: "end",
+    borderRadius: theme.radius.sm,
+    boxShadow: theme.shadows.md,
+  },
+  button: {
+    marginBottom: 8,
+  },
+}));
 
 export function ShowClaimFormStatus() {
+  const { classes } = useStyleTable();
   const [selectedRows, setSelectedRows] = React.useState<Dayoff[]>([]);
   const [toggleCleared, setToggleCleared] = React.useState(false);
   const [result, setResult] = useState<any>();  
@@ -20,32 +49,6 @@ export function ShowClaimFormStatus() {
   const [togglesearch, settoggleSearch] = useState<boolean>(true)
   const [searchresult, setSearchresult] = useState<any>()
   const [openedSecondModal, setOpenedSecondModal] = useState(false);
-
-  const customStyles = {
-    headCells: {
-      style: {
-
-        fontSize: "15px",
-        marginRight: "0px",
-        marginLeft: "0px",
-        paddingLeft: "0px",
-        paddingRight: "0px",
-        width: "5px"
-      },
-    },
-    cells: {
-      style: {
-
-        fontSize: "15px",
-        marginRight: "0px",
-        marginLeft: "0px",
-        paddingLeft: "0px",
-        paddingRight: "0px",
-        width: "fit-content"
-      },
-    }
-  }
-
 
   useEffect(() => {
     getAll();
@@ -153,25 +156,23 @@ export function ShowClaimFormStatus() {
 
 
   return (
-    <div>
+    <Group className={classes.body}>
+      <div className={classes.header}>
+        <Group>
+          <h2>Claim Records</h2>
+        </Group>
+      </div>
       <div>
         <div>
-          <Group>
-          
-
+          <Group className={classes.table}>
             <DataTable
               columns={columns}
               data={result}
-              // contextActions={contextActions}
-              customStyles={customStyles}
+              pagination pointerOnHover 
             />
           </Group>
         </div>
       </div>
-
-
-
-    </div>
+    </Group>
   );
-  // rejectitems(rejectItem)
 }

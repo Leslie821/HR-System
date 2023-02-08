@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import { Button, Group, Input, Modal, Table, TextInput, Textarea } from "@mantine/core";
+import { Button, Group, Input, Modal, Table, TextInput, Textarea, createStyles } from "@mantine/core";
 import { IconArrowNarrowLeft } from "@tabler/icons";
 import DataTable from "react-data-table-component";
 import React from "react";
@@ -13,9 +13,36 @@ import { IRootState } from "../../store/store";
 type Dayoff = {
   id?: string;
 };
-
-
+const useStyleTable = createStyles((theme) => ({
+  body: {
+    marginLeft: 40,
+    display: "block",
+  },
+  header: {
+    height: 50,
+    maxHeight: 50,
+    width: "100%",
+    marginTop: 25,
+    paddingBottom: 75,
+    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+      }`,
+  },
+  table: {
+    maxWidth: 1800,
+    width: "100%",
+    marginTop: 25,
+    display: "flex",
+    alignItems: "top",
+    justifyContent: "end",
+    borderRadius: theme.radius.sm,
+    boxShadow: theme.shadows.md,
+  },
+  button: {
+    marginBottom: 8,
+  },
+}));
 export function DayoffPending() {
+  const { classes } = useStyleTable();
   let user = useSelector((state: IRootState) => state.user.user); //access_level_id
   const [selectedRows, setSelectedRows] = React.useState<Dayoff[]>([]);
   const [toggleCleared, setToggleCleared] = React.useState(false);
@@ -221,88 +248,86 @@ export function DayoffPending() {
   ];
 
   return (
-    <div>
-      <div>
-        <div>
-          <Group>
-            <Group>
-              <Button variant="light">
-                <IconArrowNarrowLeft size={30} stroke={1.5} />
-              </Button>
-
-              <h2>Leave Type</h2>
-            </Group>
-            <div>
-              <div style={{ display: "flex", margin: "0px 50px", paddingLeft: "0px", paddingRight: "30px" }}>
-
-                {/* *********Button filter to show all pending cases************ */}
-
-                <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
-                  <Button
-                    onClick={() => {
-                      getPending(user!.id);
-                    }}
-                  >
-                    Show Pending Application
-                  </Button>
-                </div>
-                {/* *********Button filter to show all cases************ */}
-
-                <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
-                  <Button
-                    onClick={() => {
-                      getAll(user!.id)
-                    }}
-                  >
-                    Show All Application
-                  </Button>
-                </div>
-                {/* *******Button filter to show all approved cases ************** */}
-
-                <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
-                  <Button
-                    onClick={() => {
-                      getApproved(user!.id);
-                    }}
-                  >
-                    Show Approved Application
-                  </Button>
-                </div>
-
-                {/* ********Button To Approve application ************* */}
-                {user!.access_level_id <= 2 ? <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
-                  <Button
-                    onClick={() => {
-                      approveItems();
-                    }}
-                  >
-                    Approve Selected Case
-                  </Button>
-                </div> : ""}
-
-
-                {/* ********Button Show Staff Dayoff Remain ************* */}
-                <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
-                  <Group >
-                    <Button onClick={() => setOpened(true)}>Show Staff Dayoff Remain</Button>
-                  </Group>
-                </div>
-                {/* ********************* */}
-              </div>
-            </div>
-            <DataTable
-              columns={columns}
-              data={result}
-              // contextActions={contextActions}
-              customStyles={customStyles}
-              selectableRows
-              selectableRowDisabled={rowDisabledCriteria}
-              onSelectedRowsChange={handleRowSelected}
-              clearSelectedRows={toggleCleared}
-            />
-          </Group>
-        </div>
+    <Group className={classes.body}>
+      <div className={classes.header}>
+        <Group>
+          <h2>Leave Type</h2>
+        </Group>
       </div>
+
+      <Group className={classes.table}>
+
+        <div>
+          <div style={{ display: "flex" }}>
+
+            {/* *********Button filter to show all pending cases************ */}
+
+            <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
+              <Button
+                onClick={() => {
+                  getPending(user!.id);
+                }}
+              >
+                Show Pending Application
+              </Button>
+            </div>
+            {/* *********Button filter to show all cases************ */}
+
+            <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
+              <Button
+                onClick={() => {
+                  getAll(user!.id)
+                }}
+              >
+                Show All Application
+              </Button>
+            </div>
+            {/* *******Button filter to show all approved cases ************** */}
+
+            <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
+              <Button
+                onClick={() => {
+                  getApproved(user!.id);
+                }}
+              >
+                Show Approved Application
+              </Button>
+            </div>
+
+            {/* ********Button To Approve application ************* */}
+            {user!.access_level_id <= 2 ? <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
+              <Button
+                onClick={() => {
+                  approveItems();
+                }}
+              >
+                Approve Selected Case
+              </Button>
+            </div> : ""}
+
+
+            {/* ********Button Show Staff Dayoff Remain ************* */}
+            <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
+              <Group >
+                <Button onClick={() => setOpened(true)}>Show Staff Dayoff Remain</Button>
+              </Group>
+            </div>
+            {/* ********************* */}
+          </div>
+        </div>
+        <DataTable
+          columns={columns}
+          data={result}
+          // contextActions={contextActions}
+          customStyles={customStyles}
+          selectableRows
+          selectableRowDisabled={rowDisabledCriteria}
+          onSelectedRowsChange={handleRowSelected}
+          clearSelectedRows={toggleCleared}
+        />
+      </Group>
+
+
 
 
       {/* /////////////////search function in Modal , show staff dayoff condition //////////////////////////////////////// */}
@@ -369,7 +394,7 @@ export function DayoffPending() {
 
 
       </Modal>
-    </div>
+    </Group>
   );
   // rejectitems(rejectItem)
 }

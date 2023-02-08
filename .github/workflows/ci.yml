@@ -39,7 +39,7 @@ jobs:
       - name: Do Docker tag and push
         working-directory: server
         run: |
-          docker tag server:latest leslie821/hr-system:latest
+          docker tag hr-system:latest leslie821/hr-system:latest
           docker push leslie821/hr-system:latest
 
   ssh-ec2-and-compose-up:

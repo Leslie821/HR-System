@@ -44,9 +44,9 @@ export async function up(knex: Knex): Promise<void> {
       table.string('password', 255).notNullable();
       table.string('contract', 255);
       table.string('mpf', 255);
-      table.timestamp('birthday').notNullable();
-      table.timestamp('employ_date').notNullable();
-      table.timestamp('termination_date');
+      table.string('birthday').notNullable();
+      table.string('employ_date').notNullable();
+      table.string('termination_date');
       table.string('working_time').notNullable();
       table.integer('salary').notNullable();
       table.integer('annual_leave_fixed').notNullable();

@@ -9,7 +9,7 @@ import { hashPassword } from '../../hash';
 
 @Injectable()
 export class StaffService {
-  constructor(@InjectModel() private knex: Knex) {}
+  constructor(@InjectModel() private knex: Knex) { }
 
   //add
   async createNewEmployee(formInfo: CreateStaffDto) {
@@ -119,7 +119,6 @@ export class StaffService {
 
   async searchData(query: string) {
     try {
-      // console.log("query back:", query);
       let searchData = await this.knex('users')
         .select('*', 'users.id')
         .join('department', { 'department.id': 'users.department_id' })

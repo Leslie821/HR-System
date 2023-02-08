@@ -16,6 +16,7 @@ import {
   fetchServerData,
   fetchServerDataNonGet,
 } from "../../../utilis/fetchDataUtilis";
+import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
   name: z.string().min(2, { message: "Name should have at least 2 letters" }),
@@ -27,7 +28,6 @@ const schema = z.object({
 
 const useStyleTable = createStyles((theme) => ({
   body: {
-    // height: "95vh",
     marginLeft: 40,
     display: "block",
   },
@@ -67,6 +67,8 @@ export default function EmployeeInfoForm({
   data,
   id,
 }: EmployeeInfoFormProps) {
+  const navigate = useNavigate();
+
   const { classes } = useStyleTable();
   const [departmentValues, setDepartmentValue] = useState<[]>([]);
   const [jobTitleValues, setJobTitleValues] = useState<[]>([]);
@@ -121,9 +123,10 @@ export default function EmployeeInfoForm({
       const dataFromDB = await fetchServerDataNonGet(
         "/employees/create",
         "POST",
-        state,
+        state
       );
-      console.log("data", state);
+      // window.location.reload()
+      navigate(-1);
       return dataFromDB;
     } else if (mode === "edit") {
       console.log("hi from edit");
@@ -132,6 +135,10 @@ export default function EmployeeInfoForm({
         "POST",
         state
       );
+
+      // window.location.href="#/employees"
+      navigate("/employees");
+
       return dataFromDB;
     }
   };
@@ -153,7 +160,7 @@ export default function EmployeeInfoForm({
     employ_date:
       mode === "create" ? "" : data ? new Date(data.employ_date) : "",
     termination_date:
-      mode === "create" ? "" : data ? new Date(data.termination_date) : "",
+      mode === "create" ? "" : data ? new Date(data.termination_date) : null,
     working_time: mode === "create" ? "" : data ? data.working_time : "",
     salary: mode === "create" ? "" : data ? data.salary : "",
     annual_leave_fixed:
@@ -163,7 +170,7 @@ export default function EmployeeInfoForm({
     bank_account: mode === "create" ? "" : data ? data.bank_account : "",
     phone: mode === "create" ? "" : data ? data.phone : "",
     access_level: mode === "create" ? "" : data ? data.access_level_type : "",
-    job_title: mode === "create" ? "" : data ? data.job_title_type : "",
+    job_title: mode === "create" ? "" : data ? data.job_title_id : "",
     department: mode === "create" ? "" : data ? data.department_name : "",
     button: mode === "create" ? "Create" : "Update Information",
     validate: zodResolver(schema),
@@ -194,9 +201,9 @@ export default function EmployeeInfoForm({
         mode === "create" ? "" : data ? data.sick_leave_fixed : "",
       bank_account: mode === "create" ? "" : data ? data.bank_account : "",
       phone: mode === "create" ? "" : data ? data.phone : "",
-      access_level: mode === "create" ? "" : data ? data.access_level_type : "",
-      job_title: mode === "create" ? "" : data ? data.job_title_type : "",
-      department: mode === "create" ? "" : data ? data.department_name : "",
+      access_level: mode === "create" ? "" : data ? data.access_level_id : "",
+      job_title: mode === "create" ? "" : data ? data.job_title_id : "",
+      department: mode === "create" ? "" : data ? data.department_id : "",
       button: mode === "create" ? "Create" : "Update Information",
       validate: zodResolver(schema),
     });
@@ -311,7 +318,7 @@ export default function EmployeeInfoForm({
         }}
       >
         <Group className={classes.header}>
-        <h2>{state.header}</h2>
+          <h2>{state.header}</h2>
         </Group>
         <h3>Employee Information</h3>
         <Grid justify="space-between" align="center">

@@ -13,14 +13,16 @@ export function SearchBar({ apiPath, setBackData }: SearchBarProps) {
 
   const fetchData = async () => {
     try {
-      const res = await fetch(import.meta.env.VITE_SERVER_API + apiPath + `${query}`);
+      const res = await fetch(
+        import.meta.env.VITE_SERVER_API + apiPath + `${query}`
+      );
       console.log("query:", query);
 
       const data = await res.json();
       console.log("DATA", data);
 
       const usersAddStatus = data.map((v: any) => {
-        if (v.termination_date == null) {
+        if (!v.termination_date) {
           return {
             ...v,
             status: "Active",

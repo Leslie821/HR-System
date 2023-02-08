@@ -128,7 +128,7 @@ export function StaffsList(props: Props) {
     const usersFromDB = await res.json();
 
     const usersAddStatus = usersFromDB.map((v: any) => {
-      if (v.termination_date == null) {
+      if (!v.termination_date) {
         return {
           ...v,
           status: "Active",

@@ -27,9 +27,12 @@ const useStyleTable = createStyles((theme) => ({
   },
   table: {
     width: "100%",
-    margin: 20,
-    display: "flex",
-    // alignItems: "top",
+    // margin: 10,
+    // display: "flex",
+    justifyContent: "center",
+  },
+  date: {
+    marginTop: 50,
     justifyContent: "center",
   },
   button: {
@@ -66,6 +69,9 @@ export default function Dashboard() {
           <h1>Hello {user!.name} </h1>
         </div>
       </Group>
+      <div className={classes.date}>
+        <DashboardScheduler />
+      </div>
       <Group className={classes.table}>
         <Button
           size="lg"
@@ -106,8 +112,6 @@ export default function Dashboard() {
           Check Out
         </Button>
       </Group>
-
-      <DashboardScheduler />
     </Group>
   );
 }

@@ -85,7 +85,7 @@ export function JobTitlePage() {
             Width: "5px",
 
             name: "Who is the head",
-            selector: (row: any) => row.department_id,
+            selector: (row: any) => row.father_department_id,
         }]
     async function getJobTitle() {
         let res: any = await fetch(
@@ -124,7 +124,7 @@ export function JobTitlePage() {
                         });
 
 
-                        // window.location.reload()
+                        window.location.reload()
                     }}
                 >
 
@@ -166,7 +166,7 @@ export function JobTitlePage() {
 
                     <div   >
 
-                        <Button type="submit">
+                        <Button type="submit" onClick={()=>{loadDepartmentID()}}>
                             Submit
                         </Button>
                     </div>

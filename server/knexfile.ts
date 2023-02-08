@@ -1,7 +1,8 @@
-/* eslint-disable prettier/prettier */
-import * as dotenv from 'dotenv';
+// import * as dotenv from 'dotenv';
+// dotenv.config();
 import type { Knex } from 'knex';
-dotenv.config();
+
+require('dotenv').config()
 
 // Update with your config settings.
 

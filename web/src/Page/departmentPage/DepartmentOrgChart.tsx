@@ -18,7 +18,6 @@ function DepartmentOrgChart() {
 
   async function initData() {
     const res = await fetchServerData("/department/list");
-    // console.log("res: ", res);
 
     let a = 0;
     const initialNodes = res.map((v: any) => {
@@ -26,8 +25,10 @@ function DepartmentOrgChart() {
 
       a += 70;
 
-      let x = Math.floor(Math.random() * 200);
-      x = Math.random() >= 0.5 ? x * -1 : x;
+      // let x = Math.floor(Math.random() * 200);
+      let x = Math.random() * window.innerWidth;
+      let y = Math.random() * window.innerWidth;
+      // x = Math.random() >= 0.5 ? x * -1 : x;
       return {
         id: v.id + "",
         // type: "input",

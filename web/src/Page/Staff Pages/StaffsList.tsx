@@ -34,7 +34,7 @@ const useStyleTable = createStyles((theme) => ({
   table: {
     maxWidth: 1800,
     width: "100%",
-    marginTop: 50,
+    marginTop: 25,
     // height: 180,
     display: "flex",
     alignItems: "top",

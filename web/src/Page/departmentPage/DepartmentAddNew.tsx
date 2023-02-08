@@ -7,30 +7,23 @@ import {
 } from "../../../utilis/fetchDataUtilis";
 
 function DepartmentAddNew() {
-  const [formValues, setFormValues] = useState("");
-
   const [departmentValues, setDepartmentValue] = useState<string[]>([]);
 
   const departmentName = async () => {
     const res = await fetchServerData("/department/list");
-
     const departmentEdited = res.map((v: any) => ({
       label: v.department_name,
       value: v.id,
     }));
-    // console.log(departmentEdited);
+    // console.log("departmentEdited", departmentEdited);
     setDepartmentValue(departmentEdited);
   };
 
-  async function sendData() {
-    console.log("hi");
-    // const res = await fetch("http://localhost:3000/department/create", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(form),
-    // });
-
-    const res = await fetchServerDataNonGet("/department", "POST", { form });
+  async function sendData(data: any) {
+    const res = await fetchServerDataNonGet("/department/create", "POST", {
+      data,
+    });
+    console.log("sendData:", res);
     return res;
   }
 
@@ -47,11 +40,7 @@ function DepartmentAddNew() {
 
   return (
     <Box>
-      <form
-        onSubmit={form.onSubmit((values) =>
-          setFormValues(JSON.stringify(values))
-        )}
-      >
+      <form onSubmit={form.onSubmit((value) => sendData(value))}>
         <TextInput
           label="Department"
           placeholder="Department"
@@ -66,7 +55,7 @@ function DepartmentAddNew() {
           data={departmentValues}
           {...form.getInputProps("parentDepartment")}
         />
-        <Button type="submit" mt="md" onClick={() => sendData()}>
+        <Button type="submit" mt="md">
           Create
         </Button>
       </form>

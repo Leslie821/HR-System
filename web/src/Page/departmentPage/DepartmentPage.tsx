@@ -11,6 +11,7 @@ import DataTable from "react-data-table-component";
 import { fetchServerData } from "../../../utilis/fetchDataUtilis";
 // import Demo from "./Demo";
 import DepartmentAddNew from "./DepartmentAddNew";
+import { StyledTreeExample } from "./DepartmentOrg";
 import DepartmentOrgChart from "./DepartmentOrgChart";
 
 const useStyleTable = createStyles((theme) => ({
@@ -31,7 +32,7 @@ const useStyleTable = createStyles((theme) => ({
   table: {
     maxWidth: 1800,
     width: "100%",
-    marginTop: 50,
+    marginTop: 20,
     display: "flex",
     alignItems: "top",
     justifyContent: "end",
@@ -157,7 +158,8 @@ export function DepartmentPage() {
         onClose={() => setOpenOrgChart(false)}
         fullScreen
       >
-        <DepartmentOrgChart />
+        {/* <DepartmentOrgChart /> */}
+        {/* <StyledTreeExample /> */}
       </Modal>
     </Group>
   );

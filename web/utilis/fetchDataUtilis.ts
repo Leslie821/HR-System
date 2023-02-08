@@ -10,8 +10,17 @@ export async function fetchServerData(apiPath: string) { // GET
 export async function fetchServerDataNonGet( // fetch with file 
     apiPath: string,
     method: "PUT" | "POST" | "PATCH" | "DELETE",
-    data: any
+    data: any,
+    requireLogin: boolean = false
 ) {
+
+    let headers = {
+        'content-type': 'application/json'
+    } as any
+
+    if (requireLogin) {
+        headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`
+    }
 
     const res = await fetch(import.meta.env.VITE_SERVER_API + apiPath, {
         method: method,
@@ -29,8 +38,17 @@ export async function fetchServerDataNonGet( // fetch with file
 export async function fetchServerDataForm( // fetch without file
     apiPath: string,
     method: "PUT" | "POST" | "PATCH" | "DELETE",
-    data: FormData
+    data: FormData,
+    requireLogin: boolean = false
 ) {
+
+    let headers = {
+        'content-type': 'application/json'
+    } as any
+
+    if (requireLogin) {
+        headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`
+    }
 
     const res = await fetch(import.meta.env.VITE_SERVER_API + apiPath, {
         method: method,

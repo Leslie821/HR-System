@@ -1,11 +1,19 @@
 import React, { useEffect, useState, ChangeEvent } from "react";
 import { zodResolver } from "@mantine/form";
-import { TextInput, Button, Group, Col, Grid } from "@mantine/core";
+import {
+  TextInput,
+  Button,
+  Group,
+  Col,
+  Grid,
+  Select,
+  createStyles,
+} from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
-import { any, z } from "zod";
+import { z } from "zod";
 import { useParams } from "react-router-dom";
 import {
-  fetchServerDataForm,
+  fetchServerData,
   fetchServerDataNonGet,
 } from "../../../utilis/fetchDataUtilis";
 
@@ -16,6 +24,14 @@ const schema = z.object({
     .number()
     .min(18, { message: "You must be at least 18 to create an account" }),
 });
+
+const useStyleTable = createStyles((theme) => ({
+  body: {
+    // height: "95vh",
+    marginLeft: 60,
+    display: "block",
+  },
+}));
 
 export type EmployeeInfoFormProps = {
   mode: "create" | "edit";
@@ -28,12 +44,63 @@ export default function EmployeeInfoForm({
   data,
   id,
 }: EmployeeInfoFormProps) {
+  const { classes } = useStyleTable();
+  const [departmentValues, setDepartmentValue] = useState<[]>([]);
+  const [jobTitleValues, setJobTitleValues] = useState<[]>([]);
+  const [accessLevelValues, setAccessLevelValues] = useState<[]>([]);
+
+  const departmentName = async () => {
+    const res = await fetchServerData("/department/list");
+    const departmentEdited = res.map((v: any) => ({
+      label: v.department_name,
+      value: v.id,
+    }));
+    // console.log("departmentEdited", departmentEdited);
+    setDepartmentValue(departmentEdited);
+  };
+
+  const getJobTitle = async () => {
+    const res = await fetchServerData("/job-title/getAllJobTitle");
+    console.log("res", res);
+    const jobTitleEdited = res.map((v: any) => ({
+      label: v.job_title_type,
+      value: v.id,
+      group: v.department_name,
+    }));
+    setJobTitleValues(jobTitleEdited);
+  };
+
+  const accessLevel = async () => {
+    const res = await fetchServerData("/access-level/list");
+    console.log("res", res);
+    const accessLevelEdited = res.map((v: any) => ({
+      label: v.access_level_type,
+      value: v.id,
+    }));
+    setAccessLevelValues(accessLevelEdited);
+  };
+
+  useEffect(() => {
+    departmentName();
+  }, []);
+
+  useEffect(() => {
+    accessLevel();
+  }, []);
+
+  useEffect(() => {
+    getJobTitle();
+  }, []);
+
   const employeeInfoForm = async function EmployeeInfoForm() {
     if (mode === "create") {
       console.log("hi from create");
-      const dataFromDB = await fetchServerDataNonGet("/employees", "POST", {
+      const dataFromDB = await fetchServerDataNonGet(
+        "/employees/create",
+        "POST",
         state,
-      });
+        true
+      );
       console.log("data", state);
       return dataFromDB;
     } else if (mode === "edit") {
@@ -41,12 +108,11 @@ export default function EmployeeInfoForm({
       const dataFromDB = await fetchServerDataNonGet(
         `/employees/update/${id}`,
         "POST",
-        { state }
+        state
       );
       return dataFromDB;
     }
   };
-
   const [fileContract, setFileContract] = useState<File>();
   const [fileMpf, setFileMpf] = useState<File>();
 
@@ -148,6 +214,45 @@ export default function EmployeeInfoForm({
     );
   }
 
+  function selectGroup(
+    label: string,
+    key: keyof FormState,
+    selectArray: { label: any; value: any }[]
+  ) {
+    return (
+      <Grid.Col span={6} style={{ minHeight: 80 }}>
+        <label htmlFor={label}>{label}</label>
+        <Select
+          mt="xl"
+          id={key}
+          name={key}
+          value={state[key]}
+          onChange={(e) => setState({ ...state, [`${key}`]: e })}
+          data={selectArray}
+        />
+      </Grid.Col>
+    );
+  }
+  function selectorGroup(
+    label: string,
+    key: keyof FormState,
+    selectArray: { label: any; value: any; group: any }[]
+  ) {
+    return (
+      <Grid.Col span={6} style={{ minHeight: 80 }}>
+        <label htmlFor={label}>{label}</label>
+        <Select
+          mt="xl"
+          id={key}
+          name={key}
+          value={state[key]}
+          onChange={(e) => setState({ ...state, [`${key}`]: e })}
+          data={selectArray}
+        />
+      </Grid.Col>
+    );
+  }
+
   function inputdate(label: string, key: keyof FormState) {
     return (
       <>
@@ -156,7 +261,9 @@ export default function EmployeeInfoForm({
           <DatePicker
             mt="xl"
             value={state[key]}
-            onChange={(d) => setState({ ...state, [`${key}`]: d })}
+            onChange={(d) =>
+              setState({ ...state, [`${key}`]: new Date(d as Date) })
+            }
           />
         </Grid.Col>
       </>
@@ -175,7 +282,7 @@ export default function EmployeeInfoForm({
     );
   }
   return (
-    <>
+    <Group className={classes.body}>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -193,8 +300,10 @@ export default function EmployeeInfoForm({
         </Grid>
         <h3>Job Detail</h3>
         <Grid justify="space-between" align="center">
-          {inputGroup("Department", "department", "text")}
-          {inputGroup("Job Title", "job_title", "text")}
+          {/* {inputGroup("Department", "department", "text")} */}
+
+          {selectGroup("Department", "department", departmentValues)}
+          {selectorGroup("Job Title", "job_title", jobTitleValues)}
           {inputGroup("Salary", "salary", "text")}
           {inputGroup("Job Nature", "job_nature", "text")}
           {inputdate("Employ Date", "employ_date")}
@@ -207,7 +316,7 @@ export default function EmployeeInfoForm({
         <h3>Log-in Access</h3>
         <Grid justify="space-between" align="center">
           {inputGroup("Password", "password", "password")}
-          {inputGroup("Access Level", "access_level", "text")}
+          {selectGroup("Access Level", "access_level", accessLevelValues)}
         </Grid>
         <h3>File</h3>
         <Grid>
@@ -222,6 +331,6 @@ export default function EmployeeInfoForm({
           </Button>
         </div>
       </form>
-    </>
+    </Group>
   );
 }

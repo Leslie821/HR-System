@@ -23,10 +23,10 @@ jobs:
       DB_PORT: 5432
     steps:
       - uses: actions/checkout@v3
-      - name: Install npm deps
-        working-directory: server
-        run: |
-          yarn
+      # - name: Install npm deps
+      #   working-directory: server
+      #   run: |
+      #     yarn
       - name: Build docker image for server
         working-directory: server
         run: |

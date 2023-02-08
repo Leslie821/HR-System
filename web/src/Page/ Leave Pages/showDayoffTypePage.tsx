@@ -1,4 +1,4 @@
-import { Badge, Button, Container, Group, Modal, Table } from "@mantine/core";
+import { Badge, Button, Container, Group, Modal, Table, createStyles } from "@mantine/core";
 import { IconArrowNarrowLeft } from "@tabler/icons";
 import DataTable from "react-data-table-component";
 import { useEffect, useState } from "react";
@@ -7,6 +7,35 @@ import React from "react";
 import { fetchServerDataNonGet, fetchServerData } from "../../../utilis/fetchDataUtilis";
 import { useSelector } from "react-redux";
 import { IRootState } from "../../store/store";
+
+const useStyleTable = createStyles((theme) => ({
+  body: {
+    marginLeft: 40,
+    display: "block",
+  },
+  header: {
+    height: 50,
+    maxHeight: 50,
+    width: "100%",
+    marginTop: 25,
+    paddingBottom: 75,
+    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+      }`,
+  },
+  table: {
+    maxWidth: 1800,
+    width: "100%",
+    marginTop: 25,
+    display: "flex",
+    alignItems: "top",
+    justifyContent: "end",
+    borderRadius: theme.radius.sm,
+    boxShadow: theme.shadows.md,
+  },
+  button: {
+    marginBottom: 8,
+  },
+}));
 
 const customStyles = {
   rows: {
@@ -47,6 +76,7 @@ const columns = [
 ];
 
 export function DayoffType() {
+  const { classes } = useStyleTable();
   let user = useSelector((state: IRootState) => state.user.user); //access_level_id
   //////   alll const starts here!!!  ///////////
   const [inpputtye, setinputtype] = useState({
@@ -96,7 +126,7 @@ export function DayoffType() {
   }, []);
 
   return (
-    <div style={{ padding: "30px" }}>
+    <Group className={classes.body}>
       {/* pop up box  Modal (add new item )starts here!!!!!!! */}
       <Modal size="auto" opened={opened} onClose={() => setOpened(false)}>
         <form
@@ -240,32 +270,32 @@ export function DayoffType() {
       {/***************** below is  buttons group  ---   */}
       <Group>
         <Group>
-          <Button variant="light">
-            <IconArrowNarrowLeft size={50} stroke={1.5} />
-          </Button>
-          <h2>Leave Type</h2>
+
+          <div className={classes.header}>
+            <Group>
+              <h2>Leave Type</h2>
+            </Group>
+          </div>
+
           {user!.access_level_id <= 2 ?
             <Group position="center">
               <Button onClick={() => setOpened(true)}>Add New Leave Type</Button>
             </Group> : ""}
 
-          {/* 
-          <Group position="center">
-            <Button onClick={() => setOpenSecondModal(true)}>Delete Leave Type</Button>
-          </Group> */}
         </Group>
         {/************************* buttons group  ends here!!!   ************************ */}
-
-        <DataTable
-          customStyles={customStyles}
-          columns={columns}
-          data={info}
-          // selectableRows
-          highlightOnHover
-          onSelectedRowsChange={handleRowSelected}
-          clearSelectedRows={toggleCleared}
-        />
+        <Group className={classes.table}>
+          <DataTable
+            customStyles={customStyles}
+            columns={columns}
+            data={info}
+            // selectableRows
+            highlightOnHover
+            onSelectedRowsChange={handleRowSelected}
+            clearSelectedRows={toggleCleared}
+          />
+        </Group>
       </Group>
-    </div>
+    </Group>
   );
 }

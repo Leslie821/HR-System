@@ -16,7 +16,7 @@ env:
 jobs:
   test-and-build-server:
     runs-on: ubuntu-latest
-    container: node:lts-alpine
+    container: docker:20.10.21-alpine3.16
     env:
       PORT: 8080
       DB_HOST: db

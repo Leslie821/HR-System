@@ -16,6 +16,7 @@ import {
   fetchServerData,
   fetchServerDataNonGet,
 } from "../../../utilis/fetchDataUtilis";
+import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
   name: z.string().min(2, { message: "Name should have at least 2 letters" }),
@@ -67,6 +68,8 @@ export default function EmployeeInfoForm({
   data,
   id,
 }: EmployeeInfoFormProps) {
+  const navigate = useNavigate();
+
   const { classes } = useStyleTable();
   const [departmentValues, setDepartmentValue] = useState<[]>([]);
   const [jobTitleValues, setJobTitleValues] = useState<[]>([]);
@@ -123,7 +126,8 @@ export default function EmployeeInfoForm({
         "POST",
         state,
       );
-      window.location.reload()
+      // window.location.reload()
+      navigate(-1);
       return dataFromDB;
     } else if (mode === "edit") {
       console.log("hi from edit");
@@ -132,7 +136,11 @@ export default function EmployeeInfoForm({
         "POST",
         state
       );
-      window.location.href="#/employees"
+
+
+      // window.location.href="#/employees"
+      navigate("/employees");
+
 
       return dataFromDB;
     }

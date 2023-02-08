@@ -194,7 +194,7 @@ export function DayoffPending() {
       maxWidth: "1px",
       name: "",
 
-      selector: (row: any) => (row.status == "pending" && user!.access_level_id >= 2 && <Button color="red" onClick={() => {
+      selector: (row: any) => (row.status == "pending" && user!.access_level_id <= 2 && <Button color="red" onClick={() => {
         setOpenedSecondModal(true); setRejectItem(row.id);
       }}>Reject</Button>),
     }
@@ -270,7 +270,7 @@ export function DayoffPending() {
                 </div>
 
                 {/* ********Button To Approve application ************* */}
-                {user!.access_level_id >= 2 ? <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
+                {user!.access_level_id <= 2 ? <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
                   <Button
                     onClick={() => {
                       approveItems();
@@ -323,7 +323,7 @@ export function DayoffPending() {
           ) : ""}
           <br></br>
         </div>
-        {user!.access_level_id >= 2 ? <Input
+        {user!.access_level_id <= 2 ? <Input
           placeholder="Search me"
           type="text"
           value={query}

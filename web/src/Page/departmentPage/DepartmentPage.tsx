@@ -31,7 +31,7 @@ const useStyleTable = createStyles((theme) => ({
   table: {
     maxWidth: 1800,
     width: "100%",
-    marginTop: 50,
+    marginTop: 20,
     display: "flex",
     alignItems: "top",
     justifyContent: "end",
@@ -59,7 +59,7 @@ export function DepartmentPage() {
 
   const fetchDepartment = async () => {
     const res = await fetchServerData("/department/list");
-    console.log("res: ", res);
+    // console.log("res: ", res);
 
     let fatherName = res.map((v: any) => {
       let father = res.find(
@@ -78,7 +78,7 @@ export function DepartmentPage() {
   }, []);
 
   useEffect(() => {
-    console.log("department:", department);
+    // console.log("department:", department);
   }, [department]);
 
   const columns = [

@@ -4,7 +4,7 @@ import { InjectModel } from 'nest-knexjs';
 
 @Injectable()
 export class JobTitleService {
-  constructor(@InjectModel() private knex: Knex) {}
+  constructor(@InjectModel() private knex: Knex) { }
 
   async getDepartmentid() {
     try {
@@ -17,8 +17,9 @@ export class JobTitleService {
   }
   async getAllJobTitle() {
     try {
-      let result = await this.knex.select().from('job_title');
-      // console.log('service Get jbo title ID', result);
+      let result = await this.knex.select("*").from('job_title')
+        .join('department', { 'department.id': 'job_title.department_id' });
+      console.log('service Get jbo title ID', result);
       return result;
     } catch (error) {
       console.log('get type error', error);

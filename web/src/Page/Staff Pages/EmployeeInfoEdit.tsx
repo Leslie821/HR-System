@@ -10,9 +10,10 @@ export function EmployeeInfoEdit() {
   const fetchUser = async () => {
     const res = await fetch(import.meta.env.VITE_SERVER_API + `/employees/${id}`);
     let data = await res.json();
+    console.log("data", data);
 
     let dataWithDate = data.map((v: any) => {
-      if (v.employ_date && v.termination_date == true) {
+      if (v.employ_date && v.termination_date) {
         return {
           ...v,
           employ_date2: new Date(v.employ_date),
@@ -29,7 +30,7 @@ export function EmployeeInfoEdit() {
     // console.log("res:", data);
 
     if (data && Array.isArray(data) && data.length == 1) {
-      // console.log("OK");
+      console.log("dataWithDate", dataWithDate);
       setUserData(dataWithDate[0]);
     }
   };

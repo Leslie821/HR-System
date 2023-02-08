@@ -1,9 +1,7 @@
 // @ts-ignore
-import * as lib from "./lib.js";
+// import * as lib from "./lib.js";
 
-console.log("name is:", lib.name);
-
-console.log({ lib });
+// console.log("name is:", lib.name);
 
 export default function Demo() {
   type Node = {

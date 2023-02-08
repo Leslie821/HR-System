@@ -19,7 +19,7 @@ import { fileOptions } from 'src/multerOptions';
 
 @Controller('claim-form')
 export class ClaimFormController {
-  constructor(private readonly claimFormService: ClaimFormService) {}
+  constructor(private readonly claimFormService: ClaimFormService) { }
 
   // @Post('apply')
   // create(@Body() createClaimFormDto: CreateClaimFormDto) {

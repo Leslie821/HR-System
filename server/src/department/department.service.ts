@@ -22,13 +22,12 @@ export class DepartmentService {
   }
 
   async createNewDeportment(formInfo: CreateDepartmentDto) {
+    console.log("formInfo", formInfo)
     try {
-      console.log('HIHI');
-
       let departmentValue = await this.knex('department')
         .insert({
-          department_name: formInfo.department,
-          father_department_id: formInfo.father_department,
+          department_name: formInfo.data.departmentName,
+          father_department_id: formInfo.data.parentDepartment,
         })
       return departmentValue
     }

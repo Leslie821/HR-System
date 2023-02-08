@@ -12,8 +12,7 @@ import { AuthModule } from './auth/auth.module';
 import { DepartmentModule } from './department/department.module';
 import { JobTitleModule } from './job_title/job_title.module';
 import { ClaimFormModule } from './claim-form/claim-form.module';
-// import { ServeStaticModule } from '@nestjs/serve-static';
-// import path from 'path';
+import { AccessLevelModule } from './access-level/access-level.module';
 
 @Module({
   imports: [
@@ -36,8 +35,9 @@ import { ClaimFormModule } from './claim-form/claim-form.module';
     AuthModule,
     DepartmentModule,
     ClaimFormModule,
+    AccessLevelModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

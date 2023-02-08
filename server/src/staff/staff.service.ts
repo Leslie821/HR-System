@@ -14,13 +14,16 @@ export class StaffService {
   //add
   async createNewEmployee(formInfo: CreateStaffDto) {
     try {
+
+      console.log(formInfo);
+
       let insertUsers = await this.knex('users').insert({
         gender: formInfo.gender,
         name: formInfo.name,
         email: formInfo.email,
         address: formInfo.address,
         job_nature: formInfo.job_nature,
-        password: hashPassword(formInfo.password),
+        password: await hashPassword(formInfo.password),
         contract: formInfo.contract,
         mpf: formInfo.mpf,
         birthday: formInfo.birthday,

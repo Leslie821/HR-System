@@ -43,19 +43,47 @@ export function JobTitlePage() {
         []
     );
     const [opened, setOpened] = useState(false);
+    const customStyles = {
+        headCells: {
+            style: {
+
+                fontSize: "15px",
+                marginRight: "0px",
+                marginLeft: "0px",
+                paddingLeft: "0px",
+                paddingRight: "0px",
+                width: "5px"
+            },
+        },
+        cells: {
+            style: {
+
+                fontSize: "15px",
+                marginRight: "0px",
+                marginLeft: "0px",
+                paddingLeft: "0px",
+                paddingRight: "0px",
+                width: "fit-content"
+            },
+        }
+    }
+
     const columns = [
         {
-            maxWidth: "1px",
+            Width: "5px",
+
             name: "ID",
             selector: (row: any) => row.id,
         },
         {
-            maxWidth: "1px",
+            Width: "5px",
+
             name: "Department Name",
             selector: (row: any) => row.job_title_type,
         },
         {
-            maxWidth: "1px",
+            Width: "5px",
+
             name: "Who is the head",
             selector: (row: any) => row.department_id,
         }]
@@ -152,7 +180,7 @@ export function JobTitlePage() {
             <DataTable
                 columns={columns}
                 data={result}
-                selectableRows
+                customStyles={customStyles}
                 onSelectedRowsChange={handleRowSelected}
             />
 

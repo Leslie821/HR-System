@@ -8,8 +8,8 @@ export class JobTitleService {
 
   async getDepartmentid() {
     try {
-      let result = await this.knex.select().from('department')
-      console.log('service get dayoff', result);
+      let result = await this.knex.select().from('department');
+      // console.log('service get dayoff', result);
       return result;
     } catch (error) {
       console.log('get type error', error);
@@ -33,7 +33,7 @@ export class JobTitleService {
           department_id: body.departmentId,
         })
         .into('job_title');
-      console.log('service create new jbo title', body.departmentId);
+      // console.log('service create new jbo title', body.departmentId);
       // return result;
     } catch (error) {
       console.log('get type error', error);

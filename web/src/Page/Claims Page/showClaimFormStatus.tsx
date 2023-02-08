@@ -12,18 +12,14 @@ type Dayoff = {
 };
 
 
-export function ShowClaimFormPending() {
+export function ShowClaimFormStatus() {
   const [selectedRows, setSelectedRows] = React.useState<Dayoff[]>([]);
   const [toggleCleared, setToggleCleared] = React.useState(false);
   const [result, setResult] = useState<any>();  
   const [query, setQuery] = useState<string>("")
   const [togglesearch, settoggleSearch] = useState<boolean>(true)
   const [searchresult, setSearchresult] = useState<any>()
-  const [accept, setAccpectedItem] = useState<any>();
   const [openedSecondModal, setOpenedSecondModal] = useState(false);
-  const [rejectItem, setRejectItem] = useState<any>()
-  const [reject, setReject] = useState<any>("");
-
 
   const customStyles = {
     headCells: {
@@ -65,54 +61,61 @@ export function ShowClaimFormPending() {
   const rowDisabledCriteria = (row: any) => row.status == "approved" || row.status == "rejected";
 
   async function getAll() {
-    console.log("123");
     
     let res = await fetchServerData("/claim-form/allClaimForms");
 
+    console.log("GETALL", res);
+    
+
     setResult(res);
   }
-  /////////////////below is toggle search/////////////////
-
-  useEffect(() => {
-    if (togglesearch) {
-      settoggleSearch(false)
-      return
-    }
-    fetchdata()
-  }, [query])
-
+  /////////////////below is accept /////////////////
 
   const fetchdata = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/leave/getstaffalsl` + `?qq=${query}`, {
-
-      })
-      // console.log("result from db about staff", res);
-
-      const data = await res.json()
-      console.log("data from DB ", res);
-
-      setSearchresult(data)  
-
-
+    
+      let res = await fetchServerData("/claim-form/allClaimForms");
+      console.log("GETALL", res);
+    
+  
+      setResult(res);
     } catch (error) {
       console.log(error)
     }
   }
+
+    async function setRejectItem(id: string | number){
+      await fetchServerDataNonGet("/claim-form/reject","PATCH",{id:id})
+      await fetchdata()
+    }
+
+    async function setAcceptedItem(id: string | number){
+      await fetchServerDataNonGet("/claim-form/accept","PATCH",{id:id})
+      await fetchdata()
+    }
+  
+
   ///////////-----------------toggle search ends  here  -------/////////////////
   const columns = [
     {
 
       maxWidth: "1px",
-      name: "ID",
+      name: "id",
       selector: (row: any) => row.id,
 
     },
     {
 
       maxWidth: "1px",
-      name: "StaffID",
-      selector: (row: any) => row.staff_id,
+      name: "pic",
+      selector: (row: any) => <img src={import.meta.env.VITE_SERVER_API + "/" + row.pic } width="50px"/>,
+
+    },
+    {
+
+      maxWidth: "1px",
+      name: "Name",
+      selector: (row: any) => row.user_name,
 
     },
     // {
@@ -145,26 +148,8 @@ export function ShowClaimFormPending() {
       name: "Status",
       selector: (row: any) => row.status,
     },
-    {
 
-      maxWidth: "1px",
-      name: "",
-
-      selector: (row: any) => (row.status == "pending" && <Button color="red" onClick={() => {
-        setOpenedSecondModal(true); setRejectItem(row.id);
-      }}>Reject</Button>),
-    },
-    {
-
-      maxWidth: "1px",
-      name: "",
-
-      selector: (row: any) => (row.status == "pending" && <Button color="red" onClick={() => {
-       setAccpectedItem(row.id);
-      }}>accept</Button>),
-    }
   ];
-
 
 
   return (
@@ -179,10 +164,6 @@ export function ShowClaimFormPending() {
               data={result}
               // contextActions={contextActions}
               customStyles={customStyles}
-              selectableRows
-              selectableRowDisabled={rowDisabledCriteria}
-              onSelectedRowsChange={handleRowSelected}
-              clearSelectedRows={toggleCleared}
             />
           </Group>
         </div>

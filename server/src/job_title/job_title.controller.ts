@@ -16,7 +16,7 @@ export class JobTitleController {
   async getDepartmentid() {
     try {
       let result = await this.jobTitleService.getDepartmentid();
-      console.log('controller Get department ID', result);
+      // console.log('controller Get department ID', result);
 
       return result;
     } catch (error) {
@@ -36,7 +36,7 @@ export class JobTitleController {
   async getAllJobTitle() {
     try {
       let result = await this.jobTitleService.getAllJobTitle();
-      console.log('controller Get jbo title ID', result);
+      // console.log('controller Get jbo title ID', result);
 
       return result;
     } catch (error) {

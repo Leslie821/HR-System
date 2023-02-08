@@ -16,6 +16,8 @@ export class CheckInService {
   }
   async checkOut() {
     const toDayStr = new Date().toISOString().substring(0, 10);
+    console.log('clock out ', toDayStr);
+
     let outID = await this.knex
       .update({ updated_at: new Date() })
       .into('check_in_record')

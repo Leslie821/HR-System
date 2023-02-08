@@ -5,7 +5,7 @@ import { InjectModel } from 'nest-knexjs';
 
 @Injectable()
 export class LeaveService {
-  constructor(@InjectModel() private knex: Knex) { }
+  constructor(@InjectModel() private knex: Knex) {}
   async createNewDayoffType(formInfo: {
     dayoff_name: string;
     short_form: string;
@@ -42,7 +42,7 @@ export class LeaveService {
     formInfo: {
       name: string;
       type: string;
-      reason: string;
+      userID: number;
       from: string;
       total: string;
     },
@@ -50,16 +50,17 @@ export class LeaveService {
   ) {
     try {
       // console.log('service:', formInfo);
+      console.log('service userInfo', formInfo);
 
       let result = await this.knex
         .insert({
-          staff_id: 1,
+          staff_id: formInfo.userID,
           approved_staff_id: 1,
           leave_type_id: formInfo.type,
           start_date: new Date(formInfo.from),
           total_date: formInfo.total,
+          remark: '',
           status: 'pending',
-          remark: formInfo.reason,
         })
         .into('leave_request')
         .returning('id');
@@ -82,11 +83,15 @@ export class LeaveService {
       console.log('get type error', error);
     }
   }
-  async getapplicationstatuse() {
+  async getapplicationstatuse(formInfo: any) {
+    console.log('service id', formInfo);
+
     try {
-      let result = await this.knex
-        .raw(`SELECT leave_request.id,leave_request.created_at,TO_CHAR(start_date,'YYYY-MM-DD')AS Date_Format, remark,staff_id, name,staff_id,type,start_date,TO_CHAR(start_date,'YYYY-MM-DD')AS Date_Format, total_date, status FROM leave_request 
-      JOIN users ON staff_id=users.id JOIN leave_type ON leave_type_id=leave_type.id`);
+      let result = await this.knex.raw(
+        `SELECT leave_request.id,leave_request.created_at,TO_CHAR(start_date,'YYYY-MM-DD')AS Date_Format, remark,staff_id, name,staff_id,type,start_date,TO_CHAR(start_date,'YYYY-MM-DD')AS Date_Format, total_date, status FROM leave_request 
+      JOIN users ON staff_id=users.id JOIN leave_type ON leave_type_id=leave_type.id WHERE staff_id=?`,
+        [formInfo.id],
+      );
 
       // console.log('service get application status', result.rows);
       return result.rows;
@@ -94,11 +99,13 @@ export class LeaveService {
       console.log('get type error', error);
     }
   }
-  async getpendingApplication() {
+  async getpendingApplication(formInfo: any) {
     try {
-      let result = await this.knex
-        .raw(`SELECT leave_request.id,leave_request.created_at,TO_CHAR(start_date,'YYYY-MM-DD')AS Date_Format, remark,staff_id, name,staff_id,type,start_date,TO_CHAR(start_date,'YYYY-MM-DD')AS Date_Format,total_date, status FROM leave_request 
-      JOIN users ON staff_id=users.id JOIN leave_type ON leave_type_id=leave_type.id WHERE (status='pending')`);
+      let result = await this.knex.raw(
+        `SELECT leave_request.id,leave_request.created_at,TO_CHAR(start_date,'YYYY-MM-DD')AS Date_Format, remark,staff_id, name,staff_id,type,start_date,TO_CHAR(start_date,'YYYY-MM-DD')AS Date_Format,total_date, status FROM leave_request 
+      JOIN users ON staff_id=users.id JOIN leave_type ON leave_type_id=leave_type.id WHERE (status='pending')AND (staff_id=?)`,
+        [formInfo.id],
+      );
 
       // console.log('service get application status', result.rows);
       return result.rows;
@@ -106,11 +113,13 @@ export class LeaveService {
       console.log('get type error', error);
     }
   }
-  async getApprovedApplication() {
+  async getApprovedApplication(formInfo: any) {
     try {
-      let result = await this.knex
-        .raw(`SELECT leave_request.id,leave_request.created_at,TO_CHAR(start_date,'YYYY-MM-DD')AS Date_Format, remark,staff_id, name,staff_id,type,start_date,TO_CHAR(start_date,'YYYY-MM-DD')AS Date_Format,total_date, status FROM leave_request 
-      JOIN users ON staff_id=users.id JOIN leave_type ON leave_type_id=leave_type.id WHERE (status='approved')`);
+      let result = await this.knex.raw(
+        `SELECT leave_request.id,leave_request.created_at,TO_CHAR(start_date,'YYYY-MM-DD')AS Date_Format, remark,staff_id, name,staff_id,type,start_date,TO_CHAR(start_date,'YYYY-MM-DD')AS Date_Format,total_date, status FROM leave_request 
+      JOIN users ON staff_id=users.id JOIN leave_type ON leave_type_id=leave_type.id WHERE (status='approved')AND (staff_id=?)`,
+        [formInfo.id],
+      );
 
       // console.log('service get application status', result.rows);
       return result.rows;
@@ -128,7 +137,9 @@ export class LeaveService {
           .where('id', formInfo[i].id)
           .andWhere('status', 'pending');
       }
-      console.log('service update status', formInfo);
+      // console.log('service update status', formInfo);
+
+      return { status: true };
     } catch (error) {
       console.log('get type error', error);
     }

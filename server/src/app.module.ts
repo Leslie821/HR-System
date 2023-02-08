@@ -20,10 +20,13 @@ import { AccessLevelModule } from './access-level/access-level.module';
     // MulterModule.register({
     //   dest: './upload',
     // }),
+    // ServeStaticModule.forRoot({
+    //   rootPath: path.join(__dirname, '..', 'uploads'),
+    // }),
 
     /////upload file  end///
     KnexModule.forRoot({
-      config: knexConfig
+      config: knexConfig,
     }),
     LeaveModule,
     CheckInModule,
@@ -37,4 +40,4 @@ import { AccessLevelModule } from './access-level/access-level.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

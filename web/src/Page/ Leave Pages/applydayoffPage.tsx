@@ -3,33 +3,37 @@ import { DatePicker } from "@mantine/dates";
 import { IconAlertCircle, IconWindowMaximize } from "@tabler/icons";
 
 import { ChangeEvent, useEffect, useState } from "react";
-import { CheckInOut } from "../Check in Page/check_in";
+
+import { fetchServerData, fetchServerDataForm, fetchServerDataNonGet } from "../../../utilis/fetchDataUtilis";
+import { useSelector } from "react-redux";
+import { IRootState } from "../../store/store";
 // import { Loaddayoff } from "./loaddayofftype";
 
 export function ApplyDayOff() {
-  const [dayofftype, setdayofftype] = useState<any[]>([]);
-  console.log("tyep from DB not map", typeof dayofftype);
-
+  let user = useSelector((state: IRootState) => state.user.user); //access_level_id
+  const [dayofftype, setdayofftype] = useState<any[]>([])
   const [from, setFrom] = useState<any>(new Date());
   const [to, setTo] = useState<any>(new Date());
   const [total, setTotal] = useState<any>(0);
   const [info, setInfo] = useState<any>({
-    name: "",
+    name: user?.name,
     type: "",
-    reason: "",
+    userID: user?.id,
   });
 
   const [file, setFile] = useState<any>();
 
+  console.log("user access ", user);
+
+
+
   //----------------------------------------------------------------
   async function getdayofftype() {
-    let rawresult: any = await fetch("http://localhost:3000/leave/gettype", {
-      method: "Get",
-    });
-    let result = await rawresult.json();
+    let result: any = await fetchServerData("/leave/gettype")
+    // let result = await rawresult.json()
 
-    console.log(result);
-    setdayofftype(result.filter((v: { short_form: any }) => !!v.short_form));
+    // console.log(result);
+    setdayofftype(result.filter((v: { short_form: any; }) => !!v.short_form))
   }
 
   ////////////////submit file///////////////////////////////
@@ -62,19 +66,21 @@ export function ApplyDayOff() {
 
     // Serialize the Form afterwards
     // const form = event.target;
+
+
+
+
     const formData = new FormData();
     formData.append("name", info.name);
     formData.append("type", info.type);
     formData.append("from", from);
     formData.append("to", to);
     formData.append("total", total);
-    formData.append("reason", info.reason);
+    formData.append("userID", info.userID);
     formData.append("file", file);
 
-    const res = await fetch("http://localhost:3000/leave/application", {
-      method: "POST",
-      body: formData,
-    });
+
+    const res = await fetchServerDataForm("/leave/application", "POST", formData);
 
     setFrom("");
     setTo("");
@@ -85,6 +91,10 @@ export function ApplyDayOff() {
     });
     setTotal("");
   }
+
+  useEffect(() => {
+    console.log(dayofftype);
+  }, [dayofftype])
   return (
     <>
       <br></br>
@@ -183,7 +193,7 @@ export function ApplyDayOff() {
         </div>
         {/* submit file /////////////////////////////////////// */}
         <div>
-          {info.type == 2 && (
+          {info.type == 5 && (
             <div style={{ margin: "40px 40px" }}>
               <input type="file" onChange={handleFileChange} />
 

@@ -11,7 +11,6 @@ import DataTable from "react-data-table-component";
 import { fetchServerData } from "../../../utilis/fetchDataUtilis";
 // import Demo from "./Demo";
 import DepartmentAddNew from "./DepartmentAddNew";
-import { StyledTreeExample } from "./DepartmentOrg";
 import DepartmentOrgChart from "./DepartmentOrgChart";
 
 const useStyleTable = createStyles((theme) => ({
@@ -60,7 +59,7 @@ export function DepartmentPage() {
 
   const fetchDepartment = async () => {
     const res = await fetchServerData("/department/list");
-    console.log("res: ", res);
+    // console.log("res: ", res);
 
     let fatherName = res.map((v: any) => {
       let father = res.find(
@@ -79,7 +78,7 @@ export function DepartmentPage() {
   }, []);
 
   useEffect(() => {
-    console.log("department:", department);
+    // console.log("department:", department);
   }, [department]);
 
   const columns = [
@@ -158,8 +157,7 @@ export function DepartmentPage() {
         onClose={() => setOpenOrgChart(false)}
         fullScreen
       >
-        {/* <DepartmentOrgChart /> */}
-        {/* <StyledTreeExample /> */}
+        <DepartmentOrgChart />
       </Modal>
     </Group>
   );

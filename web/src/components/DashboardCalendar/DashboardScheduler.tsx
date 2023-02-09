@@ -40,13 +40,13 @@ const DashboardScheduler: FC = () => {
 
   return (
     <DnDCalendar
-      defaultView="week"
+      defaultView="agenda"
       events={events}
       localizer={localizer}
       onEventDrop={onEventDrop}
       onEventResize={onEventResize}
       resizable
-      style={{ height: "100vh" }}
+      style={{ height: "50vh" }}
     />
   );
 };

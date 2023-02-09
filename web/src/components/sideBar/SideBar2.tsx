@@ -17,6 +17,10 @@ import {
   IconAdjustments,
   IconLock,
   IconAssembly,
+  IconFileImport,
+  IconUsers,
+  IconArrowAutofitRight,
+  IconColumnInsertRight,
 } from "@tabler/icons";
 import { log } from "console";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,7 +44,7 @@ const information = [
   },
   {
     label: "Staffs",
-    icon: IconCalendarStats,
+    icon: IconUsers,
     // link: "/staff-list",
     links: [
       {
@@ -53,7 +57,7 @@ const information = [
   },
   {
     label: "Application",
-    icon: IconLock,
+    icon: IconFileImport,
     links: [
       {
         label: "Leave Application",
@@ -70,7 +74,7 @@ const information = [
   },
   {
     label: "Request",
-    icon: IconLock,
+    icon: IconColumnInsertRight,
     links: [
       {
         label: "Leave Request",
@@ -95,7 +99,7 @@ const information = [
         label: "Check-In",
         link: "/ShowInOutRecord",
         icon: IconNotes,
-        accessList: [1, 2],
+        accessList: [1, 2, 3],
       },
     ],
   },
@@ -115,8 +119,9 @@ const useStyles = createStyles((theme) => ({
     marginLeft: -theme.spacing.md,
     marginRight: -theme.spacing.md,
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
-    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-      }`,
+    borderBottom: `1px solid ${
+      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+    }`,
   },
 
   links: {
@@ -132,8 +137,9 @@ const useStyles = createStyles((theme) => ({
   footer: {
     marginLeft: -theme.spacing.md,
     marginRight: -theme.spacing.md,
-    borderTop: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-      }`,
+    borderTop: `1px solid ${
+      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+    }`,
   },
 }));
 

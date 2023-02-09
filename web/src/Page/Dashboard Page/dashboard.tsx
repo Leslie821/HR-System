@@ -19,16 +19,19 @@ const useStyleTable = createStyles((theme) => ({
     maxHeight: 50,
     width: "100%",
     marginTop: 25,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     paddingBottom: 75,
     borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
       }`,
   },
   table: {
-    width: 1800,
-    marginTop: 20,
-    display: "flex",
-    alignItems: "top",
+    width: "100%",
+    // margin: 10,
+    // display: "flex",
+    justifyContent: "center",
+  },
+  date: {
+    marginTop: 50,
     justifyContent: "center",
   },
   button: {
@@ -41,7 +44,7 @@ const useStyleTable = createStyles((theme) => ({
 
 
 export default function Dashboard() {
-  const [checkInResult, setCheckInResult] = useState<any>("")
+  const [checkInResult, setCheckInResult] = useState<any>("");
   const user = useSelector((state: IRootState) => state.user.user); // redux
   const { classes } = useStyleTable();
 
@@ -61,9 +64,14 @@ export default function Dashboard() {
   return (
     <Group className={classes.body}>
       <Group className={classes.header}>
-        <div >
+        <div>
           <h1>Hello {user!.name} </h1>
         </div>
+      </Group>
+      <div className={classes.date}>
+        <DashboardScheduler />
+      </div>
+      <Group className={classes.table}>
         <Button
           size="lg"
           leftIcon={<IconDatabase size={14} />}
@@ -80,7 +88,6 @@ export default function Dashboard() {
                   message: 'Fail to check in, IP not match',
                 })
             }
-
           }}
         >
           Check In
@@ -105,12 +112,6 @@ export default function Dashboard() {
           Check Out
         </Button>
       </Group>
-
-      {/* <Group className={classes.table}>
-
-      </Group> */}
-      <DashboardScheduler />
-
     </Group>
   );
 }

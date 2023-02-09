@@ -38,23 +38,26 @@ const useStyleTable = createStyles((theme) => ({
   },
 }));
 
-export async function CheckInOut(InOrOut: any, userID: any) {
 
-  console.log("controller  userID", userID);
-
-  let result = await fetchServerDataNonGet("/checkin" + `/${InOrOut}`, "POST", { userID })
-  console.log(result);
-
-  { result == "Success" ? setCheckInResult("success") : setCheckInResult("fail") }
-
-
-
-}
 
 export default function Dashboard() {
   const [checkInResult, setCheckInResult] = useState<any>("")
   const user = useSelector((state: IRootState) => state.user.user); // redux
   const { classes } = useStyleTable();
+
+
+  async function CheckInOut(InOrOut: any, userID: any) {
+
+    console.log("controller  userID", userID);
+
+    let result = await fetchServerDataNonGet("/checkin" + `/${InOrOut}`, "POST", { userID })
+    console.log(result);
+
+    { result == "Success" ? setCheckInResult("success") : setCheckInResult("fail") }
+
+
+
+  }
   return (
     <Group className={classes.body}>
       <Group className={classes.header}>
@@ -67,12 +70,14 @@ export default function Dashboard() {
           className={classes.button}
           onClick={() => {
             CheckInOut("in", user!.id);
+            console.log("checkInResult frontend", checkInResult);
+
             {
               checkInResult == "success" ?
                 showNotification({
                   message: 'Success',
                 }) : showNotification({
-                  message: 'Fail',
+                  message: 'Fail to check in, IP not match',
                 })
             }
 
@@ -86,15 +91,16 @@ export default function Dashboard() {
           className={classes.button}
           onClick={() => {
             CheckInOut("out", user!.id);
-            {
-              checkInResult == "success" ?
-                showNotification({
-                  message: 'Success',
-                }) : showNotification({
-                  message: 'Fail',
-                })
-            }
-          }}
+
+            console.log("checkin sresult ", checkInResult);
+
+
+            showNotification({
+              message: 'Success',
+            })
+
+          }
+          }
         >
           Check Out
         </Button>
@@ -109,6 +115,6 @@ export default function Dashboard() {
   );
 }
 
-function setCheckInResult(arg0: string) {
-  throw new Error("Function not implemented.");
-}
+// function setCheckInResult(arg0: string) {
+//   throw new Error("Function not implemented.");
+// }

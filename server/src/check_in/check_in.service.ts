@@ -22,12 +22,11 @@ export class CheckInService {
     console.log('clock out ', toDayStr);
 
     let outID = await this.knex
-      .update({ updated_at: new Date() })
+      .update({ updated_at: new Date().toISOString() })
       .into('check_in_record')
       .where('created_at', '>', toDayStr + 'T00:00:00Z')
       .andWhere('created_at', '<', toDayStr + 'T23:59:59Z')
       .andWhere('staff_id', '=', userID.userID)
-
       .returning('id');
     console.log('service out', outID);
 

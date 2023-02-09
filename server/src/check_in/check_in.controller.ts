@@ -31,6 +31,8 @@ export class CheckInController {
   @Post('getRecord')
   async getCheckInOutRecord(@Body() body) {
     let result = await this.checkinService.getCheckInOutRecord(body);
+    console.log(result);
+
     return result;
     // console.log('controller ****out**** result', result);
   }

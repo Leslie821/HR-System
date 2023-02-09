@@ -3,6 +3,7 @@ import { Knex } from 'knex';
 
 export async function seed(knex: Knex): Promise<void> {
   // Deletes ALL existing entries
+  await knex('claim_request').del();
   await knex('leave_request').del();
   await knex('users').del();
   await knex('access_level').del();

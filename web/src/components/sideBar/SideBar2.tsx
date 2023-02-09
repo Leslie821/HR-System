@@ -1,7 +1,6 @@
 import {
   Navbar,
   Group,
-  Code,
   ScrollArea,
   createStyles,
   Grid,
@@ -12,14 +11,9 @@ import {
   IconNotes,
   IconCalendarStats,
   IconGauge,
-  IconPresentationAnalytics,
-  IconFileAnalytics,
-  IconAdjustments,
-  IconLock,
   IconAssembly,
   IconFileImport,
   IconUsers,
-  IconArrowAutofitRight,
   IconColumnInsertRight,
 } from "@tabler/icons";
 import { log } from "console";
@@ -36,6 +30,7 @@ const information = [
   {
     label: "Company",
     icon: IconNotes,
+    accessList: [1],
     links: [
       { label: "Department", link: "/departments", accessList: [1] },
       { label: "Job Title", link: "/job_title", accessList: [1] },
@@ -46,6 +41,7 @@ const information = [
     label: "Staffs",
     icon: IconUsers,
     // link: "/staff-list",
+    accessList: [1],
     links: [
       {
         label: "Staff List",

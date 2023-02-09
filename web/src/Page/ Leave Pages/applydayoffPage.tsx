@@ -1,10 +1,21 @@
-import { Alert, Button, Container, Group, List, createStyles } from "@mantine/core";
+import {
+  Alert,
+  Button,
+  Container,
+  Group,
+  List,
+  createStyles,
+} from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { IconAlertCircle, IconWindowMaximize } from "@tabler/icons";
 
 import { ChangeEvent, useEffect, useState } from "react";
 
-import { fetchServerData, fetchServerDataForm, fetchServerDataNonGet } from "../../../utilis/fetchDataUtilis";
+import {
+  fetchServerData,
+  fetchServerDataForm,
+  fetchServerDataNonGet,
+} from "../../../utilis/fetchDataUtilis";
 import { useSelector } from "react-redux";
 import { IRootState } from "../../store/store";
 // import { Loaddayoff } from "./loaddayofftype";
@@ -19,13 +30,14 @@ const useStyleTable = createStyles((theme) => ({
     width: "100%",
     marginTop: 25,
     paddingBottom: 75,
-    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-      }`,
+    borderBottom: `1px solid ${
+      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+    }`,
   },
   table: {
     maxWidth: 1800,
+    height: "80vh",
     width: "100%",
-    marginTop: 25,
     display: "flex",
     alignItems: "top",
     justifyContent: "end",
@@ -37,10 +49,9 @@ const useStyleTable = createStyles((theme) => ({
   },
 }));
 
-
 export function ApplyDayOff() {
   let user = useSelector((state: IRootState) => state.user.user); //access_level_id
-  const [dayofftype, setdayofftype] = useState<any[]>([])
+  const [dayofftype, setdayofftype] = useState<any[]>([]);
   const [from, setFrom] = useState<any>(new Date());
   const [to, setTo] = useState<any>(new Date());
   const [total, setTotal] = useState<any>(0);
@@ -54,15 +65,13 @@ export function ApplyDayOff() {
 
   console.log("user access ", user);
 
-
-
   //----------------------------------------------------------------
   async function getdayofftype() {
-    let result: any = await fetchServerData("/leave/gettype")
+    let result: any = await fetchServerData("/leave/gettype");
     // let result = await rawresult.json()
 
     // console.log(result);
-    setdayofftype(result.filter((v: { short_form: any; }) => !!v.short_form))
+    setdayofftype(result.filter((v: { short_form: any }) => !!v.short_form));
   }
 
   ////////////////submit file///////////////////////////////
@@ -96,9 +105,6 @@ export function ApplyDayOff() {
     // Serialize the Form afterwards
     // const form = event.target;
 
-
-
-
     const formData = new FormData();
     formData.append("name", info.name);
     formData.append("type", info.type);
@@ -108,8 +114,11 @@ export function ApplyDayOff() {
     formData.append("userID", info.userID);
     formData.append("file", file);
 
-
-    const res = await fetchServerDataForm("/leave/application", "POST", formData);
+    const res = await fetchServerDataForm(
+      "/leave/application",
+      "POST",
+      formData
+    );
 
     setFrom("");
     setTo("");
@@ -124,12 +133,12 @@ export function ApplyDayOff() {
   const { classes } = useStyleTable();
   useEffect(() => {
     console.log(dayofftype);
-  }, [dayofftype])
+  }, [dayofftype]);
   return (
     <Group className={classes.body}>
       <div className={classes.header}>
         <Group>
-          <h2>Dayoff Application</h2>
+          <h2>Day-Off Application</h2>
         </Group>
       </div>
 
@@ -270,5 +279,3 @@ export function ApplyDayOff() {
     </Group>
   );
 }
-
-

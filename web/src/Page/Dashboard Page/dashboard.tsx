@@ -27,16 +27,16 @@ const useStyleTable = createStyles((theme) => ({
   },
   table: {
     width: "100%",
-    // margin: 10,
-    // display: "flex",
     justifyContent: "center",
   },
   date: {
-    marginTop: 50,
+    marginTop: 30,
     justifyContent: "center",
+    color: theme.colors.light,
   },
   button: {
-    marginBottom: 8,
+    marginTop: 20,
+    backgroundColor: theme.colors.teal[4],
     borderBottom: `1px solid ${
       theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
     }`,
@@ -70,6 +70,7 @@ export default function Dashboard() {
         </div>
       </Group>
       <div className={classes.date}>
+        <h2>Scheduler</h2>
         <DashboardScheduler />
       </div>
       <Group className={classes.table}>

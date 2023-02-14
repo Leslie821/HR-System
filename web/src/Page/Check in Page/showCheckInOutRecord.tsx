@@ -10,7 +10,6 @@ export function GetCheckInOutRecord() {
 
     async function fetchResult(userID: any) {
         let result = await fetchServerDataNonGet("/checkin/getRecord", "POST", { userID })
-        // console.log("result ofin out", result);
         setInOutRecord(result)
     }
 

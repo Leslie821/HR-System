@@ -15,7 +15,6 @@ export function getLocalStorage() {
 
   if (token) {
     let decode: JWTPayload = jwtDecode(token);
-    console.log("decode:", decode);
 
     let user = {
       id: decode.id,
@@ -25,8 +24,6 @@ export function getLocalStorage() {
     };
     return user;
   } else {
-    console.log("token can't get");
-
     return null;
   }
 

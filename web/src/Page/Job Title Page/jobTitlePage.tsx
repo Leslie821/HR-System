@@ -1,7 +1,5 @@
-import { Alert, Button } from "@mantine/core";
-import { IconAlertCircle } from "@tabler/icons";
+import { Button } from "@mantine/core";
 import { useEffect, useState } from "react";
-import { any } from "zod";
 
 export function JobTitle() {
   const [inpputtye, setinputtype] = useState({
@@ -21,7 +19,6 @@ export function JobTitle() {
 
     setdepartmentID(result);
   }
-  console.log("this is id from dB", departmentID);
   useEffect(() => {
     loadDepartmentID();
   }, []);
@@ -31,9 +28,6 @@ export function JobTitle() {
       <form
         onSubmit={async (event) => {
           event.preventDefault();
-          // const form = event.target as HTMLFormElement
-          // const formData = new FormData(form);
-          // console.log(formData);
 
           await fetch(import.meta.env.VITE_SERVER_API + "/leave/addDayofftype", {
             method: "Post",
@@ -84,9 +78,6 @@ export function JobTitle() {
             ))}
           </select>
         </div>
-        {/* {info.type == "" ? <Alert icon={<IconAlertCircle size={16} />} title="Bummer!" color="red">
-                    Please Select a type
-                </Alert> : ""} */}
         <br></br>
 
         <div style={{ border: "black solid 10px" }}>

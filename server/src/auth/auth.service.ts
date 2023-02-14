@@ -31,10 +31,8 @@ export class AuthService {
       name: user.name,
       access_level_id: user.access_level_id,
     };
-    console.log('auth services payload:', payload);
 
     let token = this.jwtService.sign(payload);
-    console.log('token:', token);
 
     return {
       status: true,

@@ -6,11 +6,6 @@ import {
 import {
   Button,
   Group,
-  Input,
-  Modal,
-  Table,
-  TextInput,
-  Textarea,
   createStyles,
 } from "@mantine/core";
 import { IconArrowNarrowLeft } from "@tabler/icons";
@@ -33,9 +28,8 @@ const useStyleTable = createStyles((theme) => ({
     width: "100%",
     marginTop: 25,
     paddingBottom: 75,
-    borderBottom: `1px solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-    }`,
+    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+      }`,
   },
   table: {
     maxWidth: 1800,
@@ -62,29 +56,6 @@ export function ShowClaimFormPending() {
   const [openedSecondModal, setOpenedSecondModal] = useState(false);
   const { classes } = useStyleTable();
 
-  const customStyles = {
-    headCells: {
-      style: {
-        fontSize: "15px",
-        marginRight: "0px",
-        marginLeft: "0px",
-        paddingLeft: "0px",
-        paddingRight: "0px",
-        width: "5px",
-      },
-    },
-    cells: {
-      style: {
-        fontSize: "15px",
-        marginRight: "0px",
-        marginLeft: "0px",
-        paddingLeft: "0px",
-        paddingRight: "0px",
-        width: "fit-content",
-      },
-    },
-  };
-
   useEffect(() => {
     getAll();
   }, []);
@@ -102,7 +73,6 @@ export function ShowClaimFormPending() {
   async function getAll() {
     let res = await fetchServerData("/claim-form/allClaimForms");
 
-    console.log("GETALL", res);
 
     setResult(res);
   }
@@ -111,11 +81,11 @@ export function ShowClaimFormPending() {
   const fetchdata = async () => {
     try {
       let res = await fetchServerData("/claim-form/allClaimForms");
-      console.log("GETALL", res);
+      return res
 
       setResult(res);
     } catch (error) {
-      console.log(error);
+      return error
     }
   };
 
@@ -151,11 +121,6 @@ export function ShowClaimFormPending() {
       name: "Name",
       selector: (row: any) => row.user_name,
     },
-    // {
-    //   maxWidth: "1px",
-    //   name: "Name",
-    //   selector: (row: any) => row.name,
-    // },
     {
       maxWidth: "1px",
       name: "Type",
@@ -226,5 +191,4 @@ export function ShowClaimFormPending() {
       </div>
     </Group>
   );
-  // rejectitems(rejectItem)
 }

@@ -1,4 +1,3 @@
-import React from "react";
 import { CSVLink } from "react-csv";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -18,9 +17,8 @@ const useStyleTable = createStyles((theme) => ({
     width: "100%",
     marginTop: 25,
     paddingBottom: 75,
-    borderBottom: `1px solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-    }`,
+    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+      }`,
   },
   table: {
     maxWidth: 1800,
@@ -72,13 +70,6 @@ export function StaffsList() {
     },
     {
       name: "Status",
-      // selector: (row: any) => {
-      //   if (row.status == "Active") {
-      //     return <Badge>Active</Badge>;
-      //   } else {
-      //     return <Badge color={"red"}>Inactive</Badge>;
-      //   }
-      // },
       selector: (row: any) =>
         row.status === "Active" ? (
           <Badge>Active</Badge>

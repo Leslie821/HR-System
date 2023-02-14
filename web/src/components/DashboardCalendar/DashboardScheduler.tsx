@@ -35,7 +35,6 @@ const DashboardScheduler: FC = () => {
   };
 
   const onEventDrop: withDragAndDropProps["onEventDrop"] = (data) => {
-    console.log(data);
   };
 
   return (
@@ -58,7 +57,6 @@ const endOfHour = (date: Date): Date => addHours(startOfHour(date), 1);
 const now = new Date();
 const start = endOfHour(now);
 const end = addHours(start, 2);
-// The types here are `object`. Strongly consider making them better as removing `locales` caused a fatal error
 const localizer = dateFnsLocalizer({
   format,
   parse,

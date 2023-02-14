@@ -16,14 +16,12 @@ import {
   IconUsers,
   IconColumnInsertRight,
 } from "@tabler/icons";
-import { log } from "console";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 import { IRootState } from "../../store/store";
 import { loginOut } from "../../store/UserSlice";
 import { LinksGroup } from "./sideBarSetting";
 import { UserButton } from "./sideBarSetting2";
-// import { Logo } from "./Logo";
 
 const information = [
   { label: "Dashboard", icon: IconGauge, link: "dashboard" },
@@ -40,7 +38,6 @@ const information = [
   {
     label: "Staffs",
     icon: IconUsers,
-    // link: "/staff-list",
     accessList: [1],
     links: [
       {
@@ -115,9 +112,8 @@ const useStyles = createStyles((theme) => ({
     marginLeft: -theme.spacing.md,
     marginRight: -theme.spacing.md,
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
-    borderBottom: `1px solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-    }`,
+    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+      }`,
   },
 
   links: {
@@ -133,15 +129,13 @@ const useStyles = createStyles((theme) => ({
   footer: {
     marginLeft: -theme.spacing.md,
     marginRight: -theme.spacing.md,
-    borderTop: `1px solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-    }`,
+    borderTop: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+      }`,
   },
 }));
 
 export function NavbarNested() {
   const user = useSelector((state: IRootState) => state.user.user); // redux
-  console.log("NavbarNested user:", user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -149,16 +143,16 @@ export function NavbarNested() {
     dispatch(loginOut());
     navigate("/");
   }
-  
+
   const { classes } = useStyles();
   const links =
     user?.access_level_id === 3
       ? information
-          .filter((info) => info.label !== "Staffs" && info.label !== "Company")
-          .map((item) => <LinksGroup {...(item as any)} key={item.label} />)
+        .filter((info) => info.label !== "Staffs" && info.label !== "Company")
+        .map((item) => <LinksGroup {...(item as any)} key={item.label} />)
       : information.map((item) => (
-          <LinksGroup {...(item as any)} key={item.label} />
-        ));
+        <LinksGroup {...(item as any)} key={item.label} />
+      ));
 
   return (
     <Grid gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}>

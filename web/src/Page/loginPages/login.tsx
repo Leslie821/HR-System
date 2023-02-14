@@ -8,7 +8,7 @@ import {
   Title,
 } from "@mantine/core";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { showNotification } from "@mantine/notifications";
 import { useDispatch } from "react-redux";
 
@@ -25,8 +25,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   form: {
-    borderRight: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[3]
-      }`,
+    borderRight: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[3]}`,
     minHeight: 900,
     maxWidth: 450,
     paddingTop: 80,

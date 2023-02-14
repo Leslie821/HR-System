@@ -3,9 +3,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LeaveModule } from './leave/leave.module';
-import { env } from '../env';
 import { KnexModule } from 'nest-knexjs';
-// import { MulterModule } from '@nestjs/platform-express';
 import { CheckInModule } from './check_in/check_in.module';
 import { StaffModule } from './staff/staff.module';
 import { AuthModule } from './auth/auth.module';
@@ -16,15 +14,7 @@ import { AccessLevelModule } from './access-level/access-level.module';
 
 @Module({
   imports: [
-    /////upload file///
-    // MulterModule.register({
-    //   dest: './upload',
-    // }),
-    // ServeStaticModule.forRoot({
-    //   rootPath: path.join(__dirname, '..', 'uploads'),
-    // }),
 
-    /////upload file  end///
     KnexModule.forRoot({
       config: knexConfig,
     }),

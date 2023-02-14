@@ -24,7 +24,6 @@ export class LocalAuthGuard extends AuthGuard('local') {
     status?: any,
   ): TUser {
     let req: Request = context.switchToHttp().getRequest();
-    // console.log('req:', req);
     let token = req.header('Authorization')?.replace('Bearer ', '');
     if (!token) {
       throw new HttpException(
@@ -33,11 +32,9 @@ export class LocalAuthGuard extends AuthGuard('local') {
       );
     }
     try {
-      console.log('token:', token);
       let payload: JwtPayload = this.jwtService.verify(token, {
         secret: jwtConstants.secret,
       });
-      console.log('payload:', payload);
       return payload as any;
     } catch (error) {
       throw new HttpException(error, HttpStatus.UNAUTHORIZED);

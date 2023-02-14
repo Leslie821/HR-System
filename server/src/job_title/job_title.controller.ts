@@ -10,13 +10,12 @@ import { JobTitleService } from './job_title.service';
 
 @Controller('job-title')
 export class JobTitleController {
-  constructor(private jobTitleService: JobTitleService) {}
+  constructor(private jobTitleService: JobTitleService) { }
 
   @Get('getDepartmentid')
   async getDepartmentid() {
     try {
       let result = await this.jobTitleService.getDepartmentid();
-      // console.log('controller Get department ID', result);
 
       return result;
     } catch (error) {
@@ -36,7 +35,6 @@ export class JobTitleController {
   async getAllJobTitle() {
     try {
       let result = await this.jobTitleService.getAllJobTitle();
-      // console.log('controller Get jbo title ID', result);
 
       return result;
     } catch (error) {
@@ -62,7 +60,6 @@ export class JobTitleController {
   ) {
     try {
       let result = await this.jobTitleService.createNewJobTitle(body);
-      // console.log('controller create new job title', body);
 
       return result;
     } catch (error) {

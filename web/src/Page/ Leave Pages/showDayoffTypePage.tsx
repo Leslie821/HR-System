@@ -30,9 +30,8 @@ const useStyleTable = createStyles((theme) => ({
     width: "100%",
     marginTop: 25,
     paddingBottom: 75,
-    borderBottom: `1px solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-    }`,
+    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+      }`,
   },
   table: {
     maxWidth: 1800,
@@ -53,12 +52,11 @@ const customStyles = {
   rows: {
     style: {
       fontSize: "15px",
-      // font-family
     },
   },
   headCells: {
     style: {
-      fontSize: "20px", // override the cell padding for data cells
+      fontSize: "20px",
     },
   },
 };
@@ -90,16 +88,13 @@ const columns = [
 export function DayoffType() {
   const { classes } = useStyleTable();
   let user = useSelector((state: IRootState) => state.user.user); //access_level_id
-  //////   alll const starts here!!!  ///////////
   const [inpputtye, setinputtype] = useState({
     dayoff_name: "",
     short_form: "",
     one_time_day_off: "",
     pay_leave: "",
   });
-  ///////first modal for ADD NEW LEAVE TYPE ////////////////
   const [opened, setOpened] = useState(false);
-  ///////second modal for  DELECT item ////////////////
   const [openSecondModal, setOpenSecondModal] = useState(false);
 
   const [info, setInfo] = useState<any>({
@@ -108,7 +103,6 @@ export function DayoffType() {
     one_time_day_off: "",
     pay_leave: "",
   });
-  // const [refresh, setRefresh] = useState(true);
   /////// select items /////////////////////////
   const [toggleCleared, setToggleCleared] = React.useState(false);
   const [selectedRows, setSelectedRows] = React.useState<any[]>([]);
@@ -118,7 +112,6 @@ export function DayoffType() {
     },
     []
   );
-  // console.log("check type", selectedRows);
 
   //////   all const ends  here!!!  ///////////
 
@@ -140,24 +133,13 @@ export function DayoffType() {
     getType();
   }, []);
 
-  // useEffect( () => {
-  //   ( async () => {
-  //     let res = await fetchServerData("/leave/getdayofftype");
-  //     setInfo(res);
-  //   })()
-  // },[])
-
   return (
     <Group className={classes.body}>
-      {/* pop up box  Modal (add new item )starts here!!!!!!! */}
 
       <Modal size="auto" opened={opened} onClose={() => setOpened(false)}>
         <form
           onSubmit={async (event) => {
             event.preventDefault();
-            // const form = event.target as HTMLFormElement
-            // const formData = new FormData(form);
-            // console.log(formData);
 
             await fetchServerDataNonGet(
               "/leave/addDayofftype",
@@ -167,7 +149,6 @@ export function DayoffType() {
 
             setOpened(false);
 
-            // window.location.reload();
             getType();
           }}
         >
@@ -263,9 +244,6 @@ export function DayoffType() {
           </div>
 
           <div style={{ paddingLeft: "250px" }}>
-            {/* <Button type="submit" onClick={() => { setRefresh(false) }}>
-              Submit
-            </Button> */}
             <Button type="submit">Submit</Button>
           </div>
 
@@ -295,9 +273,7 @@ export function DayoffType() {
           </Button>
         </div>
       </Modal>
-      {/* pop up box Modal (delete item) ends here!!!  */}
 
-      {/***************** below is  buttons group  ---   */}
       <Group>
         <Group>
           <div className={classes.header}>
@@ -316,13 +292,11 @@ export function DayoffType() {
             ""
           )}
         </Group>
-        {/************************* buttons group  ends here!!!   ************************ */}
         <Group className={classes.table}>
           <DataTable
             customStyles={customStyles}
             columns={columns}
             data={info}
-            // selectableRows
             highlightOnHover
             onSelectedRowsChange={handleRowSelected}
             clearSelectedRows={toggleCleared}

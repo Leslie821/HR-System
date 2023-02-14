@@ -1,16 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   fetchServerData,
   fetchServerDataNonGet,
 } from "../../../utilis/fetchDataUtilis";
 import {
-  Button,
   Group,
-  Input,
-  Modal,
-  Table,
-  TextInput,
-  Textarea,
   createStyles,
 } from "@mantine/core";
 import { IconArrowNarrowLeft } from "@tabler/icons";
@@ -33,9 +27,8 @@ const useStyleTable = createStyles((theme) => ({
     width: "100%",
     marginTop: 25,
     paddingBottom: 75,
-    borderBottom: `1px solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-    }`,
+    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+      }`,
   },
   table: {
     maxWidth: 1800,
@@ -54,25 +47,11 @@ const useStyleTable = createStyles((theme) => ({
 
 export function ShowClaimFormStatus() {
   const { classes } = useStyleTable();
-  const [selectedRows, setSelectedRows] = React.useState<Dayoff[]>([]);
-  // const [toggleCleared, setToggleCleared] = React.useState(false);
   const [result, setResult] = useState<any>();
-  // const [query, setQuery] = useState<string>("")
-  // const [togglesearch, settoggleSearch] = useState<boolean>(true)
-  // const [searchresult, setSearchresult] = useState<any>()
-  // const [openedSecondModal, setOpenedSecondModal] = useState(false);
 
   useEffect(() => {
     getAll();
   }, []);
-  ////// table check box   select items ///////////////////////////
-
-  // const handleRowSelected = React.useCallback(
-  //   (state: { selectedRows: any }) => {
-  //     setSelectedRows(state.selectedRows);
-  //   },
-  //   []
-  // );
 
   // /////// if status  == approved  || rejected  , item cannot be selected ///////
   const rowDisabledCriteria = (row: any) =>
@@ -81,8 +60,6 @@ export function ShowClaimFormStatus() {
   async function getAll() {
     let res = await fetchServerData("/claim-form/allClaimForms");
 
-    console.log("GETALL", res);
-
     setResult(res);
   }
   /////////////////below is accept /////////////////
@@ -90,11 +67,11 @@ export function ShowClaimFormStatus() {
   const fetchdata = async () => {
     try {
       let res = await fetchServerData("/claim-form/allClaimForms");
-      console.log("GETALL", res);
+      return res
 
       setResult(res);
     } catch (error) {
-      console.log(error);
+      return error
     }
   };
 
@@ -130,12 +107,6 @@ export function ShowClaimFormStatus() {
       name: "Name",
       selector: (row: any) => row.user_name,
     },
-    // {
-
-    //   maxWidth: "1px",
-    //   name: "Name",
-    //   selector: (row: any) => row.name,
-    // },
     {
       maxWidth: "1px",
       name: "Type",

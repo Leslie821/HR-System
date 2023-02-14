@@ -16,10 +16,8 @@ export function SearchBar({ apiPath, setBackData }: SearchBarProps) {
       const res = await fetch(
         import.meta.env.VITE_SERVER_API + apiPath + `${query}`
       );
-      console.log("query:", query);
 
       const data = await res.json();
-      console.log("DATA", data);
 
       const usersAddStatus = data.map((v: any) => {
         if (!v.termination_date) {
@@ -37,7 +35,6 @@ export function SearchBar({ apiPath, setBackData }: SearchBarProps) {
 
       setBackData(usersAddStatus);
     } catch (error) {
-      console.log(error);
       return error;
     }
   };

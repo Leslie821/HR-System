@@ -12,17 +12,14 @@ export class DepartmentService {
     try {
       let departmentList = await this.knex('department')
         .select("*")
-      console.log(departmentList);
       return departmentList
     }
     catch (e) {
-      console.log('Get department:', e)
       return JSON.stringify(e)
     }
   }
 
   async createNewDeportment(formInfo: CreateDepartmentDto) {
-    console.log("formInfo", formInfo)
     try {
       let departmentValue = await this.knex('department')
         .insert({
@@ -32,7 +29,6 @@ export class DepartmentService {
       return departmentValue
     }
     catch (e) {
-      console.log("createNewDeportment", e)
       return JSON.stringify(e)
     }
   }

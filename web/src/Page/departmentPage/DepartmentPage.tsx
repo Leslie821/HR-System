@@ -9,7 +9,6 @@ import {
 import { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { fetchServerData } from "../../../utilis/fetchDataUtilis";
-// import Demo from "./Demo";
 import DepartmentAddNew from "./DepartmentAddNew";
 import DepartmentOrgChart from "./DepartmentOrgChart";
 
@@ -24,9 +23,8 @@ const useStyleTable = createStyles((theme) => ({
     width: "100%",
     marginTop: 25,
     paddingBottom: 75,
-    borderBottom: `1px solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-    }`,
+    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+      }`,
   },
   table: {
     maxWidth: 1800,
@@ -77,7 +75,6 @@ export function DepartmentPage() {
   }, []);
 
   useEffect(() => {
-    // console.log("department:", department);
   }, [department]);
 
   function refreshDepartment() {
@@ -154,7 +151,6 @@ export function DepartmentPage() {
         overlayBlur={3}
       >
         <DepartmentAddNew closeModal={refreshDepartment} />
-        {/* <h1>Hellos</h1> */}
       </Drawer>
 
       <Modal

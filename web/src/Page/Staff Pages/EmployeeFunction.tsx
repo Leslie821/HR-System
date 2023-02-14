@@ -1,4 +1,4 @@
-import React, { useEffect, useState, ChangeEvent } from "react";
+import { useEffect, useState, ChangeEvent } from "react";
 import { zodResolver } from "@mantine/form";
 import {
   TextInput,
@@ -78,13 +78,11 @@ export default function EmployeeInfoForm({
       label: v.department_name,
       value: v.id,
     }));
-    // console.log("departmentEdited", departmentEdited);
     setDepartmentValue(departmentEdited);
   };
 
   const getJobTitle = async () => {
     const res = await fetchServerData("/job-title/getAllJobTitle");
-    console.log("res", res);
     const jobTitleEdited = res.map((v: any) => ({
       label: v.job_title_type,
       value: v.id,
@@ -95,7 +93,6 @@ export default function EmployeeInfoForm({
 
   const accessLevel = async () => {
     const res = await fetchServerData("/access-level/list");
-    console.log("res", res);
     const accessLevelEdited = res.map((v: any) => ({
       label: v.access_level_type,
       value: v.id,
@@ -310,6 +307,7 @@ export default function EmployeeInfoForm({
         <Group className={classes.header}>
           <h2>{state.header}</h2>
         </Group>
+
         <h3>Employee Information</h3>
         <Grid justify="space-between" align="center">
           {inputGroup("Name", "name", "text")}
@@ -320,9 +318,8 @@ export default function EmployeeInfoForm({
           {inputGroup("Address", "address", "text")}
         </Grid>
         <h3>Job Detail</h3>
-        <Grid justify="space-between" align="center">
-          {/* {inputGroup("Department", "department", "text")} */}
 
+        <Grid justify="space-between" align="center">
           {selectGroup("Department", "department", departmentValues)}
           {selectorGroup("Job Title", "job_title", jobTitleValues)}
           {inputGroup("Salary", "salary", "text")}
@@ -334,11 +331,13 @@ export default function EmployeeInfoForm({
           {inputGroup("Working Time", "working_time", "text")}
           {inputGroup("Bank Account", "bank_account", "text")}
         </Grid>
+
         <h3>Log-in Access</h3>
         <Grid justify="space-between" align="center">
           {inputGroup("Password", "password", "password")}
           {selectGroup("Access Level", "access_level", accessLevelValues)}
         </Grid>
+
         <h3>File</h3>
         <Grid>
           {uploadfile("Contract", "contract")}

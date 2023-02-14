@@ -17,7 +17,6 @@ export class DepartmentController {
     @Body()
     body: CreateDepartmentDto,
   ) {
-    console.log("BBBBBBB", body);
     let result = await this.departmentService.createNewDeportment(body);
     return { result };
   }

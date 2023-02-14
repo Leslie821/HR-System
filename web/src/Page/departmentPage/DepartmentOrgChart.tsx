@@ -1,13 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { fetchServerData } from "../../../utilis/fetchDataUtilis";
 import ReactFlow, {
-  addEdge,
   applyEdgeChanges,
   applyNodeChanges,
-  Connection,
-  ControlButton,
   Controls,
-  Edge,
   MiniMap,
 } from "reactflow";
 import "reactflow/dist/style.css";
@@ -32,7 +28,6 @@ function DepartmentOrgChart() {
     let initialEdges = [];
     for (let v of res) {
       if (v.father_department_id !== null) {
-        // console.log(v);
         initialEdges.push({
           id: `e${v.id}-${v.father_department_id}`,
           source: v.father_department_id + "",
@@ -41,8 +36,6 @@ function DepartmentOrgChart() {
         });
       }
     }
-
-    // console.log("initialEdges:", initialEdges);
     setEdges(initialEdges);
   }
 

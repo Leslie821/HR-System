@@ -1,6 +1,5 @@
 import {
   TextInput,
-  Checkbox,
   Button,
   Group,
   Box,
@@ -10,11 +9,10 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import moment from "moment";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   fetchServerData,
   fetchServerDataForm,
-  fetchServerDataNonGet,
 } from "../../../utilis/fetchDataUtilis";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, IRootState } from "../../store/store";
@@ -30,9 +28,8 @@ const useStyleTable = createStyles((theme) => ({
     width: "100%",
     marginTop: 25,
     paddingBottom: 75,
-    borderBottom: `1px solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-    }`,
+    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+      }`,
   },
   table: {
     width: "100%",
@@ -78,8 +75,6 @@ export function ApplyClaimFormPage() {
 
   //--------------------------------submit form----------------------------------------------------------------
   async function submitForm(v: any) {
-    console.log(v);
-    console.log(user?.id);
 
     const formData = new FormData();
     formData.append("staff_id", user!.id.toString());
@@ -90,7 +85,6 @@ export function ApplyClaimFormPage() {
     formData.append("amount", v.amount);
     formData.append("file", v.reference[0]);
     let res = await fetchServerDataForm("/claim-form/apply", "POST", formData);
-    console.log("res", res);
 
     if (res.result.status) {
       form.reset();
@@ -100,7 +94,6 @@ export function ApplyClaimFormPage() {
   // -------------------loop manager name list----------------------------------------------------
   const managerName = async () => {
     const res = await fetchServerData("/claim-form/list");
-    console.log("res: ", res);
 
     const departmentEdited = res.map((v: any) => ({
       label: v.users_name,
@@ -113,33 +106,6 @@ export function ApplyClaimFormPage() {
   useEffect(() => {
     managerName();
   }, []);
-
-  // ----------------------------uploadFile-----------------------------------------------------
-  //   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //     if (e.target.files) {
-  //       setFile(e.target.files[0]);
-  //     }
-  //   };
-
-  //   const handleUploadClick = () => {
-  //     if (!file) {
-  //       return;
-  //     }
-
-  //     // 👇 Uploading the file using the fetch API to the server
-  //     fetch('https://httpbin.org/post', {
-  //       method: 'POST',
-  //       body: file,
-  //       // 👇 Set headers manually for single file upload
-  //       headers: {
-  //         'content-type': file.type,
-  //         'content-length': `${file.size}`, // 👈 Headers need to be a string
-  //       },
-  //     })
-  //       .then((res) => res.json())
-  //       .then((data) => console.log(data))
-  //       .catch((err) => console.error(err));
-  //   };
 
   return (
     <Group className={classes.body}>

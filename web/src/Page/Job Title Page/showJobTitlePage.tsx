@@ -1,5 +1,4 @@
 import { Modal, Group, Button, createStyles } from "@mantine/core";
-import { ResultType } from "@remix-run/router/dist/utils";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import DataTable from "react-data-table-component";
@@ -23,7 +22,6 @@ export function JobTitlePage() {
 
     setdepartmentID(result);
   }
-  // console.log("this is id from dB", departmentID);
   useEffect(() => {
     loadDepartmentID();
   }, []);
@@ -39,11 +37,10 @@ export function JobTitlePage() {
       width: "100%",
       marginTop: 25,
       paddingBottom: 75,
-      borderBottom: `1px solid ${
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[4]
-          : theme.colors.gray[3]
-      }`,
+      borderBottom: `1px solid ${theme.colorScheme === "dark"
+        ? theme.colors.dark[4]
+        : theme.colors.gray[3]
+        }`,
     },
     table: {
       maxWidth: 1800,
@@ -119,7 +116,6 @@ export function JobTitlePage() {
       import.meta.env.VITE_SERVER_API + "/job-title/getAllJobTitle"
     );
     let jobTitleFromDB = await res.json();
-    // console.log("frontned ", jobTitleFromDB);
 
     setResult(jobTitleFromDB);
   }
@@ -137,9 +133,6 @@ export function JobTitlePage() {
         <form
           onSubmit={async (event) => {
             event.preventDefault();
-            // const form = event.target as HTMLFormElement
-            // const formData = new FormData(form);
-            // console.log(formData);
 
             await fetch(
               import.meta.env.VITE_SERVER_API + "/job-title/createNewJobTitle",
@@ -150,7 +143,6 @@ export function JobTitlePage() {
               }
             );
 
-            // window.location.reload();
             setOpened(false);
             getJobTitle();
           }}
@@ -195,9 +187,6 @@ export function JobTitlePage() {
               ))}
             </select>
           </div>
-          {/* {info.type == "" ? <Alert icon={<IconAlertCircle size={16} />} title="Bummer!" color="red">
-                    Please Select a type
-                </Alert> : ""} */}
           <br></br>
 
           <div>

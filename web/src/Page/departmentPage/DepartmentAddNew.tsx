@@ -15,7 +15,6 @@ function DepartmentAddNew({ closeModal }: { closeModal: Function }) {
       label: v.department_name,
       value: v.id,
     }));
-    // console.log("departmentEdited", departmentEdited);
     setDepartmentValue(departmentEdited);
   };
 

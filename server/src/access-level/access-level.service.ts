@@ -10,11 +10,9 @@ export class AccessLevelService {
         try {
             let accessLevel = await this.knex('access_level')
                 .select("*")
-            console.log(accessLevel);
             return accessLevel
         }
         catch (e) {
-            console.log('Get accessLevel:', e)
             return JSON.stringify(e)
         }
     }

@@ -1,27 +1,22 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Button,
   Group,
   Input,
   Modal,
-  Table,
-  TextInput,
   Textarea,
   createStyles,
 } from "@mantine/core";
-import { IconArrowNarrowLeft } from "@tabler/icons";
 import DataTable from "react-data-table-component";
 import React from "react";
 import {
   fetchServerData,
-  fetchServerDataForm,
   fetchServerDataNonGet,
 } from "../../../utilis/fetchDataUtilis";
 import { useSelector } from "react-redux";
 import { IRootState } from "../../store/store";
 
-// TRUNCATE dayoff_type  RESTART IDENTITY;/////  ****************
 
 type Dayoff = {
   id?: string;
@@ -37,9 +32,8 @@ const useStyleTable = createStyles((theme) => ({
     width: "100%",
     marginTop: 25,
     paddingBottom: 75,
-    borderBottom: `1px solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-    }`,
+    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+      }`,
   },
   table: {
     maxWidth: 1800,
@@ -97,14 +91,12 @@ export function DayoffPending() {
   useEffect(() => {
     getAll(user!.id);
   }, []);
-  ////// table check box   select items ///////////////////////////
   const handleRowSelected = React.useCallback(
     (state: { selectedRows: any }) => {
       setSelectedRows(state.selectedRows);
     },
     []
   );
-  // /////// if status  == approved  || rejected  , item cannot be selected ///////
   const rowDisabledCriteria = (row: any) =>
     row.status == "approved" || row.status == "rejected";
 
@@ -114,8 +106,6 @@ export function DayoffPending() {
       "POST",
       { id: userID }
     );
-    // let  = await res.json();
-    // console.log(resultfromdb);
 
     setResult(resultfromdb);
   }
@@ -125,7 +115,6 @@ export function DayoffPending() {
       "POST",
       { id: userID }
     );
-    // info = await res.json();
 
     setResult(info);
   }
@@ -135,7 +124,6 @@ export function DayoffPending() {
       "POST",
       { id: userID }
     );
-    // info = await res.json();
     setResult(info);
   }
   async function approveItems() {
@@ -154,7 +142,6 @@ export function DayoffPending() {
     });
     location.reload();
   }
-  /////////////////below is toggle search/////////////////
 
   useEffect(() => {
     if (togglesearch) {
@@ -169,18 +156,13 @@ export function DayoffPending() {
       const data = await fetchServerData(
         `/leave/getstaffalsl` + `?qq=${query}`
       );
-      // console.log("result from db about staff", res);
-
-      // const data = await res.json()
-      // console.log("data from DB ", data);
 
       setSearchresult(data);
     } catch (error) {
-      console.log(error);
+      return error
     }
   };
 
-  ///////////-----------------toggle search ends  here  -------/////////////////
   const columns = [
     {
       maxWidth: "1px",
@@ -252,7 +234,6 @@ export function DayoffPending() {
     },
   ];
 
-  // ////////////////show staff al sl  inside modal ///////////////////////////
   const al_sl_columns = [
     {
       name: "Staff Name",
@@ -279,7 +260,6 @@ export function DayoffPending() {
       <Group className={classes.table}>
         <div>
           <div style={{ display: "flex" }}>
-            {/* *********Button filter to show all pending cases************ */}
 
             <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
               <Button
@@ -290,7 +270,6 @@ export function DayoffPending() {
                 Show Pending Application
               </Button>
             </div>
-            {/* *********Button filter to show all cases************ */}
 
             <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
               <Button
@@ -301,7 +280,6 @@ export function DayoffPending() {
                 Show All Application
               </Button>
             </div>
-            {/* *******Button filter to show all approved cases ************** */}
 
             <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
               <Button
@@ -313,7 +291,6 @@ export function DayoffPending() {
               </Button>
             </div>
 
-            {/* ********Button To Approve application ************* */}
             {user!.access_level_id <= 2 ? (
               <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
                 <Button
@@ -328,7 +305,6 @@ export function DayoffPending() {
               ""
             )}
 
-            {/* ********Button Show Staff Dayoff Remain ************* */}
             <div style={{ paddingLeft: "5px", paddingRight: "5px" }}>
               <Group>
                 <Button onClick={() => setOpened(true)}>
@@ -336,13 +312,11 @@ export function DayoffPending() {
                 </Button>
               </Group>
             </div>
-            {/* ********************* */}
           </div>
         </div>
         <DataTable
           columns={columns}
           data={result}
-          // contextActions={contextActions}
           customStyles={customStyles}
           selectableRows
           selectableRowDisabled={rowDisabledCriteria}
@@ -351,11 +325,9 @@ export function DayoffPending() {
         />
       </Group>
 
-      {/* /////////////////search function in Modal , show staff dayoff condition //////////////////////////////////////// */}
 
       <Modal opened={opened} onClose={() => setOpened(false)} title="">
         <div>
-          {/* <div>{[searchresult]}</div> */}
           {Array.isArray(searchresult) && searchresult.length >= 1 ? (
             <>
               <div>
@@ -400,7 +372,6 @@ export function DayoffPending() {
         />
       </Modal>
 
-      {/***************** Second Modal (confirm delection of items)  *****************************************************/}
       <Modal
         size="auto"
         opened={openedSecondModal}
@@ -432,5 +403,4 @@ export function DayoffPending() {
       </Modal>
     </Group>
   );
-  // rejectitems(rejectItem)
 }

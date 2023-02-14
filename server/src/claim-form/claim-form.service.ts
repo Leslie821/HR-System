@@ -1,15 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { CreateClaimFormDto } from './dto/create-claim-form.dto';
-import { UpdateClaimFormDto } from './dto/update-claim-form.dto';
 import { InjectModel } from 'nest-knexjs';
 import { Knex } from 'knex';
 
 @Injectable()
 export class ClaimFormService {
-  constructor(@InjectModel() private knex: Knex) {}
+  constructor(@InjectModel() private knex: Knex) { }
 
   async create(createClaimFormDto: CreateClaimFormDto, file?: any) {
-    console.log('HIHI:', createClaimFormDto);
 
     let insertInfo = await this.knex
       .insert({
@@ -58,14 +56,6 @@ export class ClaimFormService {
     return myClaimForm;
   }
 
-  // async findApplication(id: number) {
-  //   let Application = await this.knex('claim_request')
-  //     .select('*')
-  //     // .join('users', 'users.id',)
-  //     .where('approved_staff_id', '=', id);
-  //   return Application;
-  // }
-
   async findAllClaimForms() {
     let AllApplications = await this.knex
       .select(
@@ -87,7 +77,6 @@ export class ClaimFormService {
   }
 
   async accept(id: number) {
-    console.log(id);
 
     let acceptClaimForm = await this.knex('claim_request')
       .update({ status: 'approved' })

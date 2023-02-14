@@ -11,7 +11,6 @@ export function EmployeeInfoEdit() {
       import.meta.env.VITE_SERVER_API + `/employees/${id}`
     );
     let data = await res.json();
-    console.log("data", data);
 
     let dataWithDate = data.map((v: any) => {
       if (v.employ_date && v.termination_date) {
@@ -30,7 +29,6 @@ export function EmployeeInfoEdit() {
     });
 
     if (data && Array.isArray(data) && data.length == 1) {
-      console.log("dataWithDate", dataWithDate);
       setUserData(dataWithDate[0]);
     }
   };

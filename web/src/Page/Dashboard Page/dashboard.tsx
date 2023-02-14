@@ -1,6 +1,5 @@
 import "./dash.css";
 import DashboardScheduler from "../../components/DashboardCalendar/DashboardScheduler";
-// import { CheckInOut } from "../Check in Page/check_in";
 import { Button, createStyles, Group } from "@mantine/core";
 import { useSelector } from "react-redux";
 import { IRootState } from "../../store/store";
@@ -21,9 +20,8 @@ const useStyleTable = createStyles((theme) => ({
     marginTop: 25,
     justifyContent: "space-between",
     paddingBottom: 75,
-    borderBottom: `1px solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-    }`,
+    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+      }`,
   },
   table: {
     width: "100%",
@@ -37,9 +35,8 @@ const useStyleTable = createStyles((theme) => ({
   button: {
     marginTop: 20,
     backgroundColor: theme.colors.teal[4],
-    borderBottom: `1px solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-    }`,
+    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+      }`,
   },
 }));
 
@@ -49,14 +46,12 @@ export default function Dashboard() {
   const { classes } = useStyleTable();
 
   async function CheckInOut(InOrOut: any, userID: any) {
-    console.log("controller  userID", userID);
 
     let result = await fetchServerDataNonGet(
       "/checkin" + `/${InOrOut}`,
       "POST",
       { userID }
     );
-    console.log(result);
 
     {
       result == "Success"
@@ -82,16 +77,15 @@ export default function Dashboard() {
           className={classes.button}
           onClick={() => {
             CheckInOut("in", user!.id);
-            console.log("checkInResult frontend", checkInResult);
 
             {
               checkInResult == "success"
                 ? showNotification({
-                    message: "Success",
-                  })
+                  message: "Success",
+                })
                 : showNotification({
-                    message: "Success",
-                  });
+                  message: "Success",
+                });
             }
           }}
         >
@@ -103,8 +97,6 @@ export default function Dashboard() {
           className={classes.button}
           onClick={() => {
             CheckInOut("out", user!.id);
-
-            console.log("checkin sresult ", checkInResult);
 
             showNotification({
               message: "Success",

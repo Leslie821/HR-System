@@ -20,9 +20,8 @@ import { LocalAuthGuard } from './local-auth.guard';
   providers: [
     AuthService,
     LocalStrategy,
-    // JwtStrategy,
     LocalAuthGuard,
   ],
   exports: [AuthService],
 })
-export class AuthModule {}
+export class AuthModule { }

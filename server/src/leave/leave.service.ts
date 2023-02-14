@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { info } from 'console';
 import { Knex } from 'knex';
 import { InjectModel } from 'nest-knexjs';
 
@@ -13,7 +12,6 @@ export class LeaveService {
     one_time_day_off: string;
     pay_leave: string;
   }) {
-    // console.log('service: createNewDayoffTyep', formInfo);
     try {
       let id = await this.knex
         .insert({
@@ -27,16 +25,14 @@ export class LeaveService {
 
       return id;
     } catch (error) {
-      console.log('create dayoff type error', error);
     }
   }
   async getDayoffType() {
     try {
       let result = await this.knex.select().from('leave_type');
-      // console.log('service get dayoff', result);
       return result;
     } catch (error) {
-      console.log('get type error', error);
+      return JSON.stringify(error)
     }
   }
   async submitapplication(
@@ -50,9 +46,6 @@ export class LeaveService {
     file?: any,
   ) {
     try {
-      // console.log('service:', formInfo);
-      console.log('service userInfo', formInfo);
-
       let result = await this.knex
         .insert({
           staff_id: formInfo.userID,
@@ -77,11 +70,10 @@ export class LeaveService {
       }
 
     } catch (error) {
-      console.log('get type error', error);
+      return
     }
   }
   async getapplicationstatuse(formInfo: any) {
-    console.log('service id', formInfo);
 
     try {
       let result = await this.knex.raw(
@@ -90,10 +82,8 @@ export class LeaveService {
         [formInfo.id],
       );
 
-      // console.log('service get application status', result.rows);
       return result.rows;
     } catch (error) {
-      console.log('get type error', error);
     }
   }
   async getpendingApplication(formInfo: any) {
@@ -103,11 +93,8 @@ export class LeaveService {
       JOIN users ON staff_id=users.id JOIN leave_type ON leave_type_id=leave_type.id WHERE (status='pending')AND (staff_id=?)`,
         [formInfo.id],
       );
-
-      // console.log('service get application status', result.rows);
       return result.rows;
     } catch (error) {
-      console.log('get type error', error);
     }
   }
   async getApprovedApplication(formInfo: any) {
@@ -118,10 +105,9 @@ export class LeaveService {
         [formInfo.id],
       );
 
-      // console.log('service get application status', result.rows);
       return result.rows;
     } catch (error) {
-      console.log('get type error', error);
+      return JSON.stringify(error)
     }
   }
 
@@ -134,27 +120,24 @@ export class LeaveService {
           .where('id', formInfo[i].id)
           .andWhere('status', 'pending');
       }
-      // console.log('service update status', formInfo);
 
       return { status: true };
     } catch (error) {
-      console.log('get type error', error);
+      return JSON.stringify(error)
     }
   }
   async getdayofftye() {
     try {
       let result = await this.knex.select().from('leave_type');
-      // console.log('service select tyep', result);
 
       return result;
     } catch (error) {
-      console.log(error);
+      return JSON.stringify(error)
     }
   }
   ///////////////////////////select group by
   async getstaffalsl(query: string) {
     try {
-      // console.log('query from service', query);
 
       let result = await this.knex.raw(
         `SELECT name,type,annual_leave_fixed, sick_leave_fixed, COUNT(type) AS dayoff_count FROM leave_request 
@@ -165,7 +148,7 @@ export class LeaveService {
 
       return result.rows;
     } catch (error: any) {
-      console.log(error);
+      return JSON.stringify(error)
       return [];
     }
   }
@@ -183,14 +166,12 @@ export class LeaveService {
         await this.knex('leave_type').where('id', formInfo[i].id).del();
       }
     } catch (error: any) {
-      console.log(error);
-      return [];
+      return JSON.stringify(error)
     }
   }
 
   async rejectApplication(formInfo: any) {
     try {
-      // console.log(formInfo);
 
       await this.knex
         .update({ status: 'rejected', remark: formInfo.reject })
@@ -199,18 +180,9 @@ export class LeaveService {
         .andWhere('status', 'pending')
         .returning('id');
     } catch (error) {
-      console.log('get type error', error);
+      return JSON.stringify(error)
     }
   }
-  //////////////////////////////////
+
 }
 
-//wordable sytax ////
-// let result = await this.knex.raw(
-//   `select staff_id,leave_type_id,count(leave_type_id)as dayoff_count
-//   from leave_request
-//   where  (staff_id = ?)
-//   and (status='Approved')
-//   group by staff_id,leave_type_id`,
-//   [query],
-// );

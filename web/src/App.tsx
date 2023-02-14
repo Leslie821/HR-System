@@ -93,7 +93,7 @@ function App() {
         {user && user.access_level_id && [1].includes(user.access_level_id) && (
           <Route
             path="/employee-info"
-            element={<NewEmployee mode={"create"} id={null} />}
+            element={<NewEmployee />}
           />
         )}
         {user &&

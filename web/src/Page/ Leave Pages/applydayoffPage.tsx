@@ -3,11 +3,10 @@ import {
   Button,
   Container,
   Group,
-  List,
   createStyles,
 } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
-import { IconAlertCircle, IconWindowMaximize } from "@tabler/icons";
+import { IconAlertCircle } from "@tabler/icons";
 
 import { ChangeEvent, useEffect, useState } from "react";
 
@@ -18,7 +17,6 @@ import {
 } from "../../../utilis/fetchDataUtilis";
 import { useSelector } from "react-redux";
 import { IRootState } from "../../store/store";
-// import { Loaddayoff } from "./loaddayofftype";
 const useStyleTable = createStyles((theme) => ({
   body: {
     marginLeft: 40,
@@ -30,9 +28,8 @@ const useStyleTable = createStyles((theme) => ({
     width: "100%",
     marginTop: 25,
     paddingBottom: 75,
-    borderBottom: `1px solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-    }`,
+    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+      }`,
   },
   table: {
     maxWidth: 1800,
@@ -66,14 +63,10 @@ export function ApplyDayOff() {
 
   const [file, setFile] = useState<any>();
 
-  console.log("user access ", user);
-
   //----------------------------------------------------------------
   async function getdayofftype() {
     let result: any = await fetchServerData("/leave/gettype");
-    // let result = await rawresult.json()
 
-    // console.log(result);
     setdayofftype(result.filter((v: { short_form: any }) => !!v.short_form));
   }
 
@@ -88,8 +81,6 @@ export function ApplyDayOff() {
   useEffect(() => {
     getdayofftype();
   }, []);
-
-  // console.log(dayofftype);
 
   //----------------------------------------------------------------
   useEffect(() => {
@@ -106,10 +97,6 @@ export function ApplyDayOff() {
   }, [from, to]);
 
   async function submitfile() {
-    // event.preventDefault();
-
-    // Serialize the Form afterwards
-    // const form = event.target;
 
     const formData = new FormData();
     formData.append("name", info.name);
@@ -139,7 +126,6 @@ export function ApplyDayOff() {
   const { classes } = useStyleTable();
 
   useEffect(() => {
-    console.log(dayofftype);
   }, [dayofftype]);
 
   return (
@@ -152,8 +138,6 @@ export function ApplyDayOff() {
 
       <Group className={classes.table}>
         <Container>
-          {/*************************    Employee Name Input   *************************/}
-          {/* <h1>Dayoff Application</h1> */}
 
           <h3>For sick leave, please attach doctor'note</h3>
           <div style={{ display: "flex", margin: "20px" }}>
@@ -173,7 +157,6 @@ export function ApplyDayOff() {
               ></input>
             </div>
 
-            {/*************************     DayOff Type Input  (dropdown menu) *************************/}
             <div>
               <div style={{ margin: "0px 60px" }}>Dayoff Type</div>
               <br />

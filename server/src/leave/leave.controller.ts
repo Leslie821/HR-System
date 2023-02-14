@@ -9,11 +9,9 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-
 import { LeaveService } from './leave.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-// import { diskStorage } from 'multer';
-// import { extname } from 'path';
+
 import { fileOptions } from 'src/multerOptions';
 
 @Controller('leave')
@@ -31,7 +29,6 @@ export class LeaveController {
     },
   ) {
     try {
-      // console.log('controller newDayofftype', body);
       let result = await this.leaveService.createNewDayoffType(body);
 
       return { result };
@@ -52,7 +49,6 @@ export class LeaveController {
   async getDayoffType() {
     try {
       let result = await this.leaveService.getDayoffType();
-      // console.log('controller Get newDayofftype', result);
 
       return result;
     } catch (error) {
@@ -82,7 +78,6 @@ export class LeaveController {
 
       return { result };
     } catch (error) {
-      console.log('error:', error);
 
       throw new HttpException(
         {
@@ -102,11 +97,9 @@ export class LeaveController {
     @Body()
     body,
   ) {
-    console.log('controller id', body);
 
     try {
       let result = await this.leaveService.getapplicationstatuse(body);
-      // console.log('controller application list from db', result);
 
       return result;
     } catch (error) {
@@ -130,7 +123,6 @@ export class LeaveController {
   ) {
     try {
       let result = await this.leaveService.getpendingApplication(body);
-      // console.log('controller application list from db', result);
 
       return result;
     } catch (error) {
@@ -154,7 +146,6 @@ export class LeaveController {
   ) {
     try {
       let result = await this.leaveService.getApprovedApplication(body);
-      // console.log('controller application list from db', result);
 
       return result;
     } catch (error) {
@@ -200,7 +191,6 @@ export class LeaveController {
     try {
       let result = await this.leaveService.getdayofftye();
 
-      // console.log('controller result for select type ', result);
       return result;
     } catch (error) {
       throw new HttpException(
@@ -218,10 +208,8 @@ export class LeaveController {
 
   @Get('getstaffalsl')
   async getstaffalsl(@Query() query) {
-    // console.log('qurty from controller', typeof query.qq);
     try {
       let result = await this.leaveService.getstaffalsl(query.qq);
-      // console.log('controller result for select type ', result);
 
       return result;
     } catch (error) {
@@ -244,7 +232,6 @@ export class LeaveController {
     body: {},
   ) {
     try {
-      // console.log(body);
 
       await this.leaveService.deleteDayOffType(body);
       return { status: true };
@@ -268,7 +255,6 @@ export class LeaveController {
     body: string,
   ) {
     try {
-      console.log('Reject', body);
 
       await this.leaveService.rejectApplication(body);
 

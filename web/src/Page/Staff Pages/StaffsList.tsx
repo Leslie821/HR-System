@@ -1,18 +1,11 @@
-import { Badge, Button, createStyles, Group, Input } from "@mantine/core";
-import { IconRowInsertBottom } from "@tabler/icons";
 import React from "react";
+import { CSVLink } from "react-csv";
 import { useEffect, useState } from "react";
-import DataTable from "react-data-table-component";
 import { useNavigate } from "react-router-dom";
-import { information } from "../../App";
-import SearchBar from "../../components/searchBar/SearchBar";
-import { NewEmployee } from "./newEmployee";
-import { CSVLink, CSVDownload } from "react-csv";
-import { fetchServerData } from "../../../utilis/fetchDataUtilis";
 
-interface Props {
-  data: information[];
-}
+import DataTable from "react-data-table-component";
+import SearchBar from "../../components/searchBar/SearchBar";
+import { Badge, Button, createStyles, Group } from "@mantine/core";
 
 const useStyleTable = createStyles((theme) => ({
   body: {
@@ -44,7 +37,7 @@ const useStyleTable = createStyles((theme) => ({
   },
 }));
 
-export function StaffsList(props: Props) {
+export function StaffsList() {
   const navigate = useNavigate();
   const columns = [
     {
@@ -79,13 +72,19 @@ export function StaffsList(props: Props) {
     },
     {
       name: "Status",
-      selector: (row: any) => {
-        if (row.status == "Active") {
-          return <Badge>Active</Badge>;
-        } else {
-          return <Badge color={"red"}>Inactive</Badge>;
-        }
-      },
+      // selector: (row: any) => {
+      //   if (row.status == "Active") {
+      //     return <Badge>Active</Badge>;
+      //   } else {
+      //     return <Badge color={"red"}>Inactive</Badge>;
+      //   }
+      // },
+      selector: (row: any) =>
+        row.status === "Active" ? (
+          <Badge>Active</Badge>
+        ) : (
+          <Badge color={"red"}>Inactive</Badge>
+        ),
       sortable: true,
     },
     {
@@ -120,11 +119,9 @@ export function StaffsList(props: Props) {
 
   const fetchUsers = async () => {
     const res = await fetch(
-      import.meta.env.VITE_SERVER_API + `/employees/list`,
-      {
-        method: "GET",
-      }
+      import.meta.env.VITE_SERVER_API + `/employees/list`
     );
+
     const usersFromDB = await res.json();
 
     const usersAddStatus = usersFromDB.map((v: any) => {
@@ -140,6 +137,7 @@ export function StaffsList(props: Props) {
         };
       }
     });
+
     setUsers(usersAddStatus);
   };
 

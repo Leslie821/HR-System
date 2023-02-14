@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import EmployeeInfoForm from "./EmployeeFunction";
-import { EmployeeInfoFormProps } from "./EmployeeFunction";
 
 export function EmployeeInfoEdit() {
   const [userData, setUserData] = useState(null);

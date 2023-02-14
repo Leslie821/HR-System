@@ -4,14 +4,13 @@ import {
   TextInput,
   Button,
   Group,
-  Col,
   Grid,
   Select,
   createStyles,
 } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { z } from "zod";
-import { useParams } from "react-router-dom";
+
 import {
   fetchServerData,
   fetchServerDataNonGet,
@@ -37,9 +36,8 @@ const useStyleTable = createStyles((theme) => ({
     width: "100%",
     marginTop: 25,
     paddingBottom: 75,
-    borderBottom: `1px solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-    }`,
+    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+      }`,
   },
   table: {
     maxWidth: 1800,
@@ -59,7 +57,7 @@ const useStyleTable = createStyles((theme) => ({
 export type EmployeeInfoFormProps = {
   mode: "create" | "edit";
   data?: any;
-  id: any;
+  id?: any;
 };
 
 export default function EmployeeInfoForm({
@@ -70,9 +68,9 @@ export default function EmployeeInfoForm({
   const navigate = useNavigate();
 
   const { classes } = useStyleTable();
-  const [departmentValues, setDepartmentValue] = useState<[]>([]);
-  const [jobTitleValues, setJobTitleValues] = useState<[]>([]);
-  const [accessLevelValues, setAccessLevelValues] = useState<[]>([]);
+  const [departmentValues, setDepartmentValue] = useState<any[]>([]);
+  const [jobTitleValues, setJobTitleValues] = useState<any[]>([]);
+  const [accessLevelValues, setAccessLevelValues] = useState<any[]>([]);
 
   const departmentName = async () => {
     const res = await fetchServerData("/department/list");
@@ -107,41 +105,33 @@ export default function EmployeeInfoForm({
 
   useEffect(() => {
     departmentName();
-  }, []);
-
-  useEffect(() => {
     accessLevel();
-  }, []);
-
-  useEffect(() => {
     getJobTitle();
   }, []);
 
   const employeeInfoForm = async function EmployeeInfoForm() {
     if (mode === "create") {
-      console.log("hi from create");
       const dataFromDB = await fetchServerDataNonGet(
         "/employees/create",
         "POST",
         state
       );
-      // window.location.reload()
+
       navigate(-1);
       return dataFromDB;
-    } else if (mode === "edit") {
-      console.log("hi from edit");
+    }
+    else if (mode === "edit") {
       const dataFromDB = await fetchServerDataNonGet(
         `/employees/update/${id}`,
         "POST",
         state
       );
 
-      // window.location.href="#/employees"
       navigate("/employees");
-
       return dataFromDB;
     }
   };
+
   const [fileContract, setFileContract] = useState<File>();
   const [fileMpf, setFileMpf] = useState<File>();
 

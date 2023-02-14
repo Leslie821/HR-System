@@ -10,12 +10,11 @@ import {
 
 import React, { useState } from "react";
 import { showNotification } from "@mantine/notifications";
-import { useDispatch, useSelector } from "react-redux";
-import { IRootState } from "../../store/store"; // import me
-import { Navigate, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+import { useNavigate } from "react-router-dom";
 import { fetchServerDataNonGet } from "../../../utilis/fetchDataUtilis";
 import { login } from "../../store/UserSlice";
-import { IconDoorEnter } from "@tabler/icons";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -26,9 +25,8 @@ const useStyles = createStyles((theme) => ({
   },
 
   form: {
-    borderRight: `1px solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[3]
-    }`,
+    borderRight: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[3]
+      }`,
     minHeight: 900,
     maxWidth: 450,
     paddingTop: 80,
@@ -58,27 +56,15 @@ export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // const user = useSelector((state: IRootState) => state.user.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // console.log("user:", user);
 
-  // const handleKeyDown = (event: any) => {
-  //   if (event.key === "Enter") {
-  //     console.log("do validate");
-  //   }
-  // };
 
   async function submitLogin() {
     let ans = await fetchServerDataNonGet("/auth/login", "POST", {
       email,
       password,
     });
-    // let result = await fetch("http://localhost:3000/auth/login", {
-    // method: "Post",
-    // headers: { "Content-Type": "application/json" },
-    // body: JSON.stringify({email, password}),
-    // })
 
     if (!ans.status) {
       showNotification({
@@ -103,7 +89,7 @@ export function Login() {
           mt="md"
           mb={50}
         >
-          Welcome back to {}!
+          Welcome back to { }!
         </Title>
 
         <TextInput
@@ -127,8 +113,7 @@ export function Login() {
           fullWidth
           mt="xl"
           size="md"
-          // onKeyPress={handleKeyDown}
-          // // tabIndex={0}
+
 
           onClick={() => {
             submitLogin();

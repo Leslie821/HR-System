@@ -1,10 +1,21 @@
-import { Badge, Button, Container, Group, Modal, Table, createStyles } from "@mantine/core";
+import {
+  Badge,
+  Button,
+  Container,
+  Group,
+  Modal,
+  Table,
+  createStyles,
+} from "@mantine/core";
 import { IconArrowNarrowLeft } from "@tabler/icons";
 import DataTable from "react-data-table-component";
 import { useEffect, useState } from "react";
 import { boolean } from "zod";
 import React from "react";
-import { fetchServerDataNonGet, fetchServerData } from "../../../utilis/fetchDataUtilis";
+import {
+  fetchServerDataNonGet,
+  fetchServerData,
+} from "../../../utilis/fetchDataUtilis";
 import { useSelector } from "react-redux";
 import { IRootState } from "../../store/store";
 
@@ -19,8 +30,9 @@ const useStyleTable = createStyles((theme) => ({
     width: "100%",
     marginTop: 25,
     paddingBottom: 75,
-    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-      }`,
+    borderBottom: `1px solid ${
+      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+    }`,
   },
   table: {
     maxWidth: 1800,
@@ -111,23 +123,34 @@ export function DayoffType() {
   //////   all const ends  here!!!  ///////////
 
   async function deleteSelectedType() {
-    await fetchServerDataNonGet("/leave/deletedayofftype", "POST", selectedRows)
+    await fetchServerDataNonGet(
+      "/leave/deletedayofftype",
+      "POST",
+      selectedRows
+    );
   }
 
   async function getType() {
-    let res = await fetchServerData("/leave/getdayofftype")
+    let res = await fetchServerData("/leave/getdayofftype");
     setInfo(res);
   }
 
   //////////////////get the type when the page is loaded /////////
-
   useEffect(() => {
     getType();
   }, []);
 
+  // useEffect( () => {
+  //   ( async () => {
+  //     let res = await fetchServerData("/leave/getdayofftype");
+  //     setInfo(res);
+  //   })()
+  // },[])
+
   return (
     <Group className={classes.body}>
       {/* pop up box  Modal (add new item )starts here!!!!!!! */}
+
       <Modal size="auto" opened={opened} onClose={() => setOpened(false)}>
         <form
           onSubmit={async (event) => {
@@ -136,9 +159,16 @@ export function DayoffType() {
             // const formData = new FormData(form);
             // console.log(formData);
 
-            await fetchServerDataNonGet("/leave/addDayofftype", "POST", inpputtye)
+            await fetchServerDataNonGet(
+              "/leave/addDayofftype",
+              "POST",
+              inpputtye
+            );
+
             setOpened(false);
-            window.location.reload();
+
+            // window.location.reload();
+            getType();
           }}
         >
           <div style={{ display: "flex", margin: "20px" }}>
@@ -270,18 +300,21 @@ export function DayoffType() {
       {/***************** below is  buttons group  ---   */}
       <Group>
         <Group>
-
           <div className={classes.header}>
             <Group>
               <h2>Leave Type</h2>
             </Group>
           </div>
 
-          {user!.access_level_id <= 2 ?
+          {user!.access_level_id <= 2 ? (
             <Group position="center">
-              <Button onClick={() => setOpened(true)}>Add New Leave Type</Button>
-            </Group> : ""}
-
+              <Button onClick={() => setOpened(true)}>
+                Add New Leave Type
+              </Button>
+            </Group>
+          ) : (
+            ""
+          )}
         </Group>
         {/************************* buttons group  ends here!!!   ************************ */}
         <Group className={classes.table}>

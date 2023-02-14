@@ -38,7 +38,7 @@ const useStyleTable = createStyles((theme) => ({
     width: "100%",
     marginTop: 25,
     alignItems: "top",
-    padding:30,
+    padding: 30,
     justifyContent: "center",
     borderRadius: theme.radius.sm,
     boxShadow: theme.shadows.md,
@@ -51,7 +51,9 @@ export function ApplyClaimFormPage() {
   const { classes } = useStyleTable();
 
   const dispatch = useDispatch<AppDispatch>();
+
   let user = useSelector((state: IRootState) => state.user.user); //access_level_id
+
   const form = useForm({
     initialValues: {
       submitTo: "",
@@ -61,7 +63,6 @@ export function ApplyClaimFormPage() {
       amount: "",
       reference: "",
     },
-
     validate: {
       submitTo: (value) => (value ? null : "no submit target"),
       date: (value) => (value ? null : "no Date"),
@@ -112,6 +113,7 @@ export function ApplyClaimFormPage() {
   useEffect(() => {
     managerName();
   }, []);
+
   // ----------------------------uploadFile-----------------------------------------------------
   //   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
   //     if (e.target.files) {
@@ -140,9 +142,8 @@ export function ApplyClaimFormPage() {
   //   };
 
   return (
-    
     <Group className={classes.body}>
-            <div className={classes.header}>
+      <div className={classes.header}>
         <Group>
           <h2>Claim Applications</h2>
         </Group>
@@ -200,7 +201,9 @@ export function ApplyClaimFormPage() {
           />
 
           <Group position="right" mt="md">
-            <Button type="submit"  className={classes.button} >Submit</Button>
+            <Button type="submit" className={classes.button}>
+              Submit
+            </Button>
           </Group>
         </form>
       </Box>

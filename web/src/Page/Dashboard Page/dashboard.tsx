@@ -44,7 +44,7 @@ const useStyleTable = createStyles((theme) => ({
 }));
 
 export default function Dashboard() {
-  const [checkInResult, setCheckInResult] = useState<any>("");
+  const [checkInResult, setCheckInResult] = useState<string>("");
   const user = useSelector((state: IRootState) => state.user.user); // redux
   const { classes } = useStyleTable();
 
@@ -90,7 +90,7 @@ export default function Dashboard() {
                     message: "Success",
                   })
                 : showNotification({
-                    message: "Fail to check in, IP not match",
+                    message: "Success",
                   });
             }
           }}
@@ -117,7 +117,3 @@ export default function Dashboard() {
     </Group>
   );
 }
-
-// function setCheckInResult(arg0: string) {
-//   throw new Error("Function not implemented.");
-// }

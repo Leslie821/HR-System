@@ -18,6 +18,7 @@ export class AuthService {
       .from('users')
       .where('email', input.email)
       .first();
+
     if (!user) return { status: false, message: 'Wrong email' };
 
     let isMatched = await checkPassword(input.password, user.password);

@@ -54,18 +54,20 @@ const useStyles = createStyles((theme) => ({
 
 export function Login() {
   const { classes } = useStyles();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const user = useSelector((state: IRootState) => state.user.user);
+
+  // const user = useSelector((state: IRootState) => state.user.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // console.log("user:", user);
 
-  const handleKeyDown = (event:any) => {
-    if (event.key === 'Enter') {
-      console.log('do validate')
-    }
-  }
+  // const handleKeyDown = (event: any) => {
+  //   if (event.key === "Enter") {
+  //     console.log("do validate");
+  //   }
+  // };
 
   async function submitLogin() {
     let ans = await fetchServerDataNonGet("/auth/login", "POST", {
@@ -78,7 +80,6 @@ export function Login() {
     // body: JSON.stringify({email, password}),
     // })
 
-
     if (!ans.status) {
       showNotification({
         title: "Login Failed",
@@ -86,10 +87,9 @@ export function Login() {
         color: "red",
       });
     } else {
-
       localStorage.setItem("token", ans.token);
       navigate("/dashboard");
-      dispatch(login());
+      dispatch(login(ans.token));
     }
   }
 

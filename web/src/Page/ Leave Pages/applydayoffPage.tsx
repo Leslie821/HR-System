@@ -50,11 +50,14 @@ const useStyleTable = createStyles((theme) => ({
 }));
 
 export function ApplyDayOff() {
-  let user = useSelector((state: IRootState) => state.user.user); //access_level_id
+  const user = useSelector((state: IRootState) => state.user.user); //access_level_id
+
   const [dayofftype, setdayofftype] = useState<any[]>([]);
+
   const [from, setFrom] = useState<any>(new Date());
   const [to, setTo] = useState<any>(new Date());
   const [total, setTotal] = useState<any>(0);
+
   const [info, setInfo] = useState<any>({
     name: user?.name,
     type: "",
@@ -92,10 +95,13 @@ export function ApplyDayOff() {
   useEffect(() => {
     let d1: any = from;
     let d2: any = to;
+
     let result = d2 - d1;
     let one_day = 1000 * 60 * 60 * 24;
+
     let totalday = result / one_day;
     let newtotal = Math.ceil(totalday);
+
     setTotal(newtotal);
   }, [from, to]);
 
@@ -131,9 +137,11 @@ export function ApplyDayOff() {
   }
 
   const { classes } = useStyleTable();
+
   useEffect(() => {
     console.log(dayofftype);
   }, [dayofftype]);
+
   return (
     <Group className={classes.body}>
       <div className={classes.header}>
@@ -146,6 +154,7 @@ export function ApplyDayOff() {
         <Container>
           {/*************************    Employee Name Input   *************************/}
           {/* <h1>Dayoff Application</h1> */}
+
           <h3>For sick leave, please attach doctor'note</h3>
           <div style={{ display: "flex", margin: "20px" }}>
             <div>
@@ -186,6 +195,7 @@ export function ApplyDayOff() {
                 ))}
               </select>
             </div>
+
             {info.type == "" ? (
               <Alert
                 icon={<IconAlertCircle size={16} />}
@@ -234,6 +244,7 @@ export function ApplyDayOff() {
             ></input>
             <div style={{ paddingLeft: "10px" }}> Day</div>
           </div>
+
           {/* submit file /////////////////////////////////////// */}
           <div>
             {info.type == 5 && (
@@ -247,7 +258,7 @@ export function ApplyDayOff() {
 
           <hr />
 
-          {/****8*********************  Logic to hide Submit button when totoal day is zero or negative  ************/}
+          {/*************************  Logic to hide Submit button when totoal day is zero or negative  ************/}
           {total <= 0 || info.type == "" ? (
             <Alert
               icon={<IconAlertCircle size={16} />}

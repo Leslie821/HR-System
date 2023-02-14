@@ -5,12 +5,14 @@ import { CheckInService } from './check_in.service';
 
 @Controller('checkin')
 export class CheckInController {
-  constructor(private checkinService: CheckInService) {}
+  constructor(private checkinService: CheckInService) { }
   @Post('in')
   async checkIn(@Req() request: Request, @Body() body) {
+
     console.log('userID:', body);
     console.log('request.ip:', request.ip);
     console.log('process.env.WifiIP:', process.env.WifiIP);
+
     if (request.ip == process.env.WifiIP) {
       await this.checkinService.checkin(body, request.ip);
       return { result: 'Success' };
@@ -28,12 +30,12 @@ export class CheckInController {
     return { result: 'Success' };
     // console.log('controller ****out**** result', result);
   }
+
   @Post('getRecord')
   async getCheckInOutRecord(@Body() body) {
     let result = await this.checkinService.getCheckInOutRecord(body);
     console.log(result);
 
     return result;
-    // console.log('controller ****out**** result', result);
   }
 }

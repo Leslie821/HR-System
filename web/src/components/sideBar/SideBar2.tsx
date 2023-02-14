@@ -144,14 +144,21 @@ export function NavbarNested() {
   console.log("NavbarNested user:", user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   function logOut() {
     dispatch(loginOut());
     navigate("/");
   }
+  
   const { classes } = useStyles();
-  const links = information.map((item) => (
-    <LinksGroup {...(item as any)} key={item.label} />
-  ));
+  const links =
+    user?.access_level_id === 3
+      ? information
+          .filter((info) => info.label !== "Staffs" && info.label !== "Company")
+          .map((item) => <LinksGroup {...(item as any)} key={item.label} />)
+      : information.map((item) => (
+          <LinksGroup {...(item as any)} key={item.label} />
+        ));
 
   return (
     <Grid gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}>
@@ -204,3 +211,4 @@ export function NavbarNested() {
     </Grid>
   );
 }
+

@@ -24,10 +24,12 @@ const loginSlice = createSlice({
   initialState: initialState,
   reducers: {
     login(state) {
+      // localStorage.setItem("token", payload.payload.token);
       state.user = getLocalStorage();
     },
-    loginOut() {
+    loginOut(state) {
       clearLocalStorage();
+      state.user = null
     },
   },
 });

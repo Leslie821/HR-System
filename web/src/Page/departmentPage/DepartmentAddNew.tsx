@@ -6,7 +6,7 @@ import {
   fetchServerDataNonGet,
 } from "../../../utilis/fetchDataUtilis";
 
-function DepartmentAddNew() {
+function DepartmentAddNew({ closeModal }: { closeModal: Function }) {
   const [departmentValues, setDepartmentValue] = useState<string[]>([]);
 
   const departmentName = async () => {
@@ -23,6 +23,8 @@ function DepartmentAddNew() {
     const res = await fetchServerDataNonGet("/department/create", "POST", {
       data,
     });
+
+    closeModal();
     return res;
   }
 

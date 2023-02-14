@@ -10,6 +10,7 @@ import {
   HttpStatus,
   UseInterceptors,
   UploadedFile,
+  Put,
 } from '@nestjs/common';
 import { ClaimFormService } from './claim-form.service';
 import { CreateClaimFormDto } from './dto/create-claim-form.dto';
@@ -67,13 +68,13 @@ export class ClaimFormController {
   }
 
   @Get('list')
-  findManagerList() {
-    return this.claimFormService.findManagerList();
+  async findManagerList() {
+    return await this.claimFormService.findManagerList();
   }
 
   @Get('showPersonalClaimForm:id') //睇自己
-  findOne(@Param('id') id: string) {
-    return this.claimFormService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.claimFormService.findOne(+id);
   }
 
   // @Get('approved :id')
@@ -88,21 +89,23 @@ export class ClaimFormController {
   //   return this.claimFormService.findAllApplications();
   // }
   @Get('allClaimForms')
-  findAllClaimForms() {
-    return this.claimFormService.findAllClaimForms();
+  async findAllClaimForms() {
+    return await this.claimFormService.findAllClaimForms();
   }
+
   @Patch('accept')
-  accept(@Body() { id }: { id: number }) {
+  async accept(@Body() { id }: { id: number }) {
     console.log(id);
     console.log(typeof id);
 
-    return this.claimFormService.accept(id);
+    return await this.claimFormService.accept(id);
   }
-  @Patch('reject')
-  reject(@Body() { id }: { id: number }) {
+
+  @Put('reject')
+  async reject(@Body() { id }: { id: number }) {
     console.log(id);
     console.log(typeof id);
 
-    return this.claimFormService.reject(id);
+    return await this.claimFormService.reject(id);
   }
 }

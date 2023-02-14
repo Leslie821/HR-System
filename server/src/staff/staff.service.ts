@@ -75,7 +75,7 @@ export class StaffService {
         email: formInfo.email,
         address: formInfo.address,
         job_nature: formInfo.job_nature,
-        password: await hashPassword(formInfo.password),
+        // password: await hashPassword(formInfo.password),
         contract: formInfo.contract,
         mpf: formInfo.mpf,
         birthday: formInfo.birthday,
@@ -126,6 +126,7 @@ export class StaffService {
         .where('name', 'ilike', `%${query}%`)
         .orWhere('email', 'ilike', `%${query}%`);
       console.log(searchData);
+
       return searchData;
     } catch (error) {
       console.log('search Data:', error);

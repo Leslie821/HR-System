@@ -70,6 +70,7 @@ interface LinksGroupProps {
   icon: TablerIcon;
   label: string;
   initiallyOpened?: boolean;
+  accessList: number[];
   Directink: string;
   links?: { label: string; link: string; accessList: number[] }[];
 }
@@ -78,6 +79,7 @@ export function LinksGroup({
   icon: Icon,
   label,
   initiallyOpened,
+  accessList,
   links,
 }: LinksGroupProps) {
   const user = useSelector((state: IRootState) => state.user.user); //access_level_id
@@ -87,6 +89,9 @@ export function LinksGroup({
   const [opened, setOpened] = useState(initiallyOpened || false);
   const ChevronIcon = theme.dir === "ltr" ? IconChevronRight : IconChevronLeft;
   const navigate = useNavigate();
+  // const hasAccess =
+
+  // const items2 = ()
 
   const items = (hasLinks ? links : []).map((link) => {
     if (

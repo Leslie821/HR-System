@@ -18,7 +18,7 @@ import { fileOptions } from 'src/multerOptions';
 
 @Controller('leave')
 export class LeaveController {
-  constructor(private leaveService: LeaveService) {}
+  constructor(private leaveService: LeaveService) { }
 
   @Post('addDayofftype')
   async createNewDayoffType(
@@ -71,8 +71,7 @@ export class LeaveController {
   @Post('application')
   @UseInterceptors(FileInterceptor('file', fileOptions))
   async uploadFile(@UploadedFile() file: Express.Multer.File, @Body() body) {
-    // console.log(from);
-    // console.log(total);
+
     try {
       let result;
       if (file) {
@@ -123,6 +122,7 @@ export class LeaveController {
       );
     }
   }
+
   @Post('getpendingApplication')
   async getpendingApplication(
     @Body()
@@ -146,6 +146,7 @@ export class LeaveController {
       );
     }
   }
+
   @Post('getApprovedApplication')
   async getApprovedApplication(
     @Body()
@@ -169,12 +170,13 @@ export class LeaveController {
       );
     }
   }
+
   @Post('updateapplication')
   async updateApplication(
     @Body()
     body: {},
   ) {
-    // console.log('controller ', body);
+
     try {
       let result = await this.leaveService.updateApplication(body);
 
@@ -192,6 +194,7 @@ export class LeaveController {
       );
     }
   }
+
   @Get('gettype')
   async getdayofftye() {
     try {
@@ -212,6 +215,7 @@ export class LeaveController {
       );
     }
   }
+
   @Get('getstaffalsl')
   async getstaffalsl(@Query() query) {
     // console.log('qurty from controller', typeof query.qq);
@@ -233,6 +237,7 @@ export class LeaveController {
       );
     }
   }
+
   @Post('deletedayofftype')
   async deleteDayOffType(
     @Body()
@@ -256,6 +261,7 @@ export class LeaveController {
       );
     }
   }
+
   @Post('reject')
   async reject(
     @Body()

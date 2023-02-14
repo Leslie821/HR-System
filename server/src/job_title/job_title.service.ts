@@ -17,8 +17,10 @@ export class JobTitleService {
   }
   async getAllJobTitle() {
     try {
-      let result = await this.knex.select("*").from('job_title')
+      let result = await this.knex.select("*")
+        .from('job_title')
         .join('department', { 'department.id': 'job_title.department_id' });
+
       console.log('service Get jbo title ID', result);
       return result;
     } catch (error) {
@@ -27,7 +29,7 @@ export class JobTitleService {
   }
   async createNewJobTitle(body) {
     try {
-      let result = await this.knex
+      await this.knex
         .insert({
           job_title_type: body.type,
           department_id: body.departmentId,

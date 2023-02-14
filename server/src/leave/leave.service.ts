@@ -5,7 +5,8 @@ import { InjectModel } from 'nest-knexjs';
 
 @Injectable()
 export class LeaveService {
-  constructor(@InjectModel() private knex: Knex) {}
+  constructor(@InjectModel() private knex: Knex) { }
+
   async createNewDayoffType(formInfo: {
     dayoff_name: string;
     short_form: string;
@@ -64,7 +65,6 @@ export class LeaveService {
         })
         .into('leave_request')
         .returning('id');
-      // console.log('result id:', result);
 
       if (file) {
         await this.knex
@@ -76,9 +76,6 @@ export class LeaveService {
           .returning('id');
       }
 
-      // console.log('service: application', result, fileresult);
-
-      // return result;
     } catch (error) {
       console.log('get type error', error);
     }
@@ -178,9 +175,11 @@ export class LeaveService {
         await this.knex('leave_request')
           .where('leave_type_id', formInfo[i].id)
           .del();
+
         await this.knex('pic_request_leave')
           .where('req_id', formInfo[i].id)
           .del();
+
         await this.knex('leave_type').where('id', formInfo[i].id).del();
       }
     } catch (error: any) {

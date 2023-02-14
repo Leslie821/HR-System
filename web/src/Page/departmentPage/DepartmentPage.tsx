@@ -80,6 +80,11 @@ export function DepartmentPage() {
     // console.log("department:", department);
   }, [department]);
 
+  function refreshDepartment() {
+    setOpenCreateModal(false);
+    fetchDepartment();
+  }
+
   const columns = [
     {
       name: "ID",
@@ -148,7 +153,8 @@ export function DepartmentPage() {
         overlayOpacity={0.55}
         overlayBlur={3}
       >
-        <DepartmentAddNew />
+        <DepartmentAddNew closeModal={refreshDepartment} />
+        {/* <h1>Hellos</h1> */}
       </Drawer>
 
       <Modal
